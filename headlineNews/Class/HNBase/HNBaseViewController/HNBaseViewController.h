@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HNHeader.h"
 
 @interface HNBaseViewController : UIViewController
 
