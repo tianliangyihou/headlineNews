@@ -8,6 +8,6 @@
 
 #import "HNBaseViewController.h"
 
-@interface HNVideoVC : UIViewController
+@interface HNVideoVC : HNBaseViewController
 
 @end

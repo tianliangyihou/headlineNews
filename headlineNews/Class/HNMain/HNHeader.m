@@ -8,6 +8,4 @@
 
 #import "HNHeader.h"
 
-@implementation HNHeader
-
-@end
+NSString *HN_BASE_URL = @"https://is.snssdk.com/";

@@ -9,7 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "HNHeader.h"
 
-@interface HNBaseViewController : UIViewController
+@protocol BaseViewControllerRefreshProtocol <NSObject>
+
+@optional
+- (void)needRefreshTableViewData;
+
+- (void)rightItemAction;
+
+@end
+
+@interface HNBaseViewController : UIViewController <BaseViewControllerRefreshProtocol>
 
 - (void)addLeftItemWithImageName:(NSString *)imageName;
 
@@ -21,5 +30,6 @@
 
 - (void)leftItemAction;
 
-- (void)rightItemAction;
 @end
+
+

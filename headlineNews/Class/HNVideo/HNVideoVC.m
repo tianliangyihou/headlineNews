@@ -8,6 +8,7 @@
 
 #import "HNVideoVC.h"
 
+
 @interface HNVideoVC ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic , weak)UITableView *tableView;
@@ -33,19 +34,20 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    MJRefreshGifHeader *header = [MJRefreshGifHeader headerWithRefreshingBlock:^{
-        
+    HN_WEAK_SELF
+    self.tableView.mj_header = [HNRefreshGifHeader headerWithRefreshingBlock:^{
+        [wself.tableView.mj_header endRefreshing];
     }];
-    NSMutableArray *images = [NSMutableArray array];
-    for (int i = 0; i < 16; i++) {
-        NSString *imageName = [NSString stringWithFormat:@"dropdown_loading_0%d",i];
-        [images addObject:[UIImage imageNamed:imageName]];
-    }
-    [header setImages:images forState:MJRefreshStateRefreshing];
-    [header setTitle:@"" forState:MJRefreshStateRefreshing];
-    header.lastUpdatedTimeLabel.hidden = YES;
-    header.stateLabel.hidden = YES;
-    [self.tableView setMj_header:header];
+    self.tableView.mj_footer = [HNRefreshFooter footerWithRefreshingBlock:^{
+//        [wself.tableView.mj_footer endRefreshingWithNoMoreData];
+    }];
+    
+}
+
+#pragma mark - 刷新数据
+
+- (void)needRefreshTableViewData {
+    NSLog(@"需要刷新了");
 }
 
 

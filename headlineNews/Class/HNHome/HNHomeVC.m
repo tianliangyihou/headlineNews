@@ -16,9 +16,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self addLeftItemWithText:@"今日头条"];
-    [self addRightItemWithText:@"搜索"];
-    self.title = @"haha";
 }
 
 - (void)rightItemAction {

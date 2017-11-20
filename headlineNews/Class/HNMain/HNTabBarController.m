@@ -15,12 +15,14 @@
 #import "HNMineVC.h"
 
 #import "HNHeader.h"
+#import "UIView+AnimationExtend.h"
 #import <ReactiveObjC/ReactiveObjC.h>
 #import "UITabBar+HNTabber.h"
 @interface HNTabBarController ()<UITabBarControllerDelegate>
 
 @property (nonatomic , weak)HNNavigationController *homeNav;
 @property (nonatomic , weak)UIImageView *swappableImageView;
+
 
 @end
 
@@ -84,8 +86,13 @@
     }else {
         _homeNav.tabBarItem.image = [[UIImage imageNamed:@"home_tabbar_32x32_"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         _homeNav.tabBarItem.selectedImage = [[UIImage imageNamed:@"home_tabbar_press_32x32_"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-        if ([_swappableImageView.layer animationForKey:@"rotationAnimation"]) {
-            [_swappableImageView.layer removeAnimationForKey:@"rotationAnimation"];
+        [_swappableImageView stopRotationAnimation];
+    }
+    
+    if (self.selectedViewController == viewController) {
+        HNNavigationController *nav = (HNNavigationController *)viewController;
+        if ([nav.viewControllers.firstObject respondsToSelector:@selector(needRefreshTableViewData)]) {
+            [nav.viewControllers.firstObject needRefreshTableViewData];
         }
     }
     return YES;
@@ -93,15 +100,10 @@
 
 
 - (void)addAnnimation {
+    // 这里使用了 私有API 但是审核仍可以通过 有现成的案例
     UIControl *tabBarButton = [_homeNav.tabBarItem valueForKey:@"view"];
     UIImageView *tabBarSwappableImageView = [tabBarButton valueForKey:@"info"];
-    CABasicAnimation *rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
-    rotationAnimation.fromValue = @0;
-    rotationAnimation.toValue = @(M_PI * 2.0);
-    rotationAnimation.duration = 2;
-    rotationAnimation.cumulative = YES;
-    rotationAnimation.repeatCount = MAXFLOAT;
-    [tabBarSwappableImageView.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
+    [tabBarSwappableImageView rotationAnimation];
     _swappableImageView = tabBarSwappableImageView;
     [self.tabBar hideBadgeOnItemIndex:0];
 }
