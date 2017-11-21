@@ -17,8 +17,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self addLeftItemWithText:@"quxi"];
-    self.view.backgroundColor = [UIColor redColor];
+
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height - 20, 30, 20)];
+    [self.view addSubview:view];
+    view.backgroundColor = [UIColor redColor];
+}
 
 @end

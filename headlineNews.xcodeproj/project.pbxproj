@@ -28,6 +28,18 @@
 		262437F91FC2BB8A00BAA1B6 /* UIView+AnimationExtend.m in Sources */ = {isa = PBXBuildFile; fileRef = 262437F41FC2BB8A00BAA1B6 /* UIView+AnimationExtend.m */; };
 		262437FA1FC2BB8A00BAA1B6 /* UIView+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 262437F61FC2BB8A00BAA1B6 /* UIView+Frame.m */; };
 		262438011FC2BBF100BAA1B6 /* HNURLManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 262438001FC2BBF100BAA1B6 /* HNURLManager.m */; };
+		2655F2351FC3C61B0027C6C4 /* 290-cai978.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2655F2301FC3C61B0027C6C4 /* 290-cai978.ttf */; };
+		2655F2361FC3C61B0027C6C4 /* ChatroomIconFont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2655F2311FC3C61B0027C6C4 /* ChatroomIconFont.ttf */; };
+		2655F2371FC3C61B0027C6C4 /* iconfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2655F2321FC3C61B0027C6C4 /* iconfont.ttf */; };
+		2655F2381FC3C61B0027C6C4 /* new_icon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2655F2331FC3C61B0027C6C4 /* new_icon.ttf */; };
+		2655F2391FC3C61B0027C6C4 /* wd_iconfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2655F2341FC3C61B0027C6C4 /* wd_iconfont.ttf */; };
+		2655F23C1FC3CBFB0027C6C4 /* HNNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 2655F23B1FC3CBFB0027C6C4 /* HNNavigationBar.m */; };
+		2655F25B1FC408840027C6C4 /* WMMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2655F2521FC408840027C6C4 /* WMMenuItem.m */; };
+		2655F25C1FC408840027C6C4 /* WMMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2655F2541FC408840027C6C4 /* WMMenuView.m */; };
+		2655F25D1FC408840027C6C4 /* WMProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2655F2561FC408840027C6C4 /* WMProgressView.m */; };
+		2655F25E1FC408840027C6C4 /* WMScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2655F2581FC408840027C6C4 /* WMScrollView.m */; };
+		2655F25F1FC408840027C6C4 /* WMPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2655F25A1FC408840027C6C4 /* WMPageController.m */; };
+		2655F2621FC40E660027C6C4 /* UIButton+EX.m in Sources */ = {isa = PBXBuildFile; fileRef = 2655F2601FC40E660027C6C4 /* UIButton+EX.m */; };
 		B36B47A6A7E839157FB174E9 /* libPods-headlineNews.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 978C3F33549E969A471F0532 /* libPods-headlineNews.a */; };
 /* End PBXBuildFile section */
 
@@ -70,6 +82,25 @@
 		262437F61FC2BB8A00BAA1B6 /* UIView+Frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Frame.m"; sourceTree = "<group>"; };
 		262437FF1FC2BBF100BAA1B6 /* HNURLManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNURLManager.h; sourceTree = "<group>"; };
 		262438001FC2BBF100BAA1B6 /* HNURLManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNURLManager.m; sourceTree = "<group>"; };
+		2655F2301FC3C61B0027C6C4 /* 290-cai978.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "290-cai978.ttf"; sourceTree = "<group>"; };
+		2655F2311FC3C61B0027C6C4 /* ChatroomIconFont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ChatroomIconFont.ttf; sourceTree = "<group>"; };
+		2655F2321FC3C61B0027C6C4 /* iconfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = iconfont.ttf; sourceTree = "<group>"; };
+		2655F2331FC3C61B0027C6C4 /* new_icon.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = new_icon.ttf; sourceTree = "<group>"; };
+		2655F2341FC3C61B0027C6C4 /* wd_iconfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = wd_iconfont.ttf; sourceTree = "<group>"; };
+		2655F23A1FC3CBFB0027C6C4 /* HNNavigationBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNNavigationBar.h; sourceTree = "<group>"; };
+		2655F23B1FC3CBFB0027C6C4 /* HNNavigationBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNNavigationBar.m; sourceTree = "<group>"; };
+		2655F2511FC408840027C6C4 /* WMMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMMenuItem.h; sourceTree = "<group>"; };
+		2655F2521FC408840027C6C4 /* WMMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMMenuItem.m; sourceTree = "<group>"; };
+		2655F2531FC408840027C6C4 /* WMMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMMenuView.h; sourceTree = "<group>"; };
+		2655F2541FC408840027C6C4 /* WMMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMMenuView.m; sourceTree = "<group>"; };
+		2655F2551FC408840027C6C4 /* WMProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMProgressView.h; sourceTree = "<group>"; };
+		2655F2561FC408840027C6C4 /* WMProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMProgressView.m; sourceTree = "<group>"; };
+		2655F2571FC408840027C6C4 /* WMScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMScrollView.h; sourceTree = "<group>"; };
+		2655F2581FC408840027C6C4 /* WMScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMScrollView.m; sourceTree = "<group>"; };
+		2655F2591FC408840027C6C4 /* WMPageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMPageController.h; sourceTree = "<group>"; };
+		2655F25A1FC408840027C6C4 /* WMPageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMPageController.m; sourceTree = "<group>"; };
+		2655F2601FC40E660027C6C4 /* UIButton+EX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+EX.m"; sourceTree = "<group>"; };
+		2655F2611FC40E660027C6C4 /* UIButton+EX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+EX.h"; sourceTree = "<group>"; };
 		5540F9DE1170CC0E5C45249F /* Pods-headlineNews.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-headlineNews.debug.xcconfig"; path = "Pods/Target Support Files/Pods-headlineNews/Pods-headlineNews.debug.xcconfig"; sourceTree = "<group>"; };
 		5C56A316864F9359C35FD949 /* Pods-headlineNews.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-headlineNews.release.xcconfig"; path = "Pods/Target Support Files/Pods-headlineNews/Pods-headlineNews.release.xcconfig"; sourceTree = "<group>"; };
 		978C3F33549E969A471F0532 /* libPods-headlineNews.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-headlineNews.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -126,6 +157,7 @@
 				262437AF1FBE830A00BAA1B6 /* HNVideo */,
 				262437AE1FBE830A00BAA1B6 /* HNMicroHeadlineNews */,
 				262437AC1FBE830A00BAA1B6 /* HNMine */,
+				2655F23D1FC3FB800027C6C4 /* HNComponent */,
 			);
 			path = Class;
 			sourceTree = "<group>";
@@ -133,6 +165,7 @@
 		262437911FBE803700BAA1B6 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				2655F22F1FC3C61B0027C6C4 /* HNTTF */,
 				262437A21FBE805800BAA1B6 /* Assets.xcassets */,
 				2624379D1FBE805800BAA1B6 /* Base.lproj */,
 				262437A41FBE805800BAA1B6 /* Info.plist */,
@@ -241,6 +274,8 @@
 				262437D71FBEDDBA00BAA1B6 /* UITabBar+HNTabber.m */,
 				262437C91FBE912200BAA1B6 /* HNNavigationController.h */,
 				262437CA1FBE912200BAA1B6 /* HNNavigationController.m */,
+				2655F23A1FC3CBFB0027C6C4 /* HNNavigationBar.h */,
+				2655F23B1FC3CBFB0027C6C4 /* HNNavigationBar.m */,
 			);
 			path = HNMain;
 			sourceTree = "<group>";
@@ -248,6 +283,8 @@
 		262437EE1FC2BB8A00BAA1B6 /* HNTools */ = {
 			isa = PBXGroup;
 			children = (
+				2655F2611FC40E660027C6C4 /* UIButton+EX.h */,
+				2655F2601FC40E660027C6C4 /* UIButton+EX.m */,
 				262437EF1FC2BB8A00BAA1B6 /* HNRefreshFooter.h */,
 				262437F01FC2BB8A00BAA1B6 /* HNRefreshFooter.m */,
 				262437F11FC2BB8A00BAA1B6 /* HNRefreshGifHeader.h */,
@@ -267,6 +304,51 @@
 				262438001FC2BBF100BAA1B6 /* HNURLManager.m */,
 			);
 			path = HNNetWork;
+			sourceTree = "<group>";
+		};
+		2655F22F1FC3C61B0027C6C4 /* HNTTF */ = {
+			isa = PBXGroup;
+			children = (
+				2655F2301FC3C61B0027C6C4 /* 290-cai978.ttf */,
+				2655F2311FC3C61B0027C6C4 /* ChatroomIconFont.ttf */,
+				2655F2321FC3C61B0027C6C4 /* iconfont.ttf */,
+				2655F2331FC3C61B0027C6C4 /* new_icon.ttf */,
+				2655F2341FC3C61B0027C6C4 /* wd_iconfont.ttf */,
+			);
+			path = HNTTF;
+			sourceTree = "<group>";
+		};
+		2655F23D1FC3FB800027C6C4 /* HNComponent */ = {
+			isa = PBXGroup;
+			children = (
+				2655F24F1FC408840027C6C4 /* WMPageController */,
+			);
+			path = HNComponent;
+			sourceTree = "<group>";
+		};
+		2655F24F1FC408840027C6C4 /* WMPageController */ = {
+			isa = PBXGroup;
+			children = (
+				2655F2501FC408840027C6C4 /* WMMenuView */,
+				2655F2591FC408840027C6C4 /* WMPageController.h */,
+				2655F25A1FC408840027C6C4 /* WMPageController.m */,
+			);
+			path = WMPageController;
+			sourceTree = "<group>";
+		};
+		2655F2501FC408840027C6C4 /* WMMenuView */ = {
+			isa = PBXGroup;
+			children = (
+				2655F2511FC408840027C6C4 /* WMMenuItem.h */,
+				2655F2521FC408840027C6C4 /* WMMenuItem.m */,
+				2655F2531FC408840027C6C4 /* WMMenuView.h */,
+				2655F2541FC408840027C6C4 /* WMMenuView.m */,
+				2655F2551FC408840027C6C4 /* WMProgressView.h */,
+				2655F2561FC408840027C6C4 /* WMProgressView.m */,
+				2655F2571FC408840027C6C4 /* WMScrollView.h */,
+				2655F2581FC408840027C6C4 /* WMScrollView.m */,
+			);
+			path = WMMenuView;
 			sourceTree = "<group>";
 		};
 		96C08AF41DB49F1428C5B27D /* Frameworks */ = {
@@ -348,7 +430,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				262437AB1FBE805800BAA1B6 /* Info.plist in Resources */,
+				2655F2391FC3C61B0027C6C4 /* wd_iconfont.ttf in Resources */,
+				2655F2351FC3C61B0027C6C4 /* 290-cai978.ttf in Resources */,
+				2655F2381FC3C61B0027C6C4 /* new_icon.ttf in Resources */,
+				2655F2371FC3C61B0027C6C4 /* iconfont.ttf in Resources */,
 				262437A71FBE805800BAA1B6 /* LaunchScreen.storyboard in Resources */,
+				2655F2361FC3C61B0027C6C4 /* ChatroomIconFont.ttf in Resources */,
 				262437A91FBE805800BAA1B6 /* Assets.xcassets in Resources */,
 				262437A81FBE805800BAA1B6 /* Main.storyboard in Resources */,
 			);
@@ -442,11 +529,18 @@
 				262437FA1FC2BB8A00BAA1B6 /* UIView+Frame.m in Sources */,
 				262437A51FBE805800BAA1B6 /* AppDelegate.m in Sources */,
 				262437CB1FBE912200BAA1B6 /* HNNavigationController.m in Sources */,
+				2655F23C1FC3CBFB0027C6C4 /* HNNavigationBar.m in Sources */,
+				2655F2621FC40E660027C6C4 /* UIButton+EX.m in Sources */,
 				262438011FC2BBF100BAA1B6 /* HNURLManager.m in Sources */,
+				2655F25C1FC408840027C6C4 /* WMMenuView.m in Sources */,
+				2655F25D1FC408840027C6C4 /* WMProgressView.m in Sources */,
+				2655F25E1FC408840027C6C4 /* WMScrollView.m in Sources */,
 				262437DE1FC153D500BAA1B6 /* HNBaseViewController.m in Sources */,
+				2655F25F1FC408840027C6C4 /* WMPageController.m in Sources */,
 				262437F71FC2BB8A00BAA1B6 /* HNRefreshFooter.m in Sources */,
 				262437B61FBE836D00BAA1B6 /* HNVideoVC.m in Sources */,
 				262437D81FBEDDBA00BAA1B6 /* UITabBar+HNTabber.m in Sources */,
+				2655F25B1FC408840027C6C4 /* WMMenuItem.m in Sources */,
 				262437E11FC155C100BAA1B6 /* HNDetailVC.m in Sources */,
 				262437C81FBE910400BAA1B6 /* HNTabBarController.m in Sources */,
 				262437F91FC2BB8A00BAA1B6 /* UIView+AnimationExtend.m in Sources */,
@@ -584,15 +678,16 @@
 			baseConfigurationReference = 5540F9DE1170CC0E5C45249F /* Pods-headlineNews.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = M974WD5VWM;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/headlineNews/Other/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.vcyber.headlineNews;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "5708d420-ede9-4a6a-a1e5-bf1da6459c84";
-				PROVISIONING_PROFILE_SPECIFIER = CYW_ALL_APP_Development;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -602,6 +697,7 @@
 			baseConfigurationReference = 5C56A316864F9359C35FD949 /* Pods-headlineNews.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/headlineNews/Other/Info.plist";

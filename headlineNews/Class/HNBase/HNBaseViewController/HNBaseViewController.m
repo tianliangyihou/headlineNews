@@ -16,6 +16,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
 #pragma mark 导航栏相关
@@ -53,11 +54,14 @@
 
 - (void)leftItemAction {
     [self.navigationController popViewControllerAnimated:YES];
-    
 }
 
 - (void)rightItemAction {
     
 }
-
+- (HNNavigationBar *)showCustomNavBar {
+    self.navigationController.navigationBar.hidden = YES;
+    HNNavigationBar *bar = [HNNavigationBar navigationBar];
+    return bar;
+}
 @end

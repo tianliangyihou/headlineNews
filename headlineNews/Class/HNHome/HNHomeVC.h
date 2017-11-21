@@ -7,7 +7,7 @@
 //
 
 #import "HNBaseViewController.h"
-
-@interface HNHomeVC : HNBaseViewController
+#import "WMPageController.h"
+@interface HNHomeVC : WMPageController
 
 @end

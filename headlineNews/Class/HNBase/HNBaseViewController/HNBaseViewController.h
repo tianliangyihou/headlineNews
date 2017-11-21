@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "HNHeader.h"
+#import "HNNavigationBar.h"
 
 @protocol BaseViewControllerRefreshProtocol <NSObject>
 
@@ -30,6 +31,7 @@
 
 - (void)leftItemAction;
 
+- (HNNavigationBar *)showCustomNavBar;
 @end
 
 

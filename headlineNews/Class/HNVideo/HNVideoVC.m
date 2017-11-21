@@ -7,10 +7,12 @@
 //
 
 #import "HNVideoVC.h"
+#import "HNDetailVC.h"
 
-
-@interface HNVideoVC ()<UITableViewDelegate,UITableViewDataSource>
-
+@interface HNVideoVC ()<UITableViewDelegate,
+                        UITableViewDataSource,
+                        WMPageControllerDataSource,
+                        WMPageControllerDelegate>
 @property (nonatomic , weak)UITableView *tableView;
 
 
@@ -25,7 +27,7 @@
         tableView.dataSource = self;
         [self.view addSubview:tableView];
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.mas_equalTo(UIEdgeInsetsMake(0, 0, 0, 0));
+            make.edges.mas_equalTo(UIEdgeInsetsMake(HN_NAVIGATION_BAR_HEIGHT, 0, 0, 0));
         }];
         _tableView = tableView;
     }
@@ -34,15 +36,38 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    HN_WEAK_SELF
-    self.tableView.mj_header = [HNRefreshGifHeader headerWithRefreshingBlock:^{
-        [wself.tableView.mj_header endRefreshing];
-    }];
-    self.tableView.mj_footer = [HNRefreshFooter footerWithRefreshingBlock:^{
+//      HN_WEAK_SELF
+//    self.tableView.mj_header = [HNRefreshGifHeader headerWithRefreshingBlock:^{
+//        [wself.tableView.mj_header endRefreshing];
+//    }];
+//    self.tableView.mj_footer = [HNRefreshFooter footerWithRefreshingBlock:^{
 //        [wself.tableView.mj_footer endRefreshingWithNoMoreData];
+//    }];
+    HNNavigationBar *bar = [self showCustomNavBar];
+    [bar.searchSubjuct subscribeNext:^(id  _Nullable x) {
+        NSLog(@"%@",x);
     }];
-    
+    [self.view addSubview:bar];
+    self.delegate = self;
+    self.dataSource = self;
 }
+
+#pragma mark - pageViewController 代理
+
+- (NSInteger)numbersOfChildControllersInPageController:(WMPageController *)pageController {
+    return 10;
+}
+
+- (__kindof UIViewController *)pageController:(WMPageController *)pageController viewControllerAtIndex:(NSInteger)index {
+    
+    return [HNDetailVC new];
+}
+
+- (NSString *)pageController:(WMPageController *)pageController titleAtIndex:(NSInteger)index {
+    return @"推荐";
+}
+
+
 
 #pragma mark - 刷新数据
 
