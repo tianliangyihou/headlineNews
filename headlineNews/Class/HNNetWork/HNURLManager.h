@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface HNURLManager : NSObject
-+(NSURL *)homeURL;
-+(NSURL *)videoListURL;
++ (NSString *)videoTitlesURLString;
++ (NSString *)videoListURLString;
 @end

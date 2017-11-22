@@ -14,7 +14,6 @@
 		262437AA1FBE805800BAA1B6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 262437A31FBE805800BAA1B6 /* main.m */; };
 		262437AB1FBE805800BAA1B6 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 262437A41FBE805800BAA1B6 /* Info.plist */; };
 		262437B31FBE834B00BAA1B6 /* HNHomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 262437B21FBE834B00BAA1B6 /* HNHomeVC.m */; };
-		262437B61FBE836D00BAA1B6 /* HNVideoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 262437B51FBE836D00BAA1B6 /* HNVideoVC.m */; };
 		262437B91FBE83C600BAA1B6 /* HNMicroHeadlineNewVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 262437B81FBE83C600BAA1B6 /* HNMicroHeadlineNewVC.m */; };
 		262437BC1FBE83DC00BAA1B6 /* HNMineVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 262437BB1FBE83DC00BAA1B6 /* HNMineVC.m */; };
 		262437C81FBE910400BAA1B6 /* HNTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 262437C71FBE910400BAA1B6 /* HNTabBarController.m */; };
@@ -40,6 +39,18 @@
 		2655F25E1FC408840027C6C4 /* WMScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2655F2581FC408840027C6C4 /* WMScrollView.m */; };
 		2655F25F1FC408840027C6C4 /* WMPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2655F25A1FC408840027C6C4 /* WMPageController.m */; };
 		2655F2621FC40E660027C6C4 /* UIButton+EX.m in Sources */ = {isa = PBXBuildFile; fileRef = 2655F2601FC40E660027C6C4 /* UIButton+EX.m */; };
+		2655F2661FC427080027C6C4 /* HNChannelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2655F2651FC427080027C6C4 /* HNChannelView.m */; };
+		2655F26B1FC4289F0027C6C4 /* HNNetWorkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2655F2671FC4289F0027C6C4 /* HNNetWorkManager.m */; };
+		2655F26C1FC4289F0027C6C4 /* HNNetWorkBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2655F2681FC4289F0027C6C4 /* HNNetWorkBaseModel.m */; };
+		2655F26F1FC4290C0027C6C4 /* MBProgressHUD+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 2655F26E1FC4290C0027C6C4 /* MBProgressHUD+Add.m */; };
+		2655F2761FC431E10027C6C4 /* HNVideoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2655F2741FC431E10027C6C4 /* HNVideoVC.m */; };
+		2655F2791FC4322B0027C6C4 /* HNVideoPageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2655F2781FC4322B0027C6C4 /* HNVideoPageVC.m */; };
+		2655F27C1FC55DFE0027C6C4 /* HNVideoTitleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2655F27B1FC55DFE0027C6C4 /* HNVideoTitleModel.m */; };
+		2655F27F1FC55EB00027C6C4 /* HNVideoTitleViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2655F27E1FC55EB00027C6C4 /* HNVideoTitleViewModel.m */; };
+		2655F2821FC55FC30027C6C4 /* HNTitleRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2655F2811FC55FC30027C6C4 /* HNTitleRequest.m */; };
+		2655F2851FC56CFF0027C6C4 /* HNVideoListRequst.m in Sources */ = {isa = PBXBuildFile; fileRef = 2655F2841FC56CFF0027C6C4 /* HNVideoListRequst.m */; };
+		2655F2881FC56D1B0027C6C4 /* HNVideoListViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2655F2871FC56D1B0027C6C4 /* HNVideoListViewModel.m */; };
+		2655F28B1FC5782C0027C6C4 /* HNVideoListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2655F28A1FC5782C0027C6C4 /* HNVideoListModel.m */; };
 		B36B47A6A7E839157FB174E9 /* libPods-headlineNews.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 978C3F33549E969A471F0532 /* libPods-headlineNews.a */; };
 /* End PBXBuildFile section */
 
@@ -54,8 +65,6 @@
 		262437A41FBE805800BAA1B6 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		262437B11FBE834B00BAA1B6 /* HNHomeVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNHomeVC.h; sourceTree = "<group>"; };
 		262437B21FBE834B00BAA1B6 /* HNHomeVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNHomeVC.m; sourceTree = "<group>"; };
-		262437B41FBE836D00BAA1B6 /* HNVideoVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNVideoVC.h; sourceTree = "<group>"; };
-		262437B51FBE836D00BAA1B6 /* HNVideoVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNVideoVC.m; sourceTree = "<group>"; };
 		262437B71FBE83C600BAA1B6 /* HNMicroHeadlineNewVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNMicroHeadlineNewVC.h; sourceTree = "<group>"; };
 		262437B81FBE83C600BAA1B6 /* HNMicroHeadlineNewVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNMicroHeadlineNewVC.m; sourceTree = "<group>"; };
 		262437BA1FBE83DC00BAA1B6 /* HNMineVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNMineVC.h; sourceTree = "<group>"; };
@@ -101,6 +110,30 @@
 		2655F25A1FC408840027C6C4 /* WMPageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMPageController.m; sourceTree = "<group>"; };
 		2655F2601FC40E660027C6C4 /* UIButton+EX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+EX.m"; sourceTree = "<group>"; };
 		2655F2611FC40E660027C6C4 /* UIButton+EX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+EX.h"; sourceTree = "<group>"; };
+		2655F2641FC427080027C6C4 /* HNChannelView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNChannelView.h; sourceTree = "<group>"; };
+		2655F2651FC427080027C6C4 /* HNChannelView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNChannelView.m; sourceTree = "<group>"; };
+		2655F2671FC4289F0027C6C4 /* HNNetWorkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HNNetWorkManager.m; sourceTree = "<group>"; };
+		2655F2681FC4289F0027C6C4 /* HNNetWorkBaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HNNetWorkBaseModel.m; sourceTree = "<group>"; };
+		2655F2691FC4289F0027C6C4 /* HNNetWorkBaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HNNetWorkBaseModel.h; sourceTree = "<group>"; };
+		2655F26A1FC4289F0027C6C4 /* HNNetWorkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HNNetWorkManager.h; sourceTree = "<group>"; };
+		2655F26D1FC4290C0027C6C4 /* MBProgressHUD+Add.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+Add.h"; sourceTree = "<group>"; };
+		2655F26E1FC4290C0027C6C4 /* MBProgressHUD+Add.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+Add.m"; sourceTree = "<group>"; };
+		2655F2731FC431E10027C6C4 /* HNVideoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HNVideoVC.h; sourceTree = "<group>"; };
+		2655F2741FC431E10027C6C4 /* HNVideoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HNVideoVC.m; sourceTree = "<group>"; };
+		2655F2771FC4322B0027C6C4 /* HNVideoPageVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNVideoPageVC.h; sourceTree = "<group>"; };
+		2655F2781FC4322B0027C6C4 /* HNVideoPageVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNVideoPageVC.m; sourceTree = "<group>"; };
+		2655F27A1FC55DFE0027C6C4 /* HNVideoTitleModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNVideoTitleModel.h; sourceTree = "<group>"; };
+		2655F27B1FC55DFE0027C6C4 /* HNVideoTitleModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNVideoTitleModel.m; sourceTree = "<group>"; };
+		2655F27D1FC55EB00027C6C4 /* HNVideoTitleViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNVideoTitleViewModel.h; sourceTree = "<group>"; };
+		2655F27E1FC55EB00027C6C4 /* HNVideoTitleViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNVideoTitleViewModel.m; sourceTree = "<group>"; };
+		2655F2801FC55FC30027C6C4 /* HNTitleRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNTitleRequest.h; sourceTree = "<group>"; };
+		2655F2811FC55FC30027C6C4 /* HNTitleRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNTitleRequest.m; sourceTree = "<group>"; };
+		2655F2831FC56CFF0027C6C4 /* HNVideoListRequst.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNVideoListRequst.h; sourceTree = "<group>"; };
+		2655F2841FC56CFF0027C6C4 /* HNVideoListRequst.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNVideoListRequst.m; sourceTree = "<group>"; };
+		2655F2861FC56D1B0027C6C4 /* HNVideoListViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNVideoListViewModel.h; sourceTree = "<group>"; };
+		2655F2871FC56D1B0027C6C4 /* HNVideoListViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNVideoListViewModel.m; sourceTree = "<group>"; };
+		2655F2891FC5782C0027C6C4 /* HNVideoListModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNVideoListModel.h; sourceTree = "<group>"; };
+		2655F28A1FC5782C0027C6C4 /* HNVideoListModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNVideoListModel.m; sourceTree = "<group>"; };
 		5540F9DE1170CC0E5C45249F /* Pods-headlineNews.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-headlineNews.debug.xcconfig"; path = "Pods/Target Support Files/Pods-headlineNews/Pods-headlineNews.debug.xcconfig"; sourceTree = "<group>"; };
 		5C56A316864F9359C35FD949 /* Pods-headlineNews.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-headlineNews.release.xcconfig"; path = "Pods/Target Support Files/Pods-headlineNews/Pods-headlineNews.release.xcconfig"; sourceTree = "<group>"; };
 		978C3F33549E969A471F0532 /* libPods-headlineNews.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-headlineNews.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -215,8 +248,10 @@
 		262437AF1FBE830A00BAA1B6 /* HNVideo */ = {
 			isa = PBXGroup;
 			children = (
-				262437B41FBE836D00BAA1B6 /* HNVideoVC.h */,
-				262437B51FBE836D00BAA1B6 /* HNVideoVC.m */,
+				2655F2721FC431E10027C6C4 /* HNController */,
+				2655F2701FC431E10027C6C4 /* HNModel */,
+				2655F2711FC431E10027C6C4 /* HNView */,
+				2655F2751FC431E10027C6C4 /* HNViewModel */,
 			);
 			path = HNVideo;
 			sourceTree = "<group>";
@@ -283,6 +318,8 @@
 		262437EE1FC2BB8A00BAA1B6 /* HNTools */ = {
 			isa = PBXGroup;
 			children = (
+				2655F26D1FC4290C0027C6C4 /* MBProgressHUD+Add.h */,
+				2655F26E1FC4290C0027C6C4 /* MBProgressHUD+Add.m */,
 				2655F2611FC40E660027C6C4 /* UIButton+EX.h */,
 				2655F2601FC40E660027C6C4 /* UIButton+EX.m */,
 				262437EF1FC2BB8A00BAA1B6 /* HNRefreshFooter.h */,
@@ -300,6 +337,10 @@
 		262437FB1FC2BB9D00BAA1B6 /* HNNetWork */ = {
 			isa = PBXGroup;
 			children = (
+				2655F2691FC4289F0027C6C4 /* HNNetWorkBaseModel.h */,
+				2655F2681FC4289F0027C6C4 /* HNNetWorkBaseModel.m */,
+				2655F26A1FC4289F0027C6C4 /* HNNetWorkManager.h */,
+				2655F2671FC4289F0027C6C4 /* HNNetWorkManager.m */,
 				262437FF1FC2BBF100BAA1B6 /* HNURLManager.h */,
 				262438001FC2BBF100BAA1B6 /* HNURLManager.m */,
 			);
@@ -321,6 +362,7 @@
 		2655F23D1FC3FB800027C6C4 /* HNComponent */ = {
 			isa = PBXGroup;
 			children = (
+				2655F2631FC426E30027C6C4 /* HNChannelView */,
 				2655F24F1FC408840027C6C4 /* WMPageController */,
 			);
 			path = HNComponent;
@@ -349,6 +391,59 @@
 				2655F2581FC408840027C6C4 /* WMScrollView.m */,
 			);
 			path = WMMenuView;
+			sourceTree = "<group>";
+		};
+		2655F2631FC426E30027C6C4 /* HNChannelView */ = {
+			isa = PBXGroup;
+			children = (
+				2655F2641FC427080027C6C4 /* HNChannelView.h */,
+				2655F2651FC427080027C6C4 /* HNChannelView.m */,
+			);
+			path = HNChannelView;
+			sourceTree = "<group>";
+		};
+		2655F2701FC431E10027C6C4 /* HNModel */ = {
+			isa = PBXGroup;
+			children = (
+				2655F27A1FC55DFE0027C6C4 /* HNVideoTitleModel.h */,
+				2655F27B1FC55DFE0027C6C4 /* HNVideoTitleModel.m */,
+				2655F2891FC5782C0027C6C4 /* HNVideoListModel.h */,
+				2655F28A1FC5782C0027C6C4 /* HNVideoListModel.m */,
+				2655F2801FC55FC30027C6C4 /* HNTitleRequest.h */,
+				2655F2811FC55FC30027C6C4 /* HNTitleRequest.m */,
+				2655F2831FC56CFF0027C6C4 /* HNVideoListRequst.h */,
+				2655F2841FC56CFF0027C6C4 /* HNVideoListRequst.m */,
+			);
+			path = HNModel;
+			sourceTree = "<group>";
+		};
+		2655F2711FC431E10027C6C4 /* HNView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = HNView;
+			sourceTree = "<group>";
+		};
+		2655F2721FC431E10027C6C4 /* HNController */ = {
+			isa = PBXGroup;
+			children = (
+				2655F2731FC431E10027C6C4 /* HNVideoVC.h */,
+				2655F2741FC431E10027C6C4 /* HNVideoVC.m */,
+				2655F2771FC4322B0027C6C4 /* HNVideoPageVC.h */,
+				2655F2781FC4322B0027C6C4 /* HNVideoPageVC.m */,
+			);
+			path = HNController;
+			sourceTree = "<group>";
+		};
+		2655F2751FC431E10027C6C4 /* HNViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				2655F27D1FC55EB00027C6C4 /* HNVideoTitleViewModel.h */,
+				2655F27E1FC55EB00027C6C4 /* HNVideoTitleViewModel.m */,
+				2655F2861FC56D1B0027C6C4 /* HNVideoListViewModel.h */,
+				2655F2871FC56D1B0027C6C4 /* HNVideoListViewModel.m */,
+			);
+			path = HNViewModel;
 			sourceTree = "<group>";
 		};
 		96C08AF41DB49F1428C5B27D /* Frameworks */ = {
@@ -520,28 +615,39 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2655F2761FC431E10027C6C4 /* HNVideoVC.m in Sources */,
 				262437B91FBE83C600BAA1B6 /* HNMicroHeadlineNewVC.m in Sources */,
 				262437B31FBE834B00BAA1B6 /* HNHomeVC.m in Sources */,
 				262437CE1FBEB60500BAA1B6 /* HNHeader.m in Sources */,
 				262437BC1FBE83DC00BAA1B6 /* HNMineVC.m in Sources */,
 				262437F81FC2BB8A00BAA1B6 /* HNRefreshGifHeader.m in Sources */,
 				262437AA1FBE805800BAA1B6 /* main.m in Sources */,
+				2655F2661FC427080027C6C4 /* HNChannelView.m in Sources */,
 				262437FA1FC2BB8A00BAA1B6 /* UIView+Frame.m in Sources */,
+				2655F27F1FC55EB00027C6C4 /* HNVideoTitleViewModel.m in Sources */,
 				262437A51FBE805800BAA1B6 /* AppDelegate.m in Sources */,
+				2655F26C1FC4289F0027C6C4 /* HNNetWorkBaseModel.m in Sources */,
+				2655F2821FC55FC30027C6C4 /* HNTitleRequest.m in Sources */,
 				262437CB1FBE912200BAA1B6 /* HNNavigationController.m in Sources */,
+				2655F2881FC56D1B0027C6C4 /* HNVideoListViewModel.m in Sources */,
 				2655F23C1FC3CBFB0027C6C4 /* HNNavigationBar.m in Sources */,
+				2655F2791FC4322B0027C6C4 /* HNVideoPageVC.m in Sources */,
 				2655F2621FC40E660027C6C4 /* UIButton+EX.m in Sources */,
 				262438011FC2BBF100BAA1B6 /* HNURLManager.m in Sources */,
 				2655F25C1FC408840027C6C4 /* WMMenuView.m in Sources */,
+				2655F26F1FC4290C0027C6C4 /* MBProgressHUD+Add.m in Sources */,
+				2655F26B1FC4289F0027C6C4 /* HNNetWorkManager.m in Sources */,
 				2655F25D1FC408840027C6C4 /* WMProgressView.m in Sources */,
 				2655F25E1FC408840027C6C4 /* WMScrollView.m in Sources */,
 				262437DE1FC153D500BAA1B6 /* HNBaseViewController.m in Sources */,
 				2655F25F1FC408840027C6C4 /* WMPageController.m in Sources */,
 				262437F71FC2BB8A00BAA1B6 /* HNRefreshFooter.m in Sources */,
-				262437B61FBE836D00BAA1B6 /* HNVideoVC.m in Sources */,
 				262437D81FBEDDBA00BAA1B6 /* UITabBar+HNTabber.m in Sources */,
 				2655F25B1FC408840027C6C4 /* WMMenuItem.m in Sources */,
+				2655F27C1FC55DFE0027C6C4 /* HNVideoTitleModel.m in Sources */,
+				2655F28B1FC5782C0027C6C4 /* HNVideoListModel.m in Sources */,
 				262437E11FC155C100BAA1B6 /* HNDetailVC.m in Sources */,
+				2655F2851FC56CFF0027C6C4 /* HNVideoListRequst.m in Sources */,
 				262437C81FBE910400BAA1B6 /* HNTabBarController.m in Sources */,
 				262437F91FC2BB8A00BAA1B6 /* UIView+AnimationExtend.m in Sources */,
 			);

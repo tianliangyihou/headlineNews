@@ -30,6 +30,7 @@
     addBtn.frame = CGRectMake(HN_SCREEN_WIDTH - 52, 0,52,35);
     addBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
     [self.menuView addSubview:addBtn];
+    
     [[addBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(__kindof UIControl * _Nullable x) {
         NSLog(@"点击了按钮");
     }];

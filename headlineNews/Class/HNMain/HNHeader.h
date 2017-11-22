@@ -22,6 +22,8 @@
 #define HN_SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 #define HN_NAVIGATION_BAR_HEIGHT ([UIScreen mainScreen].bounds.size.height == 812 ? 88 :64)
 
+#define HN_IID @"17769976909"
+#define HN_DEVICE_ID @"41312231473"
 
 UIKIT_EXTERN NSString const *HN_BASE_URL;
 

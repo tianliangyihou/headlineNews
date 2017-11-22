@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
+// 1 首页加号
+// 2 mj刷新的距离加长
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
