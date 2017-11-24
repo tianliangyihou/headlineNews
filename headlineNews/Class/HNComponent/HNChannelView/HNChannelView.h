@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HNChannelView : UIView
+@interface HNChannelView : UIScrollView
 
 @end

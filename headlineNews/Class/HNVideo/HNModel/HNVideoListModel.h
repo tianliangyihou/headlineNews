@@ -8,7 +8,34 @@
 
 #import <Foundation/Foundation.h>
 
+@interface HNVideoURLInfoModel : NSObject
+@property (nonatomic , copy)NSString *main_url;
+@property (nonatomic , copy)NSString *back_url_1;
+
+@end
+
+@interface HNVideoURLLevelModel : NSObject
+@property (nonatomic , strong)HNVideoURLInfoModel *video_1; // 360p
+@property (nonatomic , strong)HNVideoURLInfoModel *video_2; // 480p
+@property (nonatomic , strong)HNVideoURLInfoModel *video_3; // 720p
+
+@end
+
+@interface HNVideoPlayInfoModel : NSObject
+
+@property (nonatomic , assign)float video_duration;
+@property (nonatomic , copy)NSString *poster_url;
+@property (nonatomic , strong)HNVideoURLLevelModel *video_list;
+
+@end
+
 @interface HNVideoDetialModel : NSObject
+
+@property (nonatomic , copy)NSString *media_name;
+@property (nonatomic , copy)NSString *title;
+@property (nonatomic , copy)NSString *video_play_info;
+@property (nonatomic , strong)HNVideoPlayInfoModel *videoInfoModel;
+
 
 @end
 

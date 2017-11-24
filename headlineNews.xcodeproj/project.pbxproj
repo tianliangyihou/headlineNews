@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2607B5E31FC6C0DF000AF380 /* HNChannelModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2607B5E21FC6C0DF000AF380 /* HNChannelModel.m */; };
+		2607B5E61FC6CA56000AF380 /* HNButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2607B5E51FC6CA56000AF380 /* HNButton.m */; };
+		2607B5E91FC7C929000AF380 /* HNTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2607B5E81FC7C929000AF380 /* HNTitleView.m */; };
+		2607B5ED1FC7CC77000AF380 /* HNTitleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2607B5EC1FC7CC77000AF380 /* HNTitleView.xib */; };
 		262437A51FBE805800BAA1B6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 262437991FBE805800BAA1B6 /* AppDelegate.m */; };
 		262437A71FBE805800BAA1B6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2624379E1FBE805800BAA1B6 /* LaunchScreen.storyboard */; };
 		262437A81FBE805800BAA1B6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 262437A01FBE805800BAA1B6 /* Main.storyboard */; };
@@ -51,10 +55,20 @@
 		2655F2851FC56CFF0027C6C4 /* HNVideoListRequst.m in Sources */ = {isa = PBXBuildFile; fileRef = 2655F2841FC56CFF0027C6C4 /* HNVideoListRequst.m */; };
 		2655F2881FC56D1B0027C6C4 /* HNVideoListViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2655F2871FC56D1B0027C6C4 /* HNVideoListViewModel.m */; };
 		2655F28B1FC5782C0027C6C4 /* HNVideoListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2655F28A1FC5782C0027C6C4 /* HNVideoListModel.m */; };
+		2655F2921FC69C010027C6C4 /* HNVideoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2655F2901FC69C010027C6C4 /* HNVideoCell.m */; };
+		2655F2931FC69C010027C6C4 /* HNVideoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2655F2911FC69C010027C6C4 /* HNVideoCell.xib */; };
+		2655F2971FC6A5A70027C6C4 /* HNBaseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2655F2961FC6A5A70027C6C4 /* HNBaseViewModel.m */; };
 		B36B47A6A7E839157FB174E9 /* libPods-headlineNews.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 978C3F33549E969A471F0532 /* libPods-headlineNews.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2607B5E11FC6C0DF000AF380 /* HNChannelModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNChannelModel.h; sourceTree = "<group>"; };
+		2607B5E21FC6C0DF000AF380 /* HNChannelModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNChannelModel.m; sourceTree = "<group>"; };
+		2607B5E41FC6CA56000AF380 /* HNButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNButton.h; sourceTree = "<group>"; };
+		2607B5E51FC6CA56000AF380 /* HNButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNButton.m; sourceTree = "<group>"; };
+		2607B5E71FC7C929000AF380 /* HNTitleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNTitleView.h; sourceTree = "<group>"; };
+		2607B5E81FC7C929000AF380 /* HNTitleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNTitleView.m; sourceTree = "<group>"; };
+		2607B5EC1FC7CC77000AF380 /* HNTitleView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HNTitleView.xib; sourceTree = "<group>"; };
 		2624376C1FBE7BC300BAA1B6 /* headlineNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = headlineNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		262437991FBE805800BAA1B6 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		2624379A1FBE805800BAA1B6 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -134,6 +148,11 @@
 		2655F2871FC56D1B0027C6C4 /* HNVideoListViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNVideoListViewModel.m; sourceTree = "<group>"; };
 		2655F2891FC5782C0027C6C4 /* HNVideoListModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNVideoListModel.h; sourceTree = "<group>"; };
 		2655F28A1FC5782C0027C6C4 /* HNVideoListModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNVideoListModel.m; sourceTree = "<group>"; };
+		2655F28F1FC69C010027C6C4 /* HNVideoCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNVideoCell.h; sourceTree = "<group>"; };
+		2655F2901FC69C010027C6C4 /* HNVideoCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNVideoCell.m; sourceTree = "<group>"; };
+		2655F2911FC69C010027C6C4 /* HNVideoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HNVideoCell.xib; sourceTree = "<group>"; };
+		2655F2951FC6A5A70027C6C4 /* HNBaseViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNBaseViewModel.h; sourceTree = "<group>"; };
+		2655F2961FC6A5A70027C6C4 /* HNBaseViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNBaseViewModel.m; sourceTree = "<group>"; };
 		5540F9DE1170CC0E5C45249F /* Pods-headlineNews.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-headlineNews.debug.xcconfig"; path = "Pods/Target Support Files/Pods-headlineNews/Pods-headlineNews.debug.xcconfig"; sourceTree = "<group>"; };
 		5C56A316864F9359C35FD949 /* Pods-headlineNews.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-headlineNews.release.xcconfig"; path = "Pods/Target Support Files/Pods-headlineNews/Pods-headlineNews.release.xcconfig"; sourceTree = "<group>"; };
 		978C3F33549E969A471F0532 /* libPods-headlineNews.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-headlineNews.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -268,6 +287,7 @@
 		262437C11FBE848800BAA1B6 /* HNBase */ = {
 			isa = PBXGroup;
 			children = (
+				2655F2941FC6A58A0027C6C4 /* HNBaseViewModel */,
 				262437C21FBE848800BAA1B6 /* HNBaseModel */,
 				262437C31FBE848800BAA1B6 /* HNBaseView */,
 				262437C41FBE848800BAA1B6 /* HNBaseViewController */,
@@ -398,6 +418,13 @@
 			children = (
 				2655F2641FC427080027C6C4 /* HNChannelView.h */,
 				2655F2651FC427080027C6C4 /* HNChannelView.m */,
+				2607B5E11FC6C0DF000AF380 /* HNChannelModel.h */,
+				2607B5E21FC6C0DF000AF380 /* HNChannelModel.m */,
+				2607B5E71FC7C929000AF380 /* HNTitleView.h */,
+				2607B5E81FC7C929000AF380 /* HNTitleView.m */,
+				2607B5EC1FC7CC77000AF380 /* HNTitleView.xib */,
+				2607B5E41FC6CA56000AF380 /* HNButton.h */,
+				2607B5E51FC6CA56000AF380 /* HNButton.m */,
 			);
 			path = HNChannelView;
 			sourceTree = "<group>";
@@ -420,6 +447,9 @@
 		2655F2711FC431E10027C6C4 /* HNView */ = {
 			isa = PBXGroup;
 			children = (
+				2655F28F1FC69C010027C6C4 /* HNVideoCell.h */,
+				2655F2901FC69C010027C6C4 /* HNVideoCell.m */,
+				2655F2911FC69C010027C6C4 /* HNVideoCell.xib */,
 			);
 			path = HNView;
 			sourceTree = "<group>";
@@ -444,6 +474,15 @@
 				2655F2871FC56D1B0027C6C4 /* HNVideoListViewModel.m */,
 			);
 			path = HNViewModel;
+			sourceTree = "<group>";
+		};
+		2655F2941FC6A58A0027C6C4 /* HNBaseViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				2655F2951FC6A5A70027C6C4 /* HNBaseViewModel.h */,
+				2655F2961FC6A5A70027C6C4 /* HNBaseViewModel.m */,
+			);
+			path = HNBaseViewModel;
 			sourceTree = "<group>";
 		};
 		96C08AF41DB49F1428C5B27D /* Frameworks */ = {
@@ -529,6 +568,8 @@
 				2655F2351FC3C61B0027C6C4 /* 290-cai978.ttf in Resources */,
 				2655F2381FC3C61B0027C6C4 /* new_icon.ttf in Resources */,
 				2655F2371FC3C61B0027C6C4 /* iconfont.ttf in Resources */,
+				2607B5ED1FC7CC77000AF380 /* HNTitleView.xib in Resources */,
+				2655F2931FC69C010027C6C4 /* HNVideoCell.xib in Resources */,
 				262437A71FBE805800BAA1B6 /* LaunchScreen.storyboard in Resources */,
 				2655F2361FC3C61B0027C6C4 /* ChatroomIconFont.ttf in Resources */,
 				262437A91FBE805800BAA1B6 /* Assets.xcassets in Resources */,
@@ -615,6 +656,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2607B5E61FC6CA56000AF380 /* HNButton.m in Sources */,
 				2655F2761FC431E10027C6C4 /* HNVideoVC.m in Sources */,
 				262437B91FBE83C600BAA1B6 /* HNMicroHeadlineNewVC.m in Sources */,
 				262437B31FBE834B00BAA1B6 /* HNHomeVC.m in Sources */,
@@ -636,20 +678,24 @@
 				262438011FC2BBF100BAA1B6 /* HNURLManager.m in Sources */,
 				2655F25C1FC408840027C6C4 /* WMMenuView.m in Sources */,
 				2655F26F1FC4290C0027C6C4 /* MBProgressHUD+Add.m in Sources */,
+				2655F2921FC69C010027C6C4 /* HNVideoCell.m in Sources */,
 				2655F26B1FC4289F0027C6C4 /* HNNetWorkManager.m in Sources */,
 				2655F25D1FC408840027C6C4 /* WMProgressView.m in Sources */,
 				2655F25E1FC408840027C6C4 /* WMScrollView.m in Sources */,
 				262437DE1FC153D500BAA1B6 /* HNBaseViewController.m in Sources */,
 				2655F25F1FC408840027C6C4 /* WMPageController.m in Sources */,
+				2655F2971FC6A5A70027C6C4 /* HNBaseViewModel.m in Sources */,
 				262437F71FC2BB8A00BAA1B6 /* HNRefreshFooter.m in Sources */,
 				262437D81FBEDDBA00BAA1B6 /* UITabBar+HNTabber.m in Sources */,
 				2655F25B1FC408840027C6C4 /* WMMenuItem.m in Sources */,
 				2655F27C1FC55DFE0027C6C4 /* HNVideoTitleModel.m in Sources */,
 				2655F28B1FC5782C0027C6C4 /* HNVideoListModel.m in Sources */,
 				262437E11FC155C100BAA1B6 /* HNDetailVC.m in Sources */,
+				2607B5E91FC7C929000AF380 /* HNTitleView.m in Sources */,
 				2655F2851FC56CFF0027C6C4 /* HNVideoListRequst.m in Sources */,
 				262437C81FBE910400BAA1B6 /* HNTabBarController.m in Sources */,
 				262437F91FC2BB8A00BAA1B6 /* UIView+AnimationExtend.m in Sources */,
+				2607B5E31FC6C0DF000AF380 /* HNChannelModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

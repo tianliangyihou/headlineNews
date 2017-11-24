@@ -16,12 +16,12 @@
 
 @end
 @implementation HNRefreshGifHeader
+
 #pragma mark - 重写方法
 #pragma mark 在这里做一些初始化配置（比如添加子控件）
 - (void)prepare
 {
     [super prepare];
-    
     // 设置普通状态的动画图片
     NSMutableArray *refreshingImages = [NSMutableArray array];
     for (NSUInteger i = 1; i< HNRefreshStateRefreshingImagesCount; i++) {

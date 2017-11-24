@@ -6,10 +6,9 @@
 //  Copyright © 2017年 vcyber. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <ReactiveObjC/ReactiveObjC.h>
+#import "HNBaseViewModel.h"
 
-@interface HNVideoListViewModel : NSObject
+@interface HNVideoListViewModel : HNBaseViewModel
 @property (nonatomic , strong)RACCommand *videoListCommand;
 
 @end

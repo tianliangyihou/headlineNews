@@ -9,6 +9,7 @@
 #import "HNHomeVC.h"
 #import "HNDetailVC.h"
 #import "UIButton+EX.h"
+#import "HNChannelView.h"
 @interface HNHomeVC ()<WMPageControllerDataSource,WMPageControllerDelegate>
 
 @end
@@ -34,6 +35,10 @@
     [[addBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(__kindof UIControl * _Nullable x) {
         NSLog(@"点击了按钮");
     }];
+    
+    HNChannelView *view = [[HNChannelView alloc]initWithFrame:self.view.bounds];
+    view.backgroundColor = [UIColor lightGrayColor];
+    [[UIApplication sharedApplication].keyWindow addSubview:view];
 }
 
 

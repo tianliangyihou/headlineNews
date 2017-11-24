@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="HNTitleView">
+            <rect key="frame" x="0.0" y="0.0" width="374" height="54"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我的频道" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ESh-GN-fBk">
+                    <rect key="frame" x="16" y="13" width="82" height="28"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="82" id="7dD-qr-jrA"/>
+                        <constraint firstAttribute="height" constant="28" id="Xgk-JN-BfT"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M77-C0-oDe">
+                    <rect key="frame" x="319" y="17" width="45" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="1Ji-Y8-5Y6"/>
+                        <constraint firstAttribute="width" constant="45" id="pCn-Wq-FrE"/>
+                    </constraints>
+                    <state key="normal" title="编辑">
+                        <color key="titleColor" red="0.96976126269999996" green="0.05622136036" blue="0.88122891169999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <state key="selected" title="完成"/>
+                    <connections>
+                        <action selector="btnClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="26h-H8-umX"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="点击进入频道" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jNX-HQ-GJB">
+                    <rect key="frame" x="106" y="17" width="127" height="24"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="127" id="b7g-MD-C9O"/>
+                        <constraint firstAttribute="height" constant="24" id="ud6-LX-YPS"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="ESh-GN-fBk" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="C2q-gD-VNk"/>
+                <constraint firstItem="M77-C0-oDe" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="DGo-og-pdQ"/>
+                <constraint firstItem="jNX-HQ-GJB" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" constant="2" id="EuD-R2-ddO"/>
+                <constraint firstItem="ESh-GN-fBk" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="XV0-8e-yG5"/>
+                <constraint firstItem="jNX-HQ-GJB" firstAttribute="leading" secondItem="ESh-GN-fBk" secondAttribute="trailing" constant="8" id="aCA-Ja-OOA"/>
+                <constraint firstAttribute="trailing" secondItem="M77-C0-oDe" secondAttribute="trailing" constant="10" id="naI-eT-1MU"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="editBtn" destination="M77-C0-oDe" id="E4T-Az-rDO"/>
+                <outlet property="subtitleLabel" destination="jNX-HQ-GJB" id="tJv-CN-gxc"/>
+                <outlet property="titleLabel" destination="ESh-GN-fBk" id="kVR-nb-EZn"/>
+            </connections>
+            <point key="canvasLocation" x="165" y="-186"/>
+        </view>
+    </objects>
+</document>

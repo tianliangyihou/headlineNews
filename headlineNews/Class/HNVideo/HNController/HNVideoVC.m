@@ -8,8 +8,6 @@
 
 #import "HNVideoVC.h"
 #import "HNVideoPageVC.h"
-#import "HNNetWorkManager.h"
-#import "HNURLManager.h"
 #import "HNVideoTitleViewModel.h"
 #import "HNVideoTitleModel.h"
 @interface HNVideoVC ()<WMPageControllerDataSource,
@@ -58,7 +56,10 @@
 }
 
 - (UIViewController *)pageController:(WMPageController *)pageController viewControllerAtIndex:(NSInteger)index {
-    return [HNVideoPageVC new];
+    HNVideoTitleModel *model = self.models[index];
+    HNVideoPageVC *pageVC = [[HNVideoPageVC alloc]init];
+    pageVC.category = model.category;
+    return pageVC;
 }
 
 - (NSString *)pageController:(WMPageController *)pageController titleAtIndex:(NSInteger)index {
@@ -67,11 +68,11 @@
 }
 
 
-
 #pragma mark - 刷新数据
 
 - (void)needRefreshTableViewData {
-    NSLog(@"需要刷新了");
+    HNVideoPageVC *pageVC = (HNVideoPageVC *)self.currentViewController;
+    [pageVC refreshData];
 }
 
 

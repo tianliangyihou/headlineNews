@@ -9,17 +9,13 @@
 #import "HNVideoTitleViewModel.h"
 #import "HNTitleRequest.h"
 #import "HNVideoTitleModel.h"
-#import "HNHeader.h"
 
-#import <MJExtension/MJExtension.h>
-#import "MBProgressHUD+Add.h"
 @implementation HNVideoTitleViewModel
 
 - (instancetype)init
 {
     self = [super init];
     if (self) {
-        @weakify(self);
         _titlesCommand = [[RACCommand alloc]initWithSignalBlock:^RACSignal * _Nonnull(id  _Nullable input) {
             return [RACSignal createSignal:^RACDisposable * _Nullable(id<RACSubscriber>  _Nonnull subscriber) {
                 HNTitleRequest *request = [HNTitleRequest netWorkModelWithURLString:[HNURLManager videoTitlesURLString] isPost:NO];

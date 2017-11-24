@@ -9,10 +9,9 @@
 #import "HNVideoListViewModel.h"
 #import "HNVideoListRequst.h"
 #import "HNVideoListViewModel.m"
-#import "HNURLManager.h"
-#import "HNHeader.h"
 #import "HNVideoListModel.h"
-#import <MJExtension/MJExtension.h>
+
+
 @implementation HNVideoListViewModel
 
 - (instancetype)init
@@ -26,21 +25,29 @@
                 request.iid = HN_IID;
                 request.version_code = @"6.2.7";
                 request.device_platform = @"iphone";
-                request.category = @"video";
+                request.category = input;
                 [request sendRequestWithSuccess:^(id response) {
                     NSDictionary *responseDic = (NSDictionary *)response;
                     NSArray *dataArr = responseDic[@"data"];
                     NSMutableArray *models = [[NSMutableArray alloc]init];
                     for (int i = 0 ; i < dataArr.count; i++) {
                         HNVideoListModel *model = [[[HNVideoListModel alloc]init] mj_setKeyValues:dataArr[i]];
-//                        NSDictionary *contentDic = [NSJSONSerialization ajse]
-                        NSData *data = [model.content dataUsingEncoding:NSUTF8StringEncoding];
-                        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-                        model.videoModel = [[[HNVideoDetialModel alloc]init] mj_setKeyValues:dic];
+                        NSData *data1 = [model.content dataUsingEncoding:NSUTF8StringEncoding];
+                        NSDictionary *dic1 = [NSJSONSerialization JSONObjectWithData:data1 options:NSJSONReadingMutableContainers error:nil];
+                        model.videoModel = [[[HNVideoDetialModel alloc]init] mj_setKeyValues:dic1];
+                        NSData *data2 = [model.videoModel.video_play_info dataUsingEncoding:NSUTF8StringEncoding];
+                        if (data2 == nil) {
+                            [models addObject:model];
+                            continue;
+                        }
+                        NSDictionary *dic2 = [NSJSONSerialization JSONObjectWithData:data2 options:NSJSONReadingMutableContainers error:nil];
+                        model.videoModel.videoInfoModel = [[[HNVideoPlayInfoModel alloc]init] mj_setKeyValues:dic2];
                         [models addObject:model];
                     }
+                    [subscriber sendNext:models];
+                    [subscriber sendCompleted];
                 } failure:^(NSError *error) {
-                    
+                    [MBProgressHUD showError:error.localizedDescription toView:nil];
                 }];
                 return nil;
             }];

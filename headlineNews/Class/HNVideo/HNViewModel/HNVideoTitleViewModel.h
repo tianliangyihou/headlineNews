@@ -6,8 +6,8 @@
 //  Copyright © 2017年 vcyber. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <ReactiveObjC/ReactiveObjC.h>
-@interface HNVideoTitleViewModel : NSObject
-@property (nonatomic , strong)RACCommand *titlesCommand;
+#import "HNBaseViewModel.h"
+
+@interface HNVideoTitleViewModel : HNBaseViewModel
+@property (nonatomic , strong) RACCommand *titlesCommand;
 @end
