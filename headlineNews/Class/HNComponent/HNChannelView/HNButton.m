@@ -59,6 +59,17 @@
     }
     self.frame = model.frame;
 }
+
+- (void)reloadData {
+    if (self.model.isMyChannel) {
+        [self setTitle:self.model.name forState:UIControlStateNormal];
+        [self setBackgroundImage:[UIImage imageNamed:@"common_button_white"] forState:UIControlStateNormal];
+    }else {
+        [self setTitle:[NSString stringWithFormat:@"＋%@",self.model.name] forState:UIControlStateNormal];
+        [self setBackgroundImage:[UIImage imageNamed:@"common_button_white_highlighted"] forState:UIControlStateNormal];
+    }
+}
+
 - (void)btnClick:(HNButton *)btn {
     
     if (btn.model.isMyChannel) {

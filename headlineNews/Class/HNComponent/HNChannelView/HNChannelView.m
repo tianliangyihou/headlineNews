@@ -110,7 +110,7 @@ static CGFloat labelHeight = 40;
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.header2.top = CGRectGetMaxY(self.divisionModel.frame);
+        self.header2.top = CGRectGetMaxY(self.divisionModel.frame) + lineSpace;
         self.header2.hidden = NO;
     });
     
@@ -173,8 +173,10 @@ static CGFloat labelHeight = 40;
 #pragma mark - 调整按钮的frame
 
 - (void)addBtn:(HNButton *)addbtn {
+    [self.datas removeObject:addbtn];
+    [self.datas insertObject:addbtn atIndex:self.divisionModel.tag + 1];
     addbtn.model.isMyChannel = YES;
-    int divisionIndex = _divisionModel.tag + 1;
+    int divisionIndex = self.divisionModel.tag + 1;
     for (int i = 0 ; i < self.datas.count; i++) {
         HNButton *btn = self.datas[i];
         btn.tag = i;
@@ -193,15 +195,17 @@ static CGFloat labelHeight = 40;
             
         }
         if (i == divisionIndex) {
-            _divisionModel = btn.model;
+            self.divisionModel = btn.model;
         }
+        [btn reloadData];
+
     }
 }
 - (void)removeBtn:(HNButton *)removeBtn {
     [self.datas removeObject:removeBtn];
-    [self.datas insertObject:removeBtn atIndex:_divisionModel.tag];
+    [self.datas insertObject:removeBtn atIndex:self.divisionModel.tag];
     removeBtn.model.isMyChannel = NO;
-    int divisionIndex = _divisionModel.tag - 1;
+    int divisionIndex = self.divisionModel.tag - 1;
     for (int i = 0 ; i < self.datas.count; i++) {
         HNButton *btn = self.datas[i];
         btn.tag = i;
@@ -220,10 +224,20 @@ static CGFloat labelHeight = 40;
             
         }
         if (i == divisionIndex) {
-            _divisionModel = btn.model;
+            self.divisionModel = btn.model;
         }
+        [btn reloadData];
     }
 
 }
-
+#pragma mark - 调整按钮的header2 的尺寸
+- (void)setDivisionModel:(HNChannelModel *)divisionModel {
+    _divisionModel = divisionModel;
+    if (![[NSThread currentThread] isMainThread]) {
+        return;
+    }
+    [UIView animateWithDuration:0.25 animations:^{
+        _header2.frame = CGRectMake(0, CGRectGetMaxY(self.divisionModel.frame)+lineSpace, self.frame.size.width, 54);
+    }];
+}
 @end

@@ -12,4 +12,5 @@
 @property (nonatomic , strong)HNChannelModel *model;
 @property (nonatomic , weak)UIImageView *deleImageView;
 - (instancetype)initWithMyChannelHandleBlock:(void(^)(HNButton *))MyChannelBlock recommondChannelHandleBlock:(void(^)(HNButton *))recommondBlock;
+- (void)reloadData;
 @end
