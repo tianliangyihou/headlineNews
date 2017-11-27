@@ -6,10 +6,10 @@
 //  Copyright (c) 2015年 yq. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "HNBaseViewController.h"
 #import "WMMenuView.h"
 #import "WMScrollView.h"
-#import "HNBaseViewController.h"
+
 @class WMPageController;
 
 /*

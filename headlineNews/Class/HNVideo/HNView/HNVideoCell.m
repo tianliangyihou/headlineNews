@@ -18,7 +18,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
+    self.videoPosterImageView.contentMode = UIViewContentModeScaleToFill;
 }
 - (void)setModel:(HNVideoListModel *)model {
     [_videoPosterImageView sd_setImageWithURL:[NSURL URLWithString:model.videoModel.videoInfoModel.poster_url]];

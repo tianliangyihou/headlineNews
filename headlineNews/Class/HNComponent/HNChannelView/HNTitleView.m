@@ -14,11 +14,11 @@
 @property (nonatomic , assign)BOOL needEditBtn;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *subtitleLabel;
-@property (weak, nonatomic) IBOutlet UIButton *editBtn;
 
 @end
 
 @implementation HNTitleView
+
 
 + (instancetype)HNTitleView {
     NSString *className = NSStringFromClass([self class]);

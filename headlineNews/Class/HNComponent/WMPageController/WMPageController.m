@@ -394,9 +394,9 @@ static NSInteger const kWMControllerCountUndefined = -1;
     _titleColorSelected = [UIColor colorWithRed:168.0/255.0 green:20.0/255.0 blue:4/255.0 alpha:1];
     _titleColorNormal   = [UIColor colorWithRed:0 green:0 blue:0 alpha:1];
     
-    _menuBGColor   = [UIColor whiteColor];
+    _menuBGColor   = [UIColor colorWithRed:244.0/255.0 green:244.0/255.0 blue:244.0/255.0 alpha:1.0];
     _menuHeight    = 36.0f;
-    _menuItemWidth = 50.0f;
+    _menuItemWidth = 65.0f;
     
     _memCache = [[NSCache alloc] init];
     _initializedIndex = kWMUndefinedIndex;

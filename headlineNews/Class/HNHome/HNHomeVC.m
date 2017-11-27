@@ -31,32 +31,41 @@
     addBtn.frame = CGRectMake(HN_SCREEN_WIDTH - 52, 0,52,35);
     addBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
     [self.menuView addSubview:addBtn];
-    
     [[addBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(__kindof UIControl * _Nullable x) {
-        NSLog(@"点击了按钮");
+        HNChannelView *view = [[HNChannelView alloc]initWithFrame:CGRectMake(0, HN_SCREEN_HEIGHT, HN_SCREEN_WIDTH, HN_SCREEN_HEIGHT)];
+        view.backgroundColor = [UIColor lightGrayColor];
+        [[UIApplication sharedApplication].keyWindow addSubview:view];
+        [view show];
     }];
     
-    HNChannelView *view = [[HNChannelView alloc]initWithFrame:self.view.bounds];
-    view.backgroundColor = [UIColor lightGrayColor];
-    [[UIApplication sharedApplication].keyWindow addSubview:view];
-}
+    @weakify(self)
+    [RACObserve(self.scrollView, contentOffset) subscribeNext:^(id x) {
+        @strongify(self);
+        CGPoint offset = [x CGPointValue];
+        if (offset.x > HN_SCREEN_WIDTH * 9) {
+            self.scrollView.contentOffset = CGPointMake(HN_SCREEN_WIDTH * 9, 0);
+        }
+    }];
 
+}
 
 - (NSInteger)numbersOfChildControllersInPageController:(WMPageController *)pageController {
     return 11;
 }
 
 - (__kindof UIViewController *)pageController:(WMPageController *)pageController viewControllerAtIndex:(NSInteger)index {
-  
-    return [HNDetailVC new];
+    HNDetailVC *detial = [[HNDetailVC alloc]init];
+    detial.titleName = [NSString stringWithFormat:@"caole %d",index];
+    return detial;
 }
 
 - (NSString *)pageController:(WMPageController *)pageController titleAtIndex:(NSInteger)index {
     if (index == 5) {
-        return @"火山小视频";
+        return @"去死";
+    }
+    if (index == 10) {
+        return @"       ";
     }
     return @"推荐";
 }
-
-
 @end

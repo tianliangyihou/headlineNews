@@ -9,5 +9,6 @@
 #import "HNBaseViewController.h"
 
 @interface HNDetailVC : HNBaseViewController
+@property (nonatomic , copy)NSString *titleName;
 
 @end

@@ -6,8 +6,8 @@
 //  Copyright © 2017年 vcyber. All rights reserved.
 //
 
-#import "HNBaseViewController.h"
 #import "WMPageController.h"
+
 @interface HNHomeVC : WMPageController
 
 @end

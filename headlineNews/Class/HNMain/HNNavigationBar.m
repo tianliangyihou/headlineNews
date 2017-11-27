@@ -59,8 +59,8 @@
             make.bottom.mas_equalTo(self).offset(-9);
             make.height.mas_equalTo(26);
         }];
+        _searchSubjuct = [RACSubject subject];
     }
-    _searchSubjuct = [RACSubject subject];
     return self;
 }
 

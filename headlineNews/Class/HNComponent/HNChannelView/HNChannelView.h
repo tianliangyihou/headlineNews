@@ -10,4 +10,6 @@
 
 @interface HNChannelView : UIScrollView
 
+- (void)show;
+- (void)hide;
 @end

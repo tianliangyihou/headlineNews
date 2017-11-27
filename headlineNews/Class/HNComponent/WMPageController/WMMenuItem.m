@@ -25,7 +25,7 @@
         self.normalSize    = 15;
         self.selectedSize  = 18;
         self.numberOfLines = 0;
-        
+    
         [self setupGestureRecognizer];
     }
     return self;

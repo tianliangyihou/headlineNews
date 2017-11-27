@@ -40,6 +40,8 @@
     [self.view addSubview:bar];
     self.delegate = self;
     self.dataSource = self;
+    self.automaticallyCalculatesItemWidths = YES;
+    self.itemMargin = 10;
     @weakify(self);
     [[self.titleViewModel.titlesCommand execute:@"title data"] subscribeNext:^(id  _Nullable x) {
         @strongify(self);

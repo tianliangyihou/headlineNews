@@ -9,12 +9,18 @@
 #import "HNButton.h"
 #import "UIButton+EX.h"
 #import <Masonry/Masonry.h>
-
+#import "UIView+Frame.h"
 @interface HNButton()
 
 @property (nonatomic , copy)void (^myChannelBlock)(HNButton *);
 
 @property (nonatomic , copy)void (^recommondBlock)(HNButton *);
+
+@property (nonatomic , copy)void (^beginBlock)(HNButton *);
+
+@property (nonatomic , copy)void (^moveBlock)(HNButton *,UILongPressGestureRecognizer *);
+
+@property (nonatomic , copy)void (^endBlock)(HNButton *);
 
 @end
 
@@ -34,6 +40,8 @@
         }];
         imageView.hidden = YES;
         [self addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+        UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(btnLong:)];
+        [self addGestureRecognizer:longPress];
     }
     return self;
 }
@@ -46,6 +54,13 @@
     }
     return self;
 }
+
+- (void)addLongPressBeginBlock:(void (^)(HNButton *))beginBlock longPressMoveBlock:(void (^)(HNButton *, UILongPressGestureRecognizer *))moveBlock longPressEndBlock:(void (^)(HNButton *))endBlock {
+    _beginBlock = beginBlock;
+    _endBlock = endBlock;
+    _moveBlock = moveBlock;
+}
+
 
 - (void)setModel:(HNChannelModel *)model {
     _model = model;
@@ -82,4 +97,34 @@
         }
     }
 }
+
+- (void)btnLong:(UILongPressGestureRecognizer *)ges {
+    if (self.model.isMyChannel == NO || self.deleImageView.hidden == YES) {
+        return;
+    }
+    if (ges.state == UIGestureRecognizerStateBegan) {
+        CGPoint center = self.center;
+        [UIView animateWithDuration:0.25 animations:^{
+            self.width = self.width + 10;
+            self.height = self.height + 8;
+            self.center = center;
+        }];
+        if (_beginBlock) {
+            _beginBlock(self);
+        }
+    }else if (ges.state == UIGestureRecognizerStateEnded) {
+        if (_endBlock) {
+            _endBlock(self);
+        }
+    }else if (ges.state == UIGestureRecognizerStateChanged) {
+        if (_moveBlock) {
+            _moveBlock(self,ges);
+        }
+    }else if (ges.state == UIGestureRecognizerStateCancelled) {
+        if (_endBlock) {
+            _endBlock(self);
+        }
+    }
+}
+
 @end

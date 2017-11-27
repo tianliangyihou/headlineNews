@@ -7,23 +7,26 @@
 //
 
 #import "HNDetailVC.h"
-
+#import "HNHomeVC.h"
 @interface HNDetailVC ()
 
 @end
 
 @implementation HNDetailVC
 
+- (void)dealloc {
+ 
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self addLeftItemWithText:@"quxi"];
-
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height - 20, 30, 20)];
+    UILabel *view = [[UILabel alloc]initWithFrame:self.view.bounds];
     [self.view addSubview:view];
+    view.textAlignment = NSTextAlignmentCenter;
     view.backgroundColor = [UIColor redColor];
+    view.text = self.titleName;
+
+    
 }
+
 
 @end

@@ -289,15 +289,15 @@ static NSInteger const WMBadgeViewTagOffset = 1212;
 #pragma mark - Private Methods
 
 - (void)willMoveToSuperview:(UIView *)newSuperview {
-    UIView *lineView = [[UIView alloc]initWithFrame:CGRectMake(0, self.frame.size.height - 1, self.frame.size.width, 1)];
-    lineView.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1];
-    [self addSubview:lineView];
     if (self.scrollView) { return; }
-    
     [self addScrollView];
     [self addItems];
     [self makeStyle];
     [self addBadgeViews];
+    // llb insert
+    UIView *lineView = [[UIView alloc]initWithFrame:CGRectMake(0, 35, self.frame.size.width, 1)];
+    lineView.backgroundColor = [UIColor lightGrayColor];
+    [self addSubview:lineView];
     
     if (self.selectIndex == 0) { return; }
     [self selectItemAtIndex:self.selectIndex];
