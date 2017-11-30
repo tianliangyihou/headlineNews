@@ -10,6 +10,54 @@
 #import "UIButton+EX.h"
 #import <Masonry/Masonry.h>
 #import "UIView+Frame.h"
+// 设置按钮的阴影路径 --> 提高效率
+static UIBezierPath * pathForBtn(HNButton *btn) {
+    //路径阴影
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    
+    float width = btn.bounds.size.width;
+    float height = btn.bounds.size.height;
+    float x = btn.bounds.origin.x;
+    float y = btn.bounds.origin.y;
+    float addWH = 2;
+    
+    CGPoint topLeft      = btn.bounds.origin;
+    CGPoint topMiddle = CGPointMake(x+(width/2),y-addWH);
+    CGPoint topRight     = CGPointMake(x+width,y);
+    
+    CGPoint rightMiddle = CGPointMake(x+width+addWH,y+(height/2));
+    
+    CGPoint bottomRight  = CGPointMake(x+width,y+height);
+    CGPoint bottomMiddle = CGPointMake(x+(width/2),y+height+addWH);
+    CGPoint bottomLeft   = CGPointMake(x,y+height);
+    
+    CGPoint leftMiddle = CGPointMake(x-addWH,y+(height/2));
+    [path moveToPoint:topLeft];
+    [path addQuadCurveToPoint:topRight
+                 controlPoint:topMiddle];
+    [path addQuadCurveToPoint:bottomRight
+                 controlPoint:rightMiddle];
+    [path addQuadCurveToPoint:bottomLeft
+                 controlPoint:bottomMiddle];
+    [path addQuadCurveToPoint:topLeft
+                 controlPoint:leftMiddle];
+    return path;
+}
+static inline void configMyChannelBg(HNButton *btn) {
+    btn.backgroundColor = [UIColor colorWithRed:0.96 green:0.96 blue:0.97 alpha:1];
+    btn.layer.shadowOffset =  CGSizeMake(0, 0);
+    btn.layer.shadowColor =  nil;
+    btn.layer.shadowPath = nil;
+    
+}
+static inline void configRecommondBg(HNButton *btn) {
+    btn.backgroundColor = [UIColor whiteColor];
+    btn.layer.shadowOffset =  CGSizeMake(1, 1);
+    btn.layer.shadowOpacity = 0.2;
+    btn.layer.shadowColor =  [UIColor blackColor].CGColor;
+    btn.layer.shadowPath = pathForBtn(btn).CGPath;
+}
+
 @interface HNButton()
 
 @property (nonatomic , copy)void (^myChannelBlock)(HNButton *);
@@ -30,6 +78,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        self.titleLabel.font = [UIFont systemFontOfSize:14];
         [self setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"closeicon_repost_18x18_"]];
         _deleImageView = imageView;
@@ -42,6 +91,8 @@
         [self addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
         UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(btnLong:)];
         [self addGestureRecognizer:longPress];
+        //这样并不会导致离屏渲染
+        self.layer.cornerRadius = 4;
     }
     return self;
 }
@@ -65,23 +116,23 @@
 - (void)setModel:(HNChannelModel *)model {
     _model = model;
     self.tag = model.tag;
+    self.frame = model.frame;
     if (model.isMyChannel) {
         [self setTitle:model.name forState:UIControlStateNormal];
-        [self setBackgroundImage:[UIImage imageNamed:@"common_button_white"] forState:UIControlStateNormal];
+        configMyChannelBg(self);
     }else {
         [self setTitle:[NSString stringWithFormat:@"＋%@",model.name] forState:UIControlStateNormal];
-        [self setBackgroundImage:[UIImage imageNamed:@"common_button_white_highlighted"] forState:UIControlStateNormal];
+        configRecommondBg(self);
     }
-    self.frame = model.frame;
 }
 
 - (void)reloadData {
     if (self.model.isMyChannel) {
         [self setTitle:self.model.name forState:UIControlStateNormal];
-        [self setBackgroundImage:[UIImage imageNamed:@"common_button_white"] forState:UIControlStateNormal];
+        configMyChannelBg(self);
     }else {
         [self setTitle:[NSString stringWithFormat:@"＋%@",self.model.name] forState:UIControlStateNormal];
-        [self setBackgroundImage:[UIImage imageNamed:@"common_button_white_highlighted"] forState:UIControlStateNormal];
+        configRecommondBg(self);
     }
 }
 
@@ -126,5 +177,6 @@
         }
     }
 }
+
 
 @end

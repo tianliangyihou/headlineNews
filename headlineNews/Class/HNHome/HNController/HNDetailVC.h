@@ -7,8 +7,8 @@
 //
 
 #import "HNBaseViewController.h"
-
+#import "HNHomeTitleModel.h"
 @interface HNDetailVC : HNBaseViewController
-@property (nonatomic , copy)NSString *titleName;
+@property (nonatomic , weak)HNHomeTitleModel *model;
 
 @end

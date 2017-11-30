@@ -8,11 +8,15 @@
 
 #import "HNMineVC.h"
 
-@interface HNMineVC ()
+@interface HNMineVC ()<UITableViewDelegate,UITableViewDataSource>
+@property (nonatomic , weak)UITableView *tableView;
 
 @end
 
 @implementation HNMineVC
+
+
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];

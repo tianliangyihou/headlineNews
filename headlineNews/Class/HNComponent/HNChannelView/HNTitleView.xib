@@ -22,7 +22,7 @@
                         <constraint firstAttribute="width" constant="82" id="7dD-qr-jrA"/>
                         <constraint firstAttribute="height" constant="28" id="Xgk-JN-BfT"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -32,8 +32,9 @@
                         <constraint firstAttribute="height" constant="20" id="1Ji-Y8-5Y6"/>
                         <constraint firstAttribute="width" constant="45" id="pCn-Wq-FrE"/>
                     </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <state key="normal" title="编辑">
-                        <color key="titleColor" red="0.96976126269999996" green="0.05622136036" blue="0.88122891169999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="titleColor" red="0.92659419775009155" green="0.3738425076007843" blue="0.47653532028198242" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <state key="selected" title="完成"/>
                     <connections>
@@ -63,7 +64,7 @@
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="editBtn" destination="M77-C0-oDe" id="E4T-Az-rDO"/>
+                <outlet property="editBtn" destination="M77-C0-oDe" id="F2v-cq-Bkf"/>
                 <outlet property="subtitleLabel" destination="jNX-HQ-GJB" id="tJv-CN-gxc"/>
                 <outlet property="titleLabel" destination="ESh-GN-fBk" id="kVR-nb-EZn"/>
             </connections>

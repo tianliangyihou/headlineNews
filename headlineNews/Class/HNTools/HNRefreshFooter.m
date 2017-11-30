@@ -36,6 +36,7 @@
     logo.contentMode = UIViewContentModeScaleAspectFit;
     [self addSubview:logo];
     self.imageViewLoading = logo;
+    self.automaticallyHidden = YES;
 }
 #pragma mark 在这里设置子控件的位置和尺寸
 - (void)placeSubviews

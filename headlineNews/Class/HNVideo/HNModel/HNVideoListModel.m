@@ -8,6 +8,10 @@
 
 #import "HNVideoListModel.h"
 
+@implementation HNVideoUserInfoModel
+
+@end
+
 @implementation HNVideoURLInfoModel
 
 - (NSString *)main_url {
@@ -37,7 +41,14 @@
 
 
 @implementation HNVideoListModel
-
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _playing = NO;
+    }
+    return self;
+}
 
 @end
 

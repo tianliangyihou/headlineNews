@@ -10,11 +10,24 @@
 #import "HNDetailVC.h"
 #import "UIButton+EX.h"
 #import "HNChannelView.h"
+#import "HNHomeTitleViewModel.h"
+#import "HNHomeTitleModel.h"
 @interface HNHomeVC ()<WMPageControllerDataSource,WMPageControllerDelegate>
+
+@property (nonatomic , strong)HNHomeTitleViewModel *titleViewModel;
+
+@property (nonatomic , strong)NSArray *models;
 
 @end
 
 @implementation HNHomeVC
+
+- (HNHomeTitleViewModel *)titleViewModel {
+    if (!_titleViewModel) {
+        _titleViewModel = [[HNHomeTitleViewModel alloc]init];
+    }
+    return _titleViewModel;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -23,17 +36,32 @@
         NSLog(@"%@",x);
     }];
     [self.view addSubview:bar];
+    [self configUI];
+    @weakify(self)
+    [[self.titleViewModel.titlesCommand execute:@13] subscribeNext:^(id  _Nullable x) {
+        @strongify(self);
+        self.models = x;
+        [self reloadData];
+        [self configPageVC];
+    }];
+}
+
+#pragma mark - configUI
+- (void)configUI {
+    self.menuView.backgroundColor = [UIColor whiteColor];
     self.delegate = self;
     self.dataSource = self;
     self.automaticallyCalculatesItemWidths = YES;
     self.itemMargin = 10;
+}
+
+- (void)configPageVC {
     UIButton *addBtn = UIButton.button(UIButtonTypeCustom).setShowImage([UIImage imageNamed:@"add_channel_titlbar_thin_new_16x16_"],UIControlStateNormal).backgroundImage([UIImage imageNamed:@"shadow_add_titlebar_new3_52x36_"],UIControlStateNormal);
     addBtn.frame = CGRectMake(HN_SCREEN_WIDTH - 52, 0,52,35);
     addBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
     [self.menuView addSubview:addBtn];
     [[addBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(__kindof UIControl * _Nullable x) {
-        HNChannelView *view = [[HNChannelView alloc]initWithFrame:CGRectMake(0, HN_SCREEN_HEIGHT, HN_SCREEN_WIDTH, HN_SCREEN_HEIGHT)];
-        view.backgroundColor = [UIColor lightGrayColor];
+        HNChannelView *view = [[HNChannelView alloc]initWithFrame:CGRectMake(0, HN_SCREEN_HEIGHT, HN_SCREEN_WIDTH, HN_SCREEN_HEIGHT - HN_STATUS_BAR_HEIGHT)];
         [[UIApplication sharedApplication].keyWindow addSubview:view];
         [view show];
     }];
@@ -42,30 +70,36 @@
     [RACObserve(self.scrollView, contentOffset) subscribeNext:^(id x) {
         @strongify(self);
         CGPoint offset = [x CGPointValue];
-        if (offset.x > HN_SCREEN_WIDTH * 9) {
-            self.scrollView.contentOffset = CGPointMake(HN_SCREEN_WIDTH * 9, 0);
+        if (offset.x > HN_SCREEN_WIDTH * (self.models.count - 1)) {
+            self.scrollView.contentOffset = CGPointMake(HN_SCREEN_WIDTH * (self.models.count - 1), 0);
         }
     }];
-
 }
 
+#pragma mark - WMPageController 的代理方法
 - (NSInteger)numbersOfChildControllersInPageController:(WMPageController *)pageController {
-    return 11;
+    if (self.models.count == 0 || !self.models  ) {
+        return 0;
+    }
+    return self.models.count + 1; // 这里是为了做成今日头条的效果 故此多加了一个站位的控制器
 }
 
 - (__kindof UIViewController *)pageController:(WMPageController *)pageController viewControllerAtIndex:(NSInteger)index {
+    if (index > self.models.count - 1) {
+        return  [[HNDetailVC alloc]init];
+    }
+    HNHomeTitleModel *model = self.models[index];
     HNDetailVC *detial = [[HNDetailVC alloc]init];
-    detial.titleName = [NSString stringWithFormat:@"caole %d",index];
+    detial.model = model;
     return detial;
 }
 
 - (NSString *)pageController:(WMPageController *)pageController titleAtIndex:(NSInteger)index {
-    if (index == 5) {
-        return @"去死";
-    }
-    if (index == 10) {
+    if (index > self.models.count - 1) {
         return @"       ";
+    }else {
+        HNHomeTitleModel *model = self.models[index];
+        return model.name;
     }
-    return @"推荐";
 }
 @end

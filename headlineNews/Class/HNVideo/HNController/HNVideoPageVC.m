@@ -10,18 +10,33 @@
 #import "HNVideoListViewModel.h"
 #import "HNVideoCell.h"
 #import "HNVideoListModel.h"
+#import <ZFPlayer/ZFPlayer.h>
 
 static NSString *cellID = @"cellID";
 
-@interface HNVideoPageVC ()<UITableViewDelegate,UITableViewDataSource>
+@interface HNVideoPageVC ()<UITableViewDelegate,UITableViewDataSource,ZFPlayerDelegate>
 
 @property (nonatomic , weak)UITableView *tableView;
 @property (nonatomic , strong)HNVideoListViewModel *videoListViewModel;
 @property (nonatomic , strong)NSMutableArray *videoModels;
+@property (nonatomic , strong)ZFPlayerView *playerView;
+@property (nonatomic , weak)HNVideoListModel *playingModel;
 
 @end
 
 @implementation HNVideoPageVC
+
+- (ZFPlayerView *)playerView {
+    if (!_playerView) {
+        _playerView = [ZFPlayerView sharedPlayerView];
+        _playerView.delegate = self;
+        // 当cell播放视频由全屏变为小屏时候，不回到中间位置
+        _playerView.cellPlayerOnCenter = NO;
+        // 当cell划出屏幕的时候停止播放
+        _playerView.stopPlayWhileCellNotVisable = YES;
+    }
+    return _playerView;
+}
 
 - (NSMutableArray *)videoModels {
     if (!_videoModels) {
@@ -52,31 +67,46 @@ static NSString *cellID = @"cellID";
     }
     return _tableView;
 }
+
+#pragma mark - 生命周期函数
 - (void)viewDidLoad {
     [super viewDidLoad];
-    HN_WEAK_SELF
     @weakify(self);
     self.tableView.mj_header = [HNRefreshGifHeader headerWithRefreshingBlock:^{
-        [wself.tableView.mj_header endRefreshing];
         [[self.videoListViewModel.videoListCommand execute:self.category] subscribeNext:^(id  _Nullable x) {
             @strongify(self);
             [self.videoModels removeAllObjects];
             [self.videoModels addObjectsFromArray:x];
+            // For efficiency, the table view redisplays only those rows that are visible ==> reloadData并不会刷新所有行
             [self.tableView reloadData];
             [self.tableView.mj_header endRefreshing];
         }];
     }];
+    // 这里每添加一次数据 -> insertObj
     self.tableView.mj_footer = [HNRefreshFooter footerWithRefreshingBlock:^{
         [[self.videoListViewModel.videoListCommand execute:self.category] subscribeNext:^(id  _Nullable x) {
             @strongify(self);
             [self.videoModels addObjectsFromArray:x];
-            [self.tableView reloadData];
+            NSInteger baseCount = self.videoModels.count - [x count];
+            NSMutableArray *arr = [NSMutableArray array];
+            for (int i = 0; i < [(NSArray *)x count]; i++) {
+                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:baseCount + i inSection:0];
+                [arr addObject:indexPath];
+            }
+            [self.tableView beginUpdates];
+            [self.tableView insertRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationNone];
+            [self.tableView endUpdates];
             [self.tableView.mj_footer endRefreshing];
         }];
     }];
-    self.tableView.mj_footer.automaticallyHidden = YES;
     [self.tableView.mj_header beginRefreshing];
     
+}
+
+// 页面消失时候
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.playerView resetPlayer];
 }
 
 - (void)refreshData {
@@ -96,11 +126,56 @@ static NSString *cellID = @"cellID";
     HNVideoListModel *model = self.videoModels[indexPath.row];
     HNVideoCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     cell.model = model;
+    @weakify(self);
+    [cell setImageViewCallBack:^{
+        @strongify(self);
+        HNVideoListModel *model = self.videoModels[indexPath.row];
+        model.playing = YES;
+        self.playingModel = model;
+        NSMutableDictionary *dic = @{}.mutableCopy;
+        dic[@"320P"] = model.videoModel.videoInfoModel.video_list.video_1.main_url;
+        dic[@"480p"] = model.videoModel.videoInfoModel.video_list.video_2.main_url;
+        dic[@"720p"] = model.videoModel.videoInfoModel.video_list.video_3.main_url;
+        NSURL *videoURL = [NSURL URLWithString:dic[@"480p"]];
+        ZFPlayerModel *playerModel = [[ZFPlayerModel alloc] init];
+        playerModel.title            = model.videoModel.title;
+        playerModel.videoURL         = videoURL;
+        playerModel.placeholderImageURLString = model.videoModel.videoInfoModel.poster_url;
+        playerModel.scrollView       = tableView;
+        playerModel.resolutionDic    = dic;
+        playerModel.indexPath        = indexPath;
+        playerModel.fatherViewTag = 120;
+        [self.playerView playerControlView:nil playerModel:playerModel];
+        [self.playerView autoPlayTheVideo];
+    }];
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    return 172;
+    return 225;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
+}
+#pragma mark - set playingModel
+/**
+ 重置cell的状态
+ */
+- (void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
+    HNVideoListModel *model = self.videoModels[indexPath.row];
+    if (model.playing) {
+        model.playing = NO;
+        [(HNVideoCell *)cell refreshCellStatus];
+    }
+}
+- (void)setPlayingModel:(HNVideoListModel *)playingModel {
+    if (_playingModel.playing) {
+        _playingModel.playing = NO;
+        NSInteger index = [self.videoModels indexOfObject:_playingModel];
+        HNVideoCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+        [cell refreshCellStatus];
+    }
+    _playingModel = playingModel;
 }
 @end

@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 
 @interface HNURLManager : NSObject
++ (NSString *)homeTitleURLString;
++ (NSString *)homeListURLString;
 + (NSString *)videoTitlesURLString;
 + (NSString *)videoListURLString;
++ (NSString *)microHeadlineURLString;
 @end

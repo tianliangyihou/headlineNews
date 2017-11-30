@@ -47,7 +47,7 @@
                     [subscriber sendNext:models];
                     [subscriber sendCompleted];
                 } failure:^(NSError *error) {
-                    [MBProgressHUD showError:error.localizedDescription toView:nil];
+                    // do something
                 }];
                 return nil;
             }];

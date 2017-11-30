@@ -6,8 +6,8 @@
 //  Copyright © 2017年 vcyber. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "HNBaseViewController.h"
 
-@interface HNMicroHeadlineNewVC : UIViewController
+@interface HNMicroHeadlineNewVC : HNBaseViewController
 
 @end

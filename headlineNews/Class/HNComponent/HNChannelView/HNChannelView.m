@@ -11,6 +11,7 @@
 #import "HNTitleView.h"
 #import "HNButton.h"
 #import "UIView+Frame.h"
+#import "HNHeader.h"
 
 
 #define MYCHANNEL_FRAME(i) CGRectMake(itemSpace + (i % column)* (_labelWidth + itemSpace), CGRectGetMaxY(wself.header1.frame) + lineSpace + (i / column)*(labelHeight + lineSpace), _labelWidth, labelHeight)
@@ -26,12 +27,18 @@ static CGFloat labelHeight = 40;
 
 @property (nonatomic , strong)NSMutableArray *myChannelArr;
 @property (nonatomic , strong)NSMutableArray *recommendChannelArr;
+// iOS6 之后不用自己手动回收 
 @property (nonatomic , strong)dispatch_queue_t queue;
 @property (nonatomic , strong)NSMutableArray *datas;
 @property (nonatomic , assign)CGFloat labelWidth;
 @property (nonatomic , weak)HNTitleView *header1;
 @property (nonatomic , weak)HNTitleView *header2;
 @property (nonatomic , weak)HNChannelModel *divisionModel;
+@end
+
+@interface HNHeaderView : UIView
+@property (nonatomic , copy) void(^callBack)(void);
+
 @end
 
 @implementation HNChannelView
@@ -60,19 +67,7 @@ static CGFloat labelHeight = 40;
                                                                       @"互联网法院",@"彩票",@"快乐男声",@"中国好表演",
                                                                       @"传媒"
                                                                       ]];
-        __weak typeof(self) wself = self;
-        HNTitleView *header1 = [[HNTitleView alloc]initWithTitle:@"我的频道" subTitle:@"点击进入频道" needEditBtn:YES];
-        header1.frame = CGRectMake(0, 40, self.frame.size.width, 54);
-        _header1 = header1;
-        [wself.header1 setCallBack:^(BOOL selected) {
-            [wself refreshEidtBtnWithStatus:selected];
-        }];
-        HNTitleView *header2 = [[HNTitleView alloc]initWithTitle:@"推荐频道" subTitle:@"点击添加频道" needEditBtn:NO];
-        _header2 = header2;
-        _header2.hidden = YES;
-        _header2.frame = _header2.bounds;
-        [self addSubview:header1];
-        [self addSubview:_header2];
+        [self setUI];
         _labelWidth = (self.frame.size.width - itemSpace *(column + 1))/column;
         _datas = [NSMutableArray array];
         _queue = dispatch_queue_create("com.headlineNews.queue", DISPATCH_QUEUE_SERIAL);
@@ -81,6 +76,31 @@ static CGFloat labelHeight = 40;
     }
     return self;
 }
+
+- (void)setUI {
+    __weak typeof(self) wself = self;
+    HNTitleView *header1 = [[HNTitleView alloc]initWithTitle:@"我的频道" subTitle:@"点击进入频道" needEditBtn:YES];
+    header1.frame = CGRectMake(0, 40, self.frame.size.width, 54);
+    _header1 = header1;
+    [wself.header1 setCallBack:^(BOOL selected) {
+        [wself refreshEidtBtnWithStatus:selected];
+    }];
+    HNTitleView *header2 = [[HNTitleView alloc]initWithTitle:@"推荐频道" subTitle:@"点击添加频道" needEditBtn:NO];
+    _header2 = header2;
+    _header2.hidden = YES;
+    _header2.frame = _header2.bounds;
+    
+    HNHeaderView *headerView = [[HNHeaderView alloc]initWithFrame:CGRectMake(0, 0, HN_SCREEN_WIDTH, 40)];
+    [headerView setCallBack:^{
+        [wself hide];
+    }];
+    
+    [self addSubview:headerView];
+    [self addSubview:_header1];
+    [self addSubview:_header2];
+    self.backgroundColor = [UIColor whiteColor];
+}
+
 
 - (void)configData {
     __weak typeof(self) wself = self;
@@ -167,7 +187,7 @@ static CGFloat labelHeight = 40;
 #pragma mark - 展示 和 隐藏
 - (void)show {
     [UIView animateWithDuration:0.25 animations:^{
-        self.frame = CGRectMake(0, 0, self.width, self.height);
+        self.frame = CGRectMake(0, HN_STATUS_BAR_HEIGHT, self.width, self.height);
     }];
 }
 
@@ -354,7 +374,27 @@ static CGFloat labelHeight = 40;
     }
     
 }
-
-
-
 @end
+
+@implementation HNHeaderView
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        UIButton *btn = UIButton.button(UIButtonTypeCustom).setShowImage([UIImage imageNamed:@"close_sdk_login_14x14_"],UIControlStateNormal);
+        btn.frame = CGRectMake(15, 0, 40, 40);
+        [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:btn];
+    }
+    return self;
+}
+
+- (void)btnClick:(UIButton *)btn {
+    if (_callBack) {
+        _callBack();
+    }
+}
+@end
+
+
