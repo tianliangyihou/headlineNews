@@ -7,9 +7,6 @@
 //
 
 #import "HNNetWorkManager.h"
-#import "MBProgressHUD+Add.h"
-#define request_timeOut_code -1001
-#define request_network_disconnection_code -1009
 
 static const float timeOut = 10.0;
 
@@ -38,7 +35,6 @@ static const float timeOut = 10.0;
             success(responseObject);
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [self showNetWorkError:error];
         if (failure) {
             failure(error);
         }
@@ -53,21 +49,11 @@ static const float timeOut = 10.0;
             success(responseObject);
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [self showNetWorkError:error];
         if (failure) {
             failure(error);
         }
     }];
 }
 
-+ (void)showNetWorkError:(NSError *)error {
-    if (error.code == request_timeOut_code) {
-        [MBProgressHUD showError:@"请求超时" toView:nil];
-    }else if (error.code == request_network_disconnection_code) {
-        [MBProgressHUD showError:@"无法连接网络" toView:nil];
-    }else {
-        NSString *errMsg = [NSString stringWithFormat:@"获取数据错误o(TωT)o(%ld)",(long)error.code];
-        [MBProgressHUD showError:errMsg toView:nil];
-    }
-}
+
 @end

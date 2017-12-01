@@ -9,5 +9,6 @@
 #import "HNBaseViewModel.h"
 
 @implementation HNBaseViewModel
-
+- (void)bindView:(UIView *)view {}
+- (void)bindTableView:(UITableView *)tableView {}
 @end

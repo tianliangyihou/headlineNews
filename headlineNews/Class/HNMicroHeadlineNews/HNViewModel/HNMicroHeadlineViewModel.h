@@ -7,9 +7,10 @@
 //
 
 #import "HNBaseViewModel.h"
-
+#import "HNMicroHeadlineModel.h"
 @interface HNMicroHeadlineViewModel : HNBaseViewModel
 
 @property (nonatomic , strong)RACCommand *microHeadlineCommand;
 
+- (NSArray *)cacheModels;
 @end

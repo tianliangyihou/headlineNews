@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "HNHeader.h"
 #import "HNNavigationBar.h"
-
+#import <YYCache/YYCache.h>
 @protocol BaseViewControllerRefreshProtocol <NSObject>
 
 @optional

@@ -21,20 +21,22 @@ static inline CGFloat containerWith(){
 }
 
 @interface HNImageViewContainer ()
-@property (nonatomic , strong)NSMutableArray *imageViews;
 @property (nonatomic , assign)CGFloat height;
 @property (nonatomic , strong)NSArray *models;
 
 @end
 
-@implementation HNImageViewContainer
+@implementation HNImageViewContainer {
+    NSMutableArray * _imageViews;
+}
 
 - (NSMutableArray *)imageViews {
     if (!_imageViews) {
         _imageViews = [[NSMutableArray alloc]init];
         for (int i = 0; i < 9; i++) {
             UIImageView *imageView = [[UIImageView alloc]init];
-            imageView.contentMode = UIViewContentModeScaleToFill;
+            imageView.contentMode = UIViewContentModeScaleAspectFill;
+            imageView.userInteractionEnabled = YES;
             UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(imageViewClick:)];
             [imageView addGestureRecognizer:tap];
             imageView.tag = i;
@@ -56,6 +58,7 @@ static inline CGFloat containerWith(){
 
 - (void)showWithImageModes:(NSArray *)models {
     if (models.count == 0 || !models) {
+        [self resetImageViewStatus];
         return;
     }
     if (models.count > 9) {
@@ -132,7 +135,9 @@ static inline CGFloat containerWith(){
 }
 
 - (void)imageViewClick:(UITapGestureRecognizer *)tap {
-    
+    if (_imageViewCallBack) {
+        _imageViewCallBack(tap.view.tag);
+    }
 }
 
 @end

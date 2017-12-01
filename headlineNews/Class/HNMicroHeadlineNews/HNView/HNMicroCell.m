@@ -10,12 +10,14 @@
 #import "HNHeader.h"
 #import "UIImage+EX.h"
 #import "HNImageViewContainer.h"
+#import "LBPhotoBrowserManager.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <YYText/YYText.h>
 // --> 控件比较多 使用纯代码开发
 @interface HNMicroCell()
 @property (nonatomic , weak)UILabel *nameLabel;
 @property (nonatomic , weak)UILabel *subTitleLabel;
-@property (nonatomic , weak)UILabel *titleLabel;
+@property (nonatomic , weak)YYLabel *titleLabel;
 @property (nonatomic , weak)UIButton *followBtn;
 @property (nonatomic , weak)UIButton *reasonBtn;
 @property (nonatomic , weak)UIImageView *iconImageView;
@@ -24,10 +26,27 @@
 @property (nonatomic , weak)UIButton *shareBtn;
 @property (nonatomic , weak)UILabel *readLabel;
 @property (nonatomic , weak)HNImageViewContainer *containerView;
+@property (nonatomic , strong)NSDictionary *emoticonMapper;
 
 @end
 
 @implementation HNMicroCell
+// 这里应该做个映射表 单独抽一个类 这随便写了一下 这里的映射也是随便映射的
+- (NSDictionary *)emoticonMapper {
+    return @{
+             @"[玫瑰]":[UIImage imageNamed:@"073"],
+             @"[赞]":[UIImage imageNamed:@"084"],
+             @"[泪奔]":[UIImage imageNamed:@"057"],
+             @"[小鼓掌]":[UIImage imageNamed:@"039"],
+             @"[可爱]":[UIImage imageNamed:@"059"],
+             @"[灵光一闪]":[UIImage imageNamed:@"063"],
+             @"[呲牙]":[UIImage imageNamed:@"014"],
+             @"[捂脸]":[UIImage imageNamed:@"066"],
+             @"[抠鼻]":[UIImage imageNamed:@"038"],
+             @"[机智]":[UIImage imageNamed:@"052"],
+             };
+}
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
@@ -52,17 +71,52 @@
     subTitleLabel.font = [UIFont systemFontOfSize:12];
     subTitleLabel.textColor = [UIColor lightGrayColor];
     
-    UILabel *titleLabel = [[UILabel alloc]init];
+    CGFloat lineHeight = [UIFont systemFontOfSize:14].lineHeight;
+    YYTextLinePositionSimpleModifier *modifier = [YYTextLinePositionSimpleModifier new];
+    modifier.fixedLineHeight = lineHeight;
+    YYTextSimpleEmoticonParser *parser = [YYTextSimpleEmoticonParser new];
+    parser.emoticonMapper = self.emoticonMapper;
+    YYLabel *titleLabel = [[YYLabel alloc]init];
+    titleLabel.linePositionModifier = modifier;
+    // 这个需要设置 否则高度不生效....
+    titleLabel.preferredMaxLayoutWidth = HN_SCREEN_WIDTH - 2 * 10;
+    titleLabel.numberOfLines = 6;
     titleLabel.font = [UIFont systemFontOfSize:14];
-    titleLabel.numberOfLines = 0;
+    titleLabel.textParser = parser;
+    @weakify(self);
     HNImageViewContainer *imageContainerView = [[HNImageViewContainer alloc]init];
+    [imageContainerView setImageViewCallBack:^(int tag) {
+        @strongify(self);
+        NSMutableArray *urls = [[NSMutableArray alloc]init];
+        for (HNMicroHeadlineImageModel *model in self.model.detialModel.large_image_list) {
+            [urls addObject:model.url];
+        }
+        NSMutableArray *imageViews = [[NSMutableArray alloc]init];
+        for (UIImageView *imageView in self.containerView.imageViews) {
+            if (!imageView.hidden) {
+                [imageViews addObject:imageView];
+            }
+        }
+        //https://github.com/tianliangyihou/LBPhotoBrowser
+        [[LBPhotoBrowserManager defaultManager] showImageWithURLArray:urls fromImageViews:imageViews selectedIndex:tag imageViewSuperView:self.containerView];
+        [[[LBPhotoBrowserManager defaultManager] addLongPressShowTitles:@[@"保存",@"分享",@"取消"]] addTitleClickCallbackBlock:^(UIImage *image, NSIndexPath *indexPath, NSString *title) {
+            NSLog(@"%@",title);
+        }].lowGifMemory = YES;
+        [[LBPhotoBrowserManager defaultManager] addPlaceHoldImageCallBackBlock:^UIImage *(NSIndexPath *indexPath) {
+            UIImageView *imageView = self.containerView.imageViews[indexPath.row];
+            if (imageView.image) {
+                return imageView.image;
+            }
+            return [UIImage imageNamed:@"LBLoading.png"];
+        }];
+    }];
     UILabel *readLabel = [[UILabel alloc]init];
     readLabel.font = [UIFont systemFontOfSize:12];
     readLabel.textColor = [UIColor lightGrayColor];
     
-    UIButton *starBtn = UIButton.button(UIButtonTypeCustom).setShowImage([UIImage imageNamed:@"dislikeicon_textpage_26x14_"],UIControlStateNormal).title(@"0dsad",UIControlStateNormal).titleColor([UIColor blackColor]);
-    UIButton *commentBtn = UIButton.button(UIButtonTypeCustom).setShowImage([UIImage imageNamed:@"dislikeicon_textpage_26x14_"],UIControlStateNormal).title(@"032131",UIControlStateNormal).titleColor([UIColor blackColor]);
-    UIButton *shareBtn = UIButton.button(UIButtonTypeCustom).setShowImage([UIImage imageNamed:@"dislikeicon_textpage_26x14_"],UIControlStateNormal).title(@"01233333",UIControlStateNormal).titleColor([UIColor blackColor]);
+    UIButton *starBtn = UIButton.button(UIButtonTypeCustom).setShowImage([UIImage imageNamed:@"comment_like_icon_16x16_"],UIControlStateNormal).title(@"1000",UIControlStateNormal).titleColor([UIColor blackColor]);
+    UIButton *commentBtn = UIButton.button(UIButtonTypeCustom).setShowImage([UIImage imageNamed:@"comment_feed_24x24_"],UIControlStateNormal).title(@"123",UIControlStateNormal).titleColor([UIColor blackColor]);
+    UIButton *shareBtn = UIButton.button(UIButtonTypeCustom).setShowImage([UIImage imageNamed:@"feed_share_24x24_"],UIControlStateNormal).title(@"123",UIControlStateNormal).titleColor([UIColor blackColor]);
     
     starBtn.titleLabel.font = [UIFont systemFontOfSize:12];
     [starBtn setImageEdgeInsets:UIEdgeInsetsMake(0, -5, 0, 0)];
@@ -145,8 +199,7 @@
         make.top.mas_equalTo(iconImageView.mas_bottom).offset(5);
         make.left.mas_equalTo(self.contentView).offset(10);
         make.right.mas_equalTo(self.contentView).offset(-10);
-        make.height.mas_lessThanOrEqualTo(120);
-//        make.height.mas_equalTo(30);
+        make.height.mas_lessThanOrEqualTo(lineHeight * titleLabel.numberOfLines);
     }];
     
     [imageContainerView mas_makeConstraints:^(MASConstraintMaker *make) {

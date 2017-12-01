@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface HNMicroHeadlineImageModel : NSObject
+@interface HNMicroHeadlineImageModel : NSObject<NSCoding>
 @property (nonatomic , copy)NSString *type;
 @property (nonatomic , copy)NSString *width;
 @property (nonatomic , copy)NSString *url;
@@ -16,13 +16,13 @@
 
 @end
 
-@interface HNMicroHeadlineUserModel : NSObject
+@interface HNMicroHeadlineUserModel : NSObject <NSCoding>
 @property (nonatomic , copy)NSString *name;
 @property (nonatomic , copy)NSString *desc;
 @property (nonatomic , copy)NSString *avatar_url;
 @end
 
-@interface HNMicroHeadlineDetailModel : NSObject
+@interface HNMicroHeadlineDetailModel : NSObject <NSCoding>
 @property (nonatomic , copy)NSString *content;
 @property (nonatomic , copy)NSString *verified_content;
 @property (nonatomic , assign)int read_count;
@@ -34,7 +34,7 @@
 
 @end
 
-@interface HNMicroHeadlineSummaryModel : NSObject
+@interface HNMicroHeadlineSummaryModel : NSObject <NSCoding>
 @property (nonatomic , copy)NSString *code;
 @property (nonatomic , copy)NSString *content;
 @property (nonatomic , strong)HNMicroHeadlineDetailModel *detialModel;
@@ -42,7 +42,7 @@
 
 
 
-@interface HNMicroHeadlineModel : NSObject
+@interface HNMicroHeadlineModel : NSObject <NSCoding>
 @property (nonatomic , copy)NSString *action_to_last_stick;
 @property (nonatomic , copy)NSString *has_more_to_refresh;
 @property (nonatomic , copy)NSString *message;

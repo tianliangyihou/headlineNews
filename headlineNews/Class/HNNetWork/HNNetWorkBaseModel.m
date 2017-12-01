@@ -7,7 +7,11 @@
 //
 
 #import "HNNetWorkBaseModel.h"
+#import "MBProgressHUD+Add.h"
 #import <MJExtension/MJExtension.h>
+
+#define request_timeOut_code -1001
+#define request_network_disconnection_code -1009
 @implementation HNNetWorkBaseModel
 
 + (instancetype)netWorkModelWithURLString:(NSString *)urlString isPost:(BOOL)isPost {
@@ -22,6 +26,7 @@
     self = [super init];
     if (self) {
         _isPost = YES;
+        _showNetErrorHUD = YES;
         _extraParamters = [NSMutableDictionary dictionary];
     }
     return self;
@@ -42,6 +47,9 @@
                 success(response);
             }
         } failure:^(NSError *error) {
+            if (_showNetErrorHUD) {
+                [self showNetWorkError:error];
+            }
             if (failure) {
                 failure(error);
             }
@@ -52,6 +60,9 @@
                 success(response);
             }
         } failure:^(NSError *error) {
+            if (_showNetErrorHUD) {
+                [self showNetWorkError:error];
+            }
             if (failure) {
                 failure(error);
             }
@@ -73,6 +84,9 @@
     if ([params.allKeys containsObject:@"urlString"]) {
         [params removeObjectForKey:@"urlString"];
     }
+    if ([params.allKeys containsObject:@"showNetErrorHUD"]) {
+        [params removeObjectForKey:@"showNetErrorHUD"];
+    }
     if ([params.allKeys containsObject:@"extraParamters"]) {
         [params removeObjectForKey:@"extraParamters"];
     }
@@ -84,7 +98,16 @@
     }
     return params;
 }
-
+- (void)showNetWorkError:(NSError *)error {
+    if (error.code == request_timeOut_code) {
+        [MBProgressHUD showError:@"请求超时" toView:nil];
+    }else if (error.code == request_network_disconnection_code) {
+        [MBProgressHUD showError:@"无法连接网络" toView:nil];
+    }else {
+        NSString *errMsg = [NSString stringWithFormat:@"获取数据错误o(TωT)o(%ld)",(long)error.code];
+        [MBProgressHUD showError:errMsg toView:nil];
+    }
+}
 
 - (NSString *)description {
     NSData *data = [NSJSONSerialization dataWithJSONObject:[self params] options:NSJSONWritingPrettyPrinted error:nil];

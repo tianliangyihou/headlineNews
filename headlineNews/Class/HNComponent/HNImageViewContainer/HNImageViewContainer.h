@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface HNImageViewContainer : UIView
+@property (nonatomic , strong , readonly)NSMutableArray *imageViews;
+@property (nonatomic , copy)void(^imageViewCallBack)(int tag);
 
 - (CGFloat)imageViewContainerHeight;
 - (void)showWithImageModes:(NSArray *)models;

@@ -62,25 +62,30 @@ static NSString *const cellID = @"llb.mircoCell";
     self.title = @"微头条";
     [self addRightItemWithImageName:@"follow_title_profile_night_18x18_"];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    [self.datas addObjectsFromArray:self.viewModel.cacheModels];
     // 请求数据
     @weakify(self);
     self.tableView.mj_header = [HNRefreshGifHeader headerWithRefreshingBlock:^{
-        [[self.viewModel.microHeadlineCommand execute:@15] subscribeNext:^(id  _Nullable x) {
+        [[self.viewModel.microHeadlineCommand execute:@(YES)] subscribeNext:^(id  _Nullable x) {
             @strongify(self);
             self.dataModel = x;
             [self.datas  removeAllObjects];
             [self.datas addObjectsFromArray: self.dataModel.data];
             [self.tableView reloadData];
             [self.tableView.mj_header endRefreshing];
+        }error:^(NSError * _Nullable error) {
+            [self.tableView.mj_header endRefreshing];
         }];
     }];
     
     self.tableView.mj_footer = [HNRefreshFooter footerWithRefreshingBlock:^{
-        [[self.viewModel.microHeadlineCommand execute:@15] subscribeNext:^(id  _Nullable x) {
+        [[self.viewModel.microHeadlineCommand execute:@(NO)] subscribeNext:^(id  _Nullable x) {
             @strongify(self);
             self.dataModel = x;
             [self.datas addObjectsFromArray:self.dataModel.data];
             [self.tableView reloadData];
+            [self.tableView.mj_footer endRefreshing];
+        }error:^(NSError * _Nullable error) {
             [self.tableView.mj_footer endRefreshing];
         }];
     }];

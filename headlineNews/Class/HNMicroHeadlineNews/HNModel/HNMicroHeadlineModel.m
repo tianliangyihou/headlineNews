@@ -9,10 +9,10 @@
 #import "HNMicroHeadlineModel.h"
 #import <MJExtension/MJExtension.h>
 @implementation HNMicroHeadlineImageModel
-
+MJCodingImplementation
 @end
 @implementation HNMicroHeadlineUserModel
-
+MJCodingImplementation
 @end
 @implementation HNMicroHeadlineDetailModel
 + (NSDictionary *)mj_objectClassInArray {
@@ -22,6 +22,7 @@
              @"ugc_cut_image_list" : @"HNMicroHeadlineImageModel",
              };
 }
+MJCodingImplementation
 @end
 
 @implementation HNMicroHeadlineSummaryModel
@@ -36,6 +37,7 @@
     _detialModel = model;
     return _detialModel;
 }
+MJCodingImplementation
 @end
 
 @implementation HNMicroHeadlineModel
@@ -44,4 +46,6 @@
              @"data" : @"HNMicroHeadlineSummaryModel",
              };
 }
+
+MJCodingImplementation
 @end

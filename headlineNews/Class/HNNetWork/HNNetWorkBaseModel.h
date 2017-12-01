@@ -15,8 +15,9 @@
 
 @property (nonatomic , assign)BOOL isPost;
 
-@property (nonatomic , strong)NSDictionary *extraParamters;
+@property (nonatomic , assign)BOOL showNetErrorHUD;
 
+@property (nonatomic , strong)NSDictionary *extraParamters;
 
 + (instancetype)netWorkModelWithURLString:(NSString *)urlString isPost:(BOOL)isPost;
 - (void)sendRequest;

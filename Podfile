@@ -10,5 +10,5 @@ pod 'ReactiveObjC'
 pod 'MJRefresh'
 pod 'ZFPlayer'
 pod 'Masonry'
-
+pod 'YYText'
 end
