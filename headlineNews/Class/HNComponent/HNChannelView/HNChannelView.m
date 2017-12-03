@@ -312,7 +312,8 @@ static CGFloat labelHeight = 40;
     __weak typeof(self) wself = self;
     [self newLocationTagForBtn:btn locationBlock:^(HNButton *targetBtn) {
         if (wself.divisionModel == btn.model) {
-            wself.divisionModel = targetBtn.model;
+            HNButton *divisionBtn = self.datas[btn.tag - 1];
+            wself.divisionModel = divisionBtn.model;
         }
         if (wself.divisionModel == targetBtn.model) {
             wself.divisionModel = btn.model;

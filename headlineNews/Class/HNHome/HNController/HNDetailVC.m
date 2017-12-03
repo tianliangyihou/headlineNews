@@ -65,4 +65,7 @@ static NSString *cellID = @"llb.homeCell";
     
     return 172;
 }
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+ 
+}
 @end

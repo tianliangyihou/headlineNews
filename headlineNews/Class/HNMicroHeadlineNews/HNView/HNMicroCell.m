@@ -13,6 +13,7 @@
 #import "LBPhotoBrowserManager.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <YYText/YYText.h>
+#import "HNEmitterHelper.h"
 // --> 控件比较多 使用纯代码开发
 @interface HNMicroCell()
 @property (nonatomic , weak)UILabel *nameLabel;
@@ -156,7 +157,8 @@
 
     [self.contentView addSubview:starBtn];
     _starBtn = starBtn;
-
+    [starBtn addTarget:self action:@selector(starBtnBeginAnimation:) forControlEvents:UIControlEventTouchDown];
+    [starBtn addTarget:self action:@selector(starBtnEndAnimation:) forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchUpOutside];
     [self.contentView addSubview:commentBtn];
     _commentBtn = commentBtn;
     
@@ -259,6 +261,16 @@
     [self.containerView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(self.containerView.imageViewContainerHeight);
     }];
+}
+
+#pragma mark - btn的点击事件
+
+- (void)starBtnBeginAnimation:(UIButton *)btn {
+    [[HNEmitterHelper defaultHelper] showEmitterCellsWithImages:[HNEmitterHelper defaultImages] withShock:YES onView:btn];
+}
+
+- (void)starBtnEndAnimation:(UIButton *)btn {
+    [[HNEmitterHelper defaultHelper] stopAnimation];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated{return;}

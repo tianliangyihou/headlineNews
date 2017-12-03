@@ -46,6 +46,7 @@
 		2655F28B1FC5782C0027C6C4 /* HNVideoListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2655F28A1FC5782C0027C6C4 /* HNVideoListModel.m */; };
 		2655F2921FC69C010027C6C4 /* HNVideoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2655F2901FC69C010027C6C4 /* HNVideoCell.m */; };
 		2655F2931FC69C010027C6C4 /* HNVideoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2655F2911FC69C010027C6C4 /* HNVideoCell.xib */; };
+		267F29741FD3BFC50059362A /* HNEmitterHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 267F29731FD3BFC50059362A /* HNEmitterHelper.m */; };
 		26922C6A1FCC1528002AF655 /* WMMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 26922C5E1FCC13C4002AF655 /* WMMenuItem.m */; };
 		26922C6C1FCC1528002AF655 /* WMMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 26922C5F1FCC13C5002AF655 /* WMMenuView.m */; };
 		26922C6E1FCC1528002AF655 /* WMPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 26922C5D1FCC13C4002AF655 /* WMPageController.m */; };
@@ -162,6 +163,8 @@
 		2655F2911FC69C010027C6C4 /* HNVideoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HNVideoCell.xib; sourceTree = "<group>"; };
 		2655F2951FC6A5A70027C6C4 /* HNBaseViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNBaseViewModel.h; sourceTree = "<group>"; };
 		2655F2961FC6A5A70027C6C4 /* HNBaseViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNBaseViewModel.m; sourceTree = "<group>"; };
+		267F29721FD3BFC50059362A /* HNEmitterHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNEmitterHelper.h; sourceTree = "<group>"; };
+		267F29731FD3BFC50059362A /* HNEmitterHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNEmitterHelper.m; sourceTree = "<group>"; };
 		26922C5A1FCC13C4002AF655 /* WMProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMProgressView.m; sourceTree = "<group>"; };
 		26922C5B1FCC13C4002AF655 /* WMScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMScrollView.m; sourceTree = "<group>"; };
 		26922C5C1FCC13C4002AF655 /* WMProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMProgressView.h; sourceTree = "<group>"; };
@@ -420,6 +423,7 @@
 		262437EE1FC2BB8A00BAA1B6 /* HNTools */ = {
 			isa = PBXGroup;
 			children = (
+				267F29711FD3BFB60059362A /* HNHelper */,
 				2655F26D1FC4290C0027C6C4 /* MBProgressHUD+Add.h */,
 				2655F26E1FC4290C0027C6C4 /* MBProgressHUD+Add.m */,
 				2655F2611FC40E660027C6C4 /* UIButton+EX.h */,
@@ -544,6 +548,15 @@
 				2655F2961FC6A5A70027C6C4 /* HNBaseViewModel.m */,
 			);
 			path = HNBaseViewModel;
+			sourceTree = "<group>";
+		};
+		267F29711FD3BFB60059362A /* HNHelper */ = {
+			isa = PBXGroup;
+			children = (
+				267F29721FD3BFC50059362A /* HNEmitterHelper.h */,
+				267F29731FD3BFC50059362A /* HNEmitterHelper.m */,
+			);
+			path = HNHelper;
 			sourceTree = "<group>";
 		};
 		26922C4E1FCC11A2002AF655 /* WMPageController */ = {
@@ -892,6 +905,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				267F29741FD3BFC50059362A /* HNEmitterHelper.m in Sources */,
 				26922CB51FCEB163002AF655 /* HNMicroHeadlineRequest.m in Sources */,
 				26922CA51FCE5D91002AF655 /* UIImage+EX.m in Sources */,
 				26922CEB1FD0040A002AF655 /* LBPhotoBrowserView.m in Sources */,
@@ -1092,14 +1106,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = M974WD5VWM;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/headlineNews/Other/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.vcyber.headlineNews;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "5708d420-ede9-4a6a-a1e5-bf1da6459c84";
-				PROVISIONING_PROFILE_SPECIFIER = CYW_ALL_APP_Development;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;

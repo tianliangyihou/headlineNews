@@ -9,7 +9,7 @@
 
 #import "HNMicroHeadlineViewModel.h"
 #import "HNMicroHeadlineRequest.h"
-
+#define cacheKey [NSString stringWithFormat:@"microHeadline%@",HNURLManager.microHeadlineURLString]
 /**
  缓存策略:
     1.先去数据库取数据
@@ -37,7 +37,7 @@
 
 - (NSArray *)cacheModels {
     NSMutableArray *datas = [[NSMutableArray alloc]init];
-    NSArray *models =  (NSArray *)[self.cache objectForKey:HNURLManager.microHeadlineURLString];
+    NSArray *models =  (NSArray *)[self.cache objectForKey:cacheKey];
     for (int i = 0 ; i < models.count; i++) {
         HNMicroHeadlineModel *model = models[i];
         [datas addObjectsFromArray:model.data];
@@ -95,7 +95,7 @@
     }else {
         [self.datas addObject:cacheModel];
     }
-    [self.cache setObject:self.datas forKey:HNURLManager.microHeadlineURLString withBlock:nil];
+    [self.cache setObject:self.datas forKey:cacheKey withBlock:nil];
 }
 
 @end
