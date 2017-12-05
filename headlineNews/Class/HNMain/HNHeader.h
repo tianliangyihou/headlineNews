@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <SDWebImage/UIImageView+WebCache.h>
 #import "UIView+Frame.h"
 #import <Masonry/Masonry.h>
 #import <MJRefresh/MJRefresh.h>

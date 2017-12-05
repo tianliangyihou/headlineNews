@@ -7,16 +7,28 @@
 //
 
 #import "HNDetailVC.h"
-#import "HNHomeNewsCell.h"
 #import "HNHomeNewsCellViewModel.h"
-static NSString *cellID = @"llb.homeCell";
+#import "HNHomeNewsModel.h"
+#import "HNHomeJokeModel.h"
+#import "HNHomeNewsCell.h"
+#import "HNHomeJokeCell.h"
+
+
 @interface HNDetailVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic , weak)UITableView *tableView;
 @property (nonatomic , strong)HNHomeNewsCellViewModel *newsViewModel;
+@property (nonatomic , strong)NSMutableArray *datas;
 
 @end
 
 @implementation HNDetailVC
+
+- (NSMutableArray *)datas {
+    if (!_datas) {
+        _datas = [[NSMutableArray alloc]init];
+    }
+    return _datas;
+}
 
 - (HNHomeNewsCellViewModel *)newsViewModel {
     if (!_newsViewModel) {
@@ -30,12 +42,17 @@ static NSString *cellID = @"llb.homeCell";
         UITableView *tableView = [[UITableView alloc]init];
         tableView.delegate = self;
         tableView.dataSource = self;
+        tableView.estimatedRowHeight = 152;
+        tableView.rowHeight = UITableViewAutomaticDimension;
         [self.view addSubview:tableView];
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.mas_equalTo(UIEdgeInsetsMake(0, 0, 0, 0));
         }];
-        UINib *nib = [UINib nibWithNibName:NSStringFromClass([HNHomeNewsCell class]) bundle:nil];
-        [tableView registerNib:nib forCellReuseIdentifier:cellID];
+        UINib *newsNib = [UINib nibWithNibName:NSStringFromClass([HNHomeNewsCell class]) bundle:nil];
+        [tableView registerNib:newsNib forCellReuseIdentifier:NSStringFromClass([HNHomeNewsCell class])];
+        
+        UINib *jokeNib = [UINib nibWithNibName:NSStringFromClass([HNHomeJokeCell class]) bundle:nil];
+        [tableView registerNib:jokeNib forCellReuseIdentifier:NSStringFromClass([HNHomeJokeCell class])];
         _tableView = tableView;
     }
     return _tableView;
@@ -43,9 +60,29 @@ static NSString *cellID = @"llb.homeCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[self.newsViewModel.newsCommand execute:self.model.category] subscribeNext:^(id  _Nullable x) {
+    @weakify(self);
+    self.tableView.mj_header = [HNRefreshGifHeader headerWithRefreshingBlock:^{
+        @strongify(self);
+        [[self.newsViewModel.newsCommand execute:self.model.category] subscribeNext:^(id  _Nullable x) {
+            [self.datas removeAllObjects];
+            HNHomeNewsModel *model = (HNHomeNewsModel *)x;
+            [self.datas addObjectsFromArray:model.data];
+            [self.tableView reloadData];
+            [self.tableView.mj_header endRefreshing];
+        }];
         
     }];
+    self.tableView.mj_footer = [HNRefreshFooter footerWithRefreshingBlock:^{
+        @strongify(self);
+        [[self.newsViewModel.newsCommand execute:self.model.category] subscribeNext:^(id  _Nullable x) {
+            HNHomeNewsModel *model = (HNHomeNewsModel *)x;
+            [self.datas addObjectsFromArray:model.data];
+            [self.tableView reloadData];
+            [self.tableView.mj_footer endRefreshing];
+        }];
+    }];
+    [self.tableView.mj_header beginRefreshing];
+
 }
 #pragma mark - delegate && DataSource
 
@@ -53,19 +90,30 @@ static NSString *cellID = @"llb.homeCell";
     return 1;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 20;
+    return self.datas.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    HNHomeNewsCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    return cell;
+    UITableViewCell *resultCell = nil;
+    if ([self.model.category isEqualToString:@"essay_joke"]) {
+        HNHomeJokeSummaryModel *model = self.datas[indexPath.row];
+        HNHomeJokeCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HNHomeJokeCell class])];
+        cell.model = model;
+        resultCell = cell;
+    }else if([self.model.category isEqualToString:@"组图"]) {
+        HNHomeNewsSummaryModel *model = self.datas[indexPath.row];
+        HNHomeNewsCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HNHomeNewsCell class])];
+        cell.model = model;
+        resultCell = cell;
+    }else {
+        HNHomeNewsSummaryModel *model = self.datas[indexPath.row];
+        HNHomeNewsCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HNHomeNewsCell class])];
+        cell.model = model;
+        resultCell = cell;
+    }
+    return resultCell;
+    
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    return 172;
-}
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
- 
-}
+
 @end

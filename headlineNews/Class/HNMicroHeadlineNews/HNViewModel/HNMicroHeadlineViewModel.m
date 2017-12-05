@@ -95,7 +95,7 @@
     }else {
         [self.datas addObject:cacheModel];
     }
-    [self.cache setObject:self.datas forKey:cacheKey withBlock:nil];
+    [self.cache setObject:self.datas forKey:cacheKey];
 }
 
 @end

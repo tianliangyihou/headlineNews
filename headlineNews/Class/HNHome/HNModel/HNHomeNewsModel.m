@@ -7,8 +7,42 @@
 //
 
 #import "HNHomeNewsModel.h"
+#import <MJExtension/MJExtension.h>
+
+@implementation HNHomeNewsImageModel
+@end
+
+@implementation HNHomeNewsInfoModel
++ (NSDictionary *)mj_objectClassInArray {
+    return @{
+             @"image_list" : @"HNHomeNewsImageModel"
+             };
+}
+@end
+
+@implementation HNHomeNewsSummaryModel
+- (HNHomeNewsInfoModel *)infoModel {
+    if (_infoModel) {
+        return _infoModel;
+    }
+    NSData *data = [self.content dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+    HNHomeNewsInfoModel *model = [[HNHomeNewsInfoModel alloc]init];
+    [model mj_setKeyValues:dic];
+    _infoModel = model;
+    return model;
+}
+@end
 
 @implementation HNHomeNewsModel
+
++ (NSDictionary *)mj_objectClassInArray {
+    return @{
+             @"data" : @"HNHomeNewsSummaryModel"
+             };
+}
+@end
+
 //{
 //    data =     (
 //                {
@@ -93,4 +127,4 @@
 //    "total_number" = 15;
 //}
 
-@end
+

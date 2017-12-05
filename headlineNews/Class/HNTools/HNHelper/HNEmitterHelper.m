@@ -15,7 +15,7 @@ static CGFloat sendCountEveryTime = 5;
 
 @interface HNEmitterHelper()
 
-@property (strong, nonatomic) CAEmitterLayer *explosionLayer;
+@property (nonatomic , weak) CAEmitterLayer *layer;
 @property (nonatomic , strong)NSMutableArray *cells;
 
 @end
@@ -75,48 +75,68 @@ static CGFloat sendCountEveryTime = 5;
     }
 
 }
-
-- (void)showEmitterCellsWithImages:(NSArray<UIImage *>*)images withShock:(BOOL)shouldShock onView:(UIView *)view{
+- (void)setAddLongPressAnimationView:(UIView *)addLongPressAnimationView {
+    _addLongPressAnimationView = addLongPressAnimationView;
     UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)];
     longPress.minimumPressDuration = 0.3;
-    [view addGestureRecognizer:longPress];
+    [_addLongPressAnimationView addGestureRecognizer:longPress];
+}
+- (void)showEmitterCellsWithImages:(NSArray<UIImage *>*)images withShock:(BOOL)shouldShock onView:(UIView *)view{
     for (int i = 0; i< images.count; i++) {
         CAEmitterCell *cell = self.cells[i];
         cell.contents = (__bridge id _Nullable)(images[i].CGImage);
     }
-    if (_explosionLayer) {
-        [_explosionLayer removeFromSuperlayer];
-    }
-    _explosionLayer               = [CAEmitterLayer layer];
-    _explosionLayer.name          = @"emitterLayer";
-    _explosionLayer.position  = CGPointMake(view.frame.size.width/2.0, view.frame.size.height/2.0);
-    _explosionLayer.emitterCells  = self.cells;
-    [view.layer addSublayer:_explosionLayer];
-    [self explode];
+    CAEmitterLayer *layer = [CAEmitterLayer layer];
+    layer.name = @"emitterLayer";
+    layer.position = CGPointMake(view.frame.size.width/2.0, view.frame.size.height/2.0);
+    layer.emitterCells = self.cells;
+    [view.layer addSublayer:layer];
+    [self explodeWithView:view andLayer:layer];
 
 }
 
-- (void)explode {
-    self.explosionLayer.beginTime = CACurrentMediaTime();
+- (void)explodeWithView:(UIView *)view andLayer:(CAEmitterLayer *)layer{
+    layer.beginTime = CACurrentMediaTime();
     for (int i = 0; i < sendCountEveryTime; i++) {
-        [self.explosionLayer setValue:@(sendCountEveryTime) forKeyPath:[NSString stringWithFormat:@"emitterCells.explosion_%d.birthRate",i]];
+        [layer setValue:@(sendCountEveryTime) forKeyPath:[NSString stringWithFormat:@"emitterCells.explosion_%d.birthRate",i]];
     }
-    [self performSelector:@selector(stopAnimation) withObject:nil afterDelay:0.1];
+    view.userInteractionEnabled = NO;
+    [self performSelector:@selector(stopAnimationWithObj:) withObject:layer afterDelay:0.1];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        view.userInteractionEnabled = YES;
+    });
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [layer removeFromSuperlayer];
+    });
 }
 
-- (void)stopAnimation {    
+- (void)stopAnimationWithObj:(id)obj {
     for (int i = 0; i < sendCountEveryTime; i++) {
-        [self.explosionLayer setValue:@0 forKeyPath:[NSString stringWithFormat:@"emitterCells.explosion_%d.birthRate",i]];
+        [obj setValue:@0 forKeyPath:[NSString stringWithFormat:@"emitterCells.explosion_%d.birthRate",i]];
     }
 }
 - (void)longPress:(UILongPressGestureRecognizer *)ges {
-    NSLog(@"长按手势 - HNcell");
+
     if (ges.state == UIGestureRecognizerStateBegan) {
-        for (int i = 0; i < sendCountEveryTime; i++) {
-            [self.explosionLayer setValue:@5 forKeyPath:[NSString stringWithFormat:@"emitterCells.explosion_%d.birthRate",i]];
+        CAEmitterLayer *layer               = [CAEmitterLayer layer];
+        layer.name          = @"emitterLayer";
+        layer.position  = CGPointMake(ges.view.frame.size.width/2.0, ges.view.frame.size.height/2.0);
+        NSArray *images =  [[self class] defaultImages];
+        for (int i = 0; i<images.count; i++) {
+            CAEmitterCell *cell = self.cells[i];
+            cell.contents = CFBridgingRelease([images[i] CGImage]);
         }
+        layer.emitterCells = self.cells;
+        [ges.view.layer addSublayer:layer];
+        layer.beginTime = CACurrentMediaTime();
+        for (int i = 0; i < sendCountEveryTime; i++) {
+            [layer setValue:@(sendCountEveryTime) forKeyPath:[NSString stringWithFormat:@"emitterCells.explosion_%d.birthRate",i]];
+        }
+        _layer = layer;
+    
     }else if (ges.state == UIGestureRecognizerStateEnded || ges.state == UIGestureRecognizerStateCancelled){
-        [self stopAnimation];
+        [self stopAnimationWithObj:_layer];
     }
 }
+
 @end

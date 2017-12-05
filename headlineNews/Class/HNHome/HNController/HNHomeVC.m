@@ -81,7 +81,7 @@
     if (self.models.count == 0 || !self.models  ) {
         return 0;
     }
-    return self.models.count + 1; // 这里是为了做成今日头条的效果 故此多加了一个站位的控制器
+    return self.models.count + 1; // 这里是为了做成今日头条的效果 故此多加了一个占位的控制器
 }
 
 - (__kindof UIViewController *)pageController:(WMPageController *)pageController viewControllerAtIndex:(NSInteger)index {

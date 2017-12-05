@@ -157,8 +157,8 @@
 
     [self.contentView addSubview:starBtn];
     _starBtn = starBtn;
+    [HNEmitterHelper defaultHelper].addLongPressAnimationView = starBtn;
     [starBtn addTarget:self action:@selector(starBtnBeginAnimation:) forControlEvents:UIControlEventTouchDown];
-    [starBtn addTarget:self action:@selector(starBtnEndAnimation:) forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchUpOutside];
     [self.contentView addSubview:commentBtn];
     _commentBtn = commentBtn;
     
@@ -267,10 +267,6 @@
 
 - (void)starBtnBeginAnimation:(UIButton *)btn {
     [[HNEmitterHelper defaultHelper] showEmitterCellsWithImages:[HNEmitterHelper defaultImages] withShock:YES onView:btn];
-}
-
-- (void)starBtnEndAnimation:(UIButton *)btn {
-    [[HNEmitterHelper defaultHelper] stopAnimation];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated{return;}

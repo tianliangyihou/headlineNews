@@ -14,4 +14,5 @@
 @property (nonatomic , copy)NSString *iid;
 @property (nonatomic , copy)NSString *device_platform;
 @property (nonatomic , copy)NSString *version_code;
+
 @end

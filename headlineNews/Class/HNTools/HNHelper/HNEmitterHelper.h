@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface HNEmitterHelper : NSObject
+// 需要长按手势的View
+@property (nonatomic , weak)UIView *addLongPressAnimationView;
+
 + (instancetype)defaultHelper;
 - (void)showEmitterCellsWithImages:(NSArray<UIImage *>*)images withShock:(BOOL)shouldShock onView:(UIView *)view;
-- (void)stopAnimation;
 + (NSArray <UIImage *>*)defaultImages;
 @end

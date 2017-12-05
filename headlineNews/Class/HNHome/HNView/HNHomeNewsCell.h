@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "HNHomeNewsModel.h"
 @interface HNHomeNewsCell : UITableViewCell
+@property (nonatomic , strong)HNHomeNewsSummaryModel *model;
 
 @end

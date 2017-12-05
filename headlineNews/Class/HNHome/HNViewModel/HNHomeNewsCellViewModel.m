@@ -12,6 +12,7 @@
 #import "HNHomeNewsCellViewModel.h"
 #import "HNHomeNewsRequest.h"
 #import "HNHomeNewsModel.h"
+#import "HNHomeJokeModel.h"
 @implementation HNHomeNewsCellViewModel
 - (instancetype)init
 {
@@ -27,15 +28,19 @@
                 request.category = input;
                 [request sendRequestWithSuccess:^(id response) {
                     NSDictionary *responseDic = (NSDictionary *)response;
-                    NSArray *dataArr = responseDic[@"data"];
-                    NSMutableArray *models = [[NSMutableArray alloc]init];
-                    for (int i = 0 ; i < dataArr.count; i++) {
-                        HNHomeNewsModel *model = [[[HNHomeNewsModel alloc]init] mj_setKeyValues:dataArr[i]];
-                        NSData *data1 = [model.content dataUsingEncoding:NSUTF8StringEncoding];
-                        NSDictionary *dic1 = [NSJSONSerialization JSONObjectWithData:data1 options:NSJSONReadingMutableContainers error:nil];
-                        [models addObject:model];
+                    if ([input isEqualToString:@"essay_joke"]) {
+                        HNHomeJokeModel *model = [[HNHomeJokeModel alloc]init];
+                        [model mj_setKeyValues:responseDic];
+                        [model.data makeObjectsPerformSelector:@selector(infoModel)];
+                        [subscriber sendNext:model];
+                        [subscriber sendCompleted];
+                    }else {
+                        HNHomeNewsModel *model = [[HNHomeNewsModel alloc]init];
+                        [model mj_setKeyValues:responseDic];
+                        [model.data makeObjectsPerformSelector:@selector(infoModel)];
+                        [subscriber sendNext:model];
+                        [subscriber sendCompleted];
                     }
-                    
                 } failure:^(NSError *error) {
                     // do something
                 }];
