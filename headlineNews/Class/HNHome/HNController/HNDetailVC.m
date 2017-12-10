@@ -12,7 +12,7 @@
 #import "HNHomeJokeModel.h"
 #import "HNHomeNewsCell.h"
 #import "HNHomeJokeCell.h"
-
+#import "HNHomeWebVC.h"
 
 @interface HNDetailVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic , weak)UITableView *tableView;
@@ -69,8 +69,8 @@
             [self.datas addObjectsFromArray:model.data];
             [self.tableView reloadData];
             [self.tableView.mj_header endRefreshing];
+            [HNNotificationCenter postNotificationName:KHomeStopRefreshNot object:nil];
         }];
-        
     }];
     self.tableView.mj_footer = [HNRefreshFooter footerWithRefreshingBlock:^{
         @strongify(self);
@@ -83,6 +83,10 @@
     }];
     [self.tableView.mj_header beginRefreshing];
 
+}
+
+- (void)needRefreshTableViewData {
+    [self.tableView.mj_header beginRefreshing];
 }
 #pragma mark - delegate && DataSource
 
@@ -113,6 +117,14 @@
     }
     return resultCell;
     
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self.model.category isEqualToString:@"组图"]) {
+        HNHomeNewsSummaryModel *model = self.datas[indexPath.row];
+        HNHomeWebVC *webVC = [[HNHomeWebVC alloc]init];
+        webVC.urlString = model.infoModel.article_url;
+        [self.navigationController pushViewController:webVC animated:YES];
+    }
 }
 
 

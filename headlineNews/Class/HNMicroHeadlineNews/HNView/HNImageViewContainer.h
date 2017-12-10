@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "HNMicroLayout.h"
 @interface HNImageViewContainer : UIView
+
 @property (nonatomic , strong , readonly)NSMutableArray *imageViews;
 @property (nonatomic , copy)void(^imageViewCallBack)(int tag);
 
 - (CGFloat)imageViewContainerHeight;
-- (void)showWithImageModes:(NSArray *)models;
+- (void)showWithImageLayout:(HNMicroLayout *)layout;
 @end

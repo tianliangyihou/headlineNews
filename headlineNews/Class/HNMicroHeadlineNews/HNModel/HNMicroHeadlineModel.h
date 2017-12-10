@@ -31,7 +31,6 @@
 @property (nonatomic , strong)NSArray *large_image_list;
 @property (nonatomic , strong)NSArray *thumb_image_list;
 @property (nonatomic , strong)NSArray *ugc_cut_image_list;
-
 @end
 
 @interface HNMicroHeadlineSummaryModel : NSObject <NSCoding>

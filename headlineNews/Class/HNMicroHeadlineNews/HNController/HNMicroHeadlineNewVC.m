@@ -44,9 +44,9 @@ static NSString *const cellID = @"llb.mircoCell";
         UITableView *tableView = [[UITableView alloc]init];
         tableView.delegate = self;
         tableView.dataSource = self;
-        // 数据复杂效率低
-        tableView.estimatedRowHeight = 400;
-        tableView.rowHeight = UITableViewAutomaticDimension;
+        // 数据复杂效率低 这里才去抛弃的做法
+        //tableView.estimatedRowHeight = 400;
+        //tableView.rowHeight = UITableViewAutomaticDimension;
         [self.view addSubview:tableView];
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.mas_equalTo(UIEdgeInsetsMake(40, 0, 0, 0));
@@ -62,15 +62,15 @@ static NSString *const cellID = @"llb.mircoCell";
     self.title = @"微头条";
     [self addRightItemWithImageName:@"follow_title_profile_night_18x18_"];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-    [self.datas addObjectsFromArray:self.viewModel.cacheModels];
+    [self.datas addObjectsFromArray:self.viewModel.cacheLayouts];
     // 请求数据
     @weakify(self);
     self.tableView.mj_header = [HNRefreshGifHeader headerWithRefreshingBlock:^{
         [[self.viewModel.microHeadlineCommand execute:@(YES)] subscribeNext:^(id  _Nullable x) {
             @strongify(self);
-            self.dataModel = x;
+            //self.dataModel = x;
             [self.datas  removeAllObjects];
-            [self.datas addObjectsFromArray: self.dataModel.data];
+            [self.datas addObjectsFromArray: x];
             [self.tableView reloadData];
             [self.tableView.mj_header endRefreshing];
         }error:^(NSError * _Nullable error) {
@@ -81,8 +81,8 @@ static NSString *const cellID = @"llb.mircoCell";
     self.tableView.mj_footer = [HNRefreshFooter footerWithRefreshingBlock:^{
         [[self.viewModel.microHeadlineCommand execute:@(NO)] subscribeNext:^(id  _Nullable x) {
             @strongify(self);
-            self.dataModel = x;
-            [self.datas addObjectsFromArray:self.dataModel.data];
+            //self.dataModel = x;
+            [self.datas addObjectsFromArray:x];
             [self.tableView reloadData];
             [self.tableView.mj_footer endRefreshing];
         }error:^(NSError * _Nullable error) {
@@ -92,7 +92,9 @@ static NSString *const cellID = @"llb.mircoCell";
     [self.tableView.mj_header beginRefreshing];
 }
 
-
+- (void)needRefreshTableViewData {
+    [self.tableView.mj_header beginRefreshing];
+}
 #pragma mark - delegate && DataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -104,8 +106,11 @@ static NSString *const cellID = @"llb.mircoCell";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HNMicroCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    cell.model = self.datas[indexPath.row];
+    cell.layout = self.datas[indexPath.row];
     return cell;
 }
-
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    HNMicroLayout *layout = self.datas[indexPath.row];
+    return layout.height;
+}
 @end

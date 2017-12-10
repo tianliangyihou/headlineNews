@@ -54,11 +54,24 @@
     [self addChildViewControllerWithClass:[HNMicroHeadlineNewVC class] imageName:@"weitoutiao_tabbar_32x32_" selectedImageName:@"weitoutiao_tabbar_press_32x32_" title:@"微头条"];
     [self addChildViewControllerWithClass:[HNMineVC class] imageName:@"mine_tabbar_32x32_" selectedImageName:@"mine_tabbar_press_32x32_" title:@"我的"];
     self.delegate = self;
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self.tabBar showBadgeOnItemIndex:0 andWithBadgeNumber:100];
+    
+    @weakify(self);
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        @strongify(self);
+        [self.tabBar showBadgeOnItemIndex:0 andWithBadgeNumber:15];
+    });
+     [[RACScheduler mainThreadScheduler]afterDelay:1.5 * 60 schedule:^{
+        [self.tabBar showBadgeOnItemIndex:0 andWithBadgeNumber:20];
+    }];
+    [[HNNotificationCenter rac_addObserverForName:KHomeStopRefreshNot object:nil] subscribeNext:^(NSNotification * _Nullable x) {
+        @strongify(self);
+        [self.tabBar hideBadgeOnItemIndex:0];
+        if (self.swappableImageView) {
+            [self.swappableImageView stopRotationAnimation];
+        }
+        self.homeNav.tabBarItem.image = [[UIImage imageNamed:@"home_tabbar_32x32_"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        self.homeNav.tabBarItem.selectedImage = [[UIImage imageNamed:@"home_tabbar_press_32x32_"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    }];
 }
 
 // 添加子控制器

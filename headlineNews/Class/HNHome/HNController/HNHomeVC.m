@@ -35,7 +35,6 @@
     [bar.searchSubjuct subscribeNext:^(id  _Nullable x) {
         NSLog(@"%@",x);
     }];
-    [self.view addSubview:bar];
     [self configUI];
     @weakify(self)
     [[self.titleViewModel.titlesCommand execute:@13] subscribeNext:^(id  _Nullable x) {
@@ -44,11 +43,11 @@
         [self reloadData];
         [self configPageVC];
     }];
+    
 }
 
 #pragma mark - configUI
 - (void)configUI {
-    self.menuView.backgroundColor = [UIColor whiteColor];
     self.delegate = self;
     self.dataSource = self;
     self.automaticallyCalculatesItemWidths = YES;
@@ -74,6 +73,13 @@
             self.scrollView.contentOffset = CGPointMake(HN_SCREEN_WIDTH * (self.models.count - 1), 0);
         }
     }];
+}
+
+
+#pragma mark - 需要刷新
+- (void)needRefreshTableViewData {
+    HNDetailVC *dvc = (HNDetailVC *)self.currentViewController;
+    [dvc needRefreshTableViewData];
 }
 
 #pragma mark - WMPageController 的代理方法

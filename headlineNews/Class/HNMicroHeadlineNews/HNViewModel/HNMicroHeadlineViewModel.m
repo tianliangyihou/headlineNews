@@ -9,6 +9,7 @@
 
 #import "HNMicroHeadlineViewModel.h"
 #import "HNMicroHeadlineRequest.h"
+#import "HNMicroLayout.h"
 #define cacheKey [NSString stringWithFormat:@"microHeadline%@",HNURLManager.microHeadlineURLString]
 /**
  缓存策略:
@@ -19,11 +20,8 @@
  */
 @interface HNMicroHeadlineViewModel ()
 
-@property (nonatomic , strong)HNMicroHeadlineModel *cacheModel;
-
 @property (nonatomic , strong)NSMutableArray *datas;
 
-@property (nonatomic , strong)YYCache *cache;
 @end
 
 @implementation HNMicroHeadlineViewModel
@@ -35,22 +33,17 @@
     return _datas;
 }
 
-- (NSArray *)cacheModels {
-    NSMutableArray *datas = [[NSMutableArray alloc]init];
-    NSArray *models =  (NSArray *)[self.cache objectForKey:cacheKey];
-    for (int i = 0 ; i < models.count; i++) {
-        HNMicroHeadlineModel *model = models[i];
-        [datas addObjectsFromArray:model.data];
-    }
-    return datas;
+- (NSArray *)cacheLayouts {
+    NSArray *layouts =  (NSArray *)[[HNDiskCacheHelper defaultHelper] objectForKey:cacheKey];
+    return layouts;
 }
 
 - (instancetype)init
 {
     self = [super init];
     if (self) {
-        _cache = [YYCache cacheWithName:@"HN_Micro"];
         @weakify(self);
+        [[HNDiskCacheHelper defaultHelper] setMaxArrayCount:4 forKey:cacheKey];
         _microHeadlineCommand = [[RACCommand alloc]initWithSignalBlock:^RACSignal * _Nonnull(id  _Nullable input) {
             return [RACSignal createSignal:^RACDisposable * _Nullable(id<RACSubscriber>  _Nonnull subscriber) {
                @strongify(self)
@@ -71,31 +64,42 @@
     @weakify(self);
     [request sendRequestWithSuccess:^(id response) {
         @strongify(self);
-        HNMicroHeadlineModel *model = [[HNMicroHeadlineModel alloc]init];
-        [model mj_setKeyValues:response];
-        [model.data makeObjectsPerformSelector:@selector(detialModel)];
-        if ([model.message isEqualToString:@"success"]) {
-            [subscriber sendNext:model];
-            [subscriber sendCompleted];
-        }else {
-            [MBProgressHUD showError:HN_ERROR_SERVER toView:nil];
-        }
-        [self setCacheModel:model withRefresh:input];
+        // --> 复杂的模型处理应该放在异步
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            HNMicroHeadlineModel *model = [[HNMicroHeadlineModel alloc]init];
+            [model mj_setKeyValues:response];
+            [model.data makeObjectsPerformSelector:@selector(detialModel)];
+            NSMutableArray *layouts = [[NSMutableArray alloc]init];
+            [model.data enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                HNMicroHeadlineSummaryModel *model = (HNMicroHeadlineSummaryModel *)obj;
+                HNMicroLayout *layout = [[HNMicroLayout alloc]initWithMicroHeadlineModel:model];
+                [layouts addObject:layout];
+            }];
+            HN_ASYN_GET_MAIN(
+                             if ([model.message isEqualToString:@"success"]) {
+                                 [self setCacheLayouts:layouts withRefresh:input];
+                                 [subscriber sendNext:layouts];
+                                 [subscriber sendCompleted];
+                             }else {
+                                 [MBProgressHUD showError:HN_ERROR_SERVER toView:nil];
+                             }
+                             );
+        });
     } failure:^(NSError *error) {
         // do something
         [subscriber sendError:error];
     }];
 }
 
-- (void)setCacheModel:(HNMicroHeadlineModel *)cacheModel withRefresh:(id)isRefresh{
-    _cacheModel = cacheModel;
+- (void)setCacheLayouts:(NSArray *)layouts withRefresh:(id)isRefresh{
+
     if ([isRefresh boolValue]) {
         [self.datas removeAllObjects];
-        [self.datas addObject:cacheModel];
+        [self.datas addObjectsFromArray:layouts];
     }else {
-        [self.datas addObject:cacheModel];
+        [self.datas addObjectsFromArray:layouts];
     }
-    [self.cache setObject:self.datas forKey:cacheKey];
+    [[HNDiskCacheHelper defaultHelper] setObject:self.datas forKey:cacheKey withBlock:nil];
 }
 
 @end

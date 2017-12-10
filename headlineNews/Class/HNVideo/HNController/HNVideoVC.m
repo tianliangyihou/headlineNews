@@ -37,7 +37,6 @@
     [bar.searchSubjuct subscribeNext:^(id  _Nullable x) {
         NSLog(@"%@",x);
     }];
-    [self.view addSubview:bar];
     self.delegate = self;
     self.dataSource = self;
     self.automaticallyCalculatesItemWidths = YES;
@@ -74,7 +73,7 @@
 
 - (void)needRefreshTableViewData {
     HNVideoPageVC *pageVC = (HNVideoPageVC *)self.currentViewController;
-    [pageVC refreshData];
+    [pageVC needRefreshTableViewData];
 }
 
 

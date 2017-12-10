@@ -29,6 +29,7 @@
 @property (nonatomic , copy)NSString *keywords;
 @property (nonatomic , assign)int cell_type;
 
+@property (nonatomic , copy)NSString *article_url;
 
 @end
 

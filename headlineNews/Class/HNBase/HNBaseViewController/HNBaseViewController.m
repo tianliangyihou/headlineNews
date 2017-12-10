@@ -60,8 +60,11 @@
     
 }
 - (HNNavigationBar *)showCustomNavBar {
-    self.navigationController.navigationBar.hidden = YES;
     HNNavigationBar *bar = [HNNavigationBar navigationBar];
+    self.navigationItem.titleView = bar;
     return bar;
 }
+
+
+
 @end

@@ -10,5 +10,4 @@
 
 @interface HNVideoPageVC : HNBaseViewController
 @property (nonatomic , copy)NSString *category;
-- (void)refreshData;
 @end

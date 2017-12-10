@@ -14,11 +14,7 @@
 #import "HNMicroHeadlineModel.h"
 #import "UIView+Frame.h"
 #import <SDWebImage/UIImageView+WebCache.h>
-static CGFloat itemSpace = 5;
 
-static inline CGFloat containerWith(){
-    return [UIScreen mainScreen].bounds.size.width - 2 * 10;
-}
 
 @interface HNImageViewContainer ()
 @property (nonatomic , assign)CGFloat height;
@@ -36,6 +32,8 @@ static inline CGFloat containerWith(){
         for (int i = 0; i < 9; i++) {
             UIImageView *imageView = [[UIImageView alloc]init];
             imageView.contentMode = UIViewContentModeScaleAspectFill;
+            imageView.backgroundColor = [UIColor lightGrayColor];
+            imageView.layer.masksToBounds = YES;
             imageView.userInteractionEnabled = YES;
             UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(imageViewClick:)];
             [imageView addGestureRecognizer:tap];
@@ -56,9 +54,14 @@ static inline CGFloat containerWith(){
     return self;
 }
 
-- (void)showWithImageModes:(NSArray *)models {
+- (void)showWithImageLayout:(HNMicroLayout *)layout {
+    _height = 0;
+    NSArray *models = layout.model.detialModel.large_image_list;
     if (models.count == 0 || !models) {
-        [self resetImageViewStatus];
+        [self.imageViews enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            UIImageView *imageView = ( UIImageView *)obj;
+            imageView.hidden = YES;
+        }];
         return;
     }
     if (models.count > 9) {
@@ -69,53 +72,16 @@ static inline CGFloat containerWith(){
         models = arr;
     }
     _models = models;
-    _height = 0;
-    switch (models.count) {
-        case 1:
-        {
-            HNMicroHeadlineImageModel *model = models.firstObject;
-            UIImageView *imageView = (UIImageView *)self.imageViews.firstObject;
-            imageView.frame = CGRectMake(0, 0,200,150);
-            [imageView sd_setImageWithURL:[NSURL URLWithString:model.url]];
-            _height = imageView.height;
-        }
-            break;
-        case 2:
-            [self layoutModel_2];
-            break;
-        default:
-            [self layoutModelAny];
-    }
     [self resetImageViewStatus];
-}
-
-- (void)layoutModel_2 {
-    
-    HNMicroHeadlineImageModel *firstModel = self.models.firstObject;
-    HNMicroHeadlineImageModel *lastModel = self.models.lastObject;
-    UIImageView *firstImageView = self.imageViews.firstObject;
-    UIImageView *lastImageView = self.imageViews[1];
-    CGFloat width = (containerWith() - itemSpace)/2.0;
-    firstImageView.frame = CGRectMake(0, 0, width, width);
-    lastImageView.frame = CGRectMake(firstImageView.width+itemSpace, 0, width, width);
-    [firstImageView sd_setImageWithURL:[NSURL URLWithString:firstModel.url]];
-    [lastImageView sd_setImageWithURL:[NSURL URLWithString:lastModel.url]];
-    _height = firstImageView.height;
-}
-
-- (void)layoutModelAny {
-    int column = self.models.count == 4 ? 2 : 3;
-    CGFloat itemWidth = (containerWith() - 2 * itemSpace) / 3;
-    CGFloat itemHeight = itemWidth;
-    for (int i = 0; i < self.models.count; i++) {
-        UIImageView *imageView = self.imageViews[i];
-        CGFloat x = (i % column) * (itemSpace + itemWidth) ;
-        CGFloat y = (i / column) * (itemSpace + itemHeight);
-        imageView.frame = CGRectMake(x, y, itemWidth, itemHeight);
-        HNMicroHeadlineImageModel *model = self.models[i];
+    __weak typeof(self) wself = self;
+    [layout.picFrameArrays enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        CGRect frame = [(NSValue *)obj CGRectValue];
+        UIImageView *imageView =  wself.imageViews[idx];
+        imageView.frame = frame;
+        HNMicroHeadlineImageModel *model = models[idx];
         [imageView sd_setImageWithURL:[NSURL URLWithString:model.url]];
-        _height = CGRectGetMaxY(imageView.frame);
-    }
+    }];
+    _height =  CGRectGetMaxY([layout.picFrameArrays.lastObject CGRectValue]);
 }
 
 - (void)resetImageViewStatus {
@@ -136,7 +102,7 @@ static inline CGFloat containerWith(){
 
 - (void)imageViewClick:(UITapGestureRecognizer *)tap {
     if (_imageViewCallBack) {
-        _imageViewCallBack(tap.view.tag);
+        _imageViewCallBack((int)tap.view.tag);
     }
 }
 

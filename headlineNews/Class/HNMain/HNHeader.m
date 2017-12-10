@@ -9,3 +9,5 @@
 #import "HNHeader.h"
 
 NSString *HN_BASE_URL = @"https://is.snssdk.com/";
+NSString *KHomeStopRefreshNot = @"homeStopRefreshNot";
+

@@ -10,5 +10,4 @@
 #import "HNHomeTitleModel.h"
 @interface HNDetailVC : HNBaseViewController
 @property (nonatomic , weak)HNHomeTitleModel *model;
-
 @end

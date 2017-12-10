@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "HNMicroHeadlineModel.h"
+#import "HNMicroLayout.h"
 @interface HNMicroCell : UITableViewCell
-@property (nonatomic , strong)HNMicroHeadlineSummaryModel *model;
+@property (nonatomic , strong)HNMicroLayout *layout;
 
 @end

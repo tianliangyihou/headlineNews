@@ -20,7 +20,7 @@
 @implementation HNNavigationBar
 
 + (instancetype)navigationBar {
-    HNNavigationBar *bar = [[HNNavigationBar alloc]initWithFrame:CGRectMake(0, 0, HN_SCREEN_WIDTH, HN_NAVIGATION_BAR_HEIGHT)];
+    HNNavigationBar *bar = [[HNNavigationBar alloc]initWithFrame:CGRectMake(0, 0, HN_SCREEN_WIDTH - 24, 44)];
     bar.backgroundColor = [UIColor colorWithRed:0.83 green:0.24 blue:0.24 alpha:1];
     return bar;
 }
@@ -51,11 +51,11 @@
             make.width.mas_equalTo(72);
             make.height.mas_equalTo(20);
             make.bottom.mas_equalTo(self).offset(-11);
-            make.left.mas_equalTo(self).offset(20);
+            make.left.mas_equalTo(self).offset(8);
         }];
         [searchBar mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(imageView.mas_right).offset(15);
-            make.right.mas_equalTo(self).offset(-20);
+            make.right.mas_equalTo(self).offset(-8);
             make.bottom.mas_equalTo(self).offset(-9);
             make.height.mas_equalTo(26);
         }];
@@ -70,8 +70,10 @@
     [_searchSubjuct sendNext: textField];
     return NO;
 }
-
-
+// 重写适配11
+- (CGSize)intrinsicContentSize {
+    return CGSizeMake(HN_SCREEN_WIDTH - 24, 44.f);
+}
 @end
 
 @implementation HNSearchBar

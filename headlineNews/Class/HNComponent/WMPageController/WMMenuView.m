@@ -295,9 +295,10 @@ static NSInteger const WMBadgeViewTagOffset = 1212;
     [self makeStyle];
     [self addBadgeViews];
     // llb insert
-    UIView *lineView = [[UIView alloc]initWithFrame:CGRectMake(0, 35, self.frame.size.width, 1)];
+    UIView *lineView = [[UIView alloc]initWithFrame:CGRectMake(0, 35,[UIScreen mainScreen].bounds.size.width, 1)];
     lineView.backgroundColor = [UIColor lightGrayColor];
     [self addSubview:lineView];
+    self.backgroundColor = [UIColor whiteColor];
     
     if (self.selectIndex == 0) { return; }
     [self selectItemAtIndex:self.selectIndex];

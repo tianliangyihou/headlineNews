@@ -18,14 +18,11 @@
     [super awakeFromNib];
     // Initialization code
 }
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
 - (void)setModel:(HNHomeJokeSummaryModel *)model {
     _model = model;
     _contentLabel.text = model.infoModel.content;
 }
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated{return;}
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated{return;}
 @end

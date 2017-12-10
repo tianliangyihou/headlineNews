@@ -8,7 +8,7 @@
 
 #import "HNNavigationController.h"
 #import "HNHeader.h"
-@interface HNNavigationController ()
+@interface HNNavigationController ()<UIGestureRecognizerDelegate>
 
 @end
 
@@ -44,6 +44,29 @@
     UIGraphicsEndImageContext();
     return theImage;
 }
+- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    if (self.childViewControllers.count >= 1) {
+        viewController.hidesBottomBarWhenPushed = YES;
+    }
+    [super pushViewController:viewController animated:animated];
+}
 
+-(void)viewDidLoad {
+    [super viewDidLoad];
+    [self addCustomGesPop];
+}
+
+- (void)addCustomGesPop {
+    
+    id target = self.interactivePopGestureRecognizer.delegate;
+    
+    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:target action:@selector(handleNavigationTransition:)];
+
+    pan.delegate = self;
+    
+    [self.view addGestureRecognizer:pan];
+    
+    self.interactivePopGestureRecognizer.enabled = NO;
+}
 
 @end

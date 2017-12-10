@@ -11,10 +11,12 @@
 #import "UIImage+EX.h"
 #import "HNImageViewContainer.h"
 #import "LBPhotoBrowserManager.h"
+#import "HNEmitterHelper.h"
+#import "HNEmoticonHelper.h"
+
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <YYText/YYText.h>
-#import "HNEmitterHelper.h"
-// --> 控件比较多 使用纯代码开发
+
 @interface HNMicroCell()
 @property (nonatomic , weak)UILabel *nameLabel;
 @property (nonatomic , weak)UILabel *subTitleLabel;
@@ -27,69 +29,51 @@
 @property (nonatomic , weak)UIButton *shareBtn;
 @property (nonatomic , weak)UILabel *readLabel;
 @property (nonatomic , weak)HNImageViewContainer *containerView;
-@property (nonatomic , strong)NSDictionary *emoticonMapper;
 
 @end
 
 @implementation HNMicroCell
-// 这里应该做个映射表 单独抽一个类 这随便写了一下 这里的映射也是随便映射的
-- (NSDictionary *)emoticonMapper {
-    return @{
-             @"[玫瑰]":[UIImage imageNamed:@"073"],
-             @"[赞]":[UIImage imageNamed:@"084"],
-             @"[泪奔]":[UIImage imageNamed:@"057"],
-             @"[小鼓掌]":[UIImage imageNamed:@"039"],
-             @"[可爱]":[UIImage imageNamed:@"059"],
-             @"[灵光一闪]":[UIImage imageNamed:@"063"],
-             @"[呲牙]":[UIImage imageNamed:@"014"],
-             @"[捂脸]":[UIImage imageNamed:@"066"],
-             @"[抠鼻]":[UIImage imageNamed:@"038"],
-             @"[机智]":[UIImage imageNamed:@"052"],
-             };
-}
+
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         [self configUI];
+        [self configFrame];
     }
     return self;
 }
 
 - (void)configUI {
     UIImageView *iconImageView = [[UIImageView alloc]init];
-    
+
     UILabel *nameLabel = [[UILabel alloc]init];
-    nameLabel.font = [UIFont systemFontOfSize:14];
+    nameLabel.font = hn_cell_name_Label_Font;
+    
     UIButton *followBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    followBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+    followBtn.titleLabel.font = hn_cell_name_Label_Font;
     [followBtn setTitle:@"关注" forState:UIControlStateNormal];
     [followBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     
     UIButton *reasonBtn = UIButton.button(UIButtonTypeCustom).setShowImage([UIImage imageNamed:@"dislikeicon_textpage_26x14_"],UIControlStateNormal);
     
     UILabel *subTitleLabel = [[UILabel alloc]init];
-    subTitleLabel.font = [UIFont systemFontOfSize:12];
+    subTitleLabel.font = hn_cell_subTitle_Label_Font;
     subTitleLabel.textColor = [UIColor lightGrayColor];
     
-    CGFloat lineHeight = [UIFont systemFontOfSize:14].lineHeight;
     YYTextLinePositionSimpleModifier *modifier = [YYTextLinePositionSimpleModifier new];
-    modifier.fixedLineHeight = lineHeight;
-    YYTextSimpleEmoticonParser *parser = [YYTextSimpleEmoticonParser new];
-    parser.emoticonMapper = self.emoticonMapper;
+    modifier.fixedLineHeight = hn_cell_content_Label_Font.lineHeight;
+    
     YYLabel *titleLabel = [[YYLabel alloc]init];
+    titleLabel.numberOfLines = hn_cell_content_label_max_lines;
     titleLabel.linePositionModifier = modifier;
-    // 这个需要设置 否则高度不生效....
-    titleLabel.preferredMaxLayoutWidth = HN_SCREEN_WIDTH - 2 * 10;
-    titleLabel.numberOfLines = 6;
-    titleLabel.font = [UIFont systemFontOfSize:14];
-    titleLabel.textParser = parser;
+
     @weakify(self);
     HNImageViewContainer *imageContainerView = [[HNImageViewContainer alloc]init];
     [imageContainerView setImageViewCallBack:^(int tag) {
         @strongify(self);
         NSMutableArray *urls = [[NSMutableArray alloc]init];
-        for (HNMicroHeadlineImageModel *model in self.model.detialModel.large_image_list) {
+        for (HNMicroHeadlineImageModel *model in self.layout.model.detialModel.large_image_list) {
             [urls addObject:model.url];
         }
         NSMutableArray *imageViews = [[NSMutableArray alloc]init];
@@ -112,22 +96,23 @@
         }];
     }];
     UILabel *readLabel = [[UILabel alloc]init];
-    readLabel.font = [UIFont systemFontOfSize:12];
+    readLabel.font = hn_cell_read_Label_Font;
     readLabel.textColor = [UIColor lightGrayColor];
     
     UIButton *starBtn = UIButton.button(UIButtonTypeCustom).setShowImage([UIImage imageNamed:@"comment_like_icon_16x16_"],UIControlStateNormal).title(@"1000",UIControlStateNormal).titleColor([UIColor blackColor]);
     UIButton *commentBtn = UIButton.button(UIButtonTypeCustom).setShowImage([UIImage imageNamed:@"comment_feed_24x24_"],UIControlStateNormal).title(@"123",UIControlStateNormal).titleColor([UIColor blackColor]);
     UIButton *shareBtn = UIButton.button(UIButtonTypeCustom).setShowImage([UIImage imageNamed:@"feed_share_24x24_"],UIControlStateNormal).title(@"123",UIControlStateNormal).titleColor([UIColor blackColor]);
     
-    starBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+    starBtn.titleLabel.font = hn_cell_read_Label_Font;
     [starBtn setImageEdgeInsets:UIEdgeInsetsMake(0, -5, 0, 0)];
     [starBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, -5)];
-    commentBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+    commentBtn.titleLabel.font = hn_cell_read_Label_Font;
     [commentBtn setImageEdgeInsets:UIEdgeInsetsMake(0, -5, 0, 0)];
     [commentBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, -5)];
-    shareBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+    shareBtn.titleLabel.font = hn_cell_read_Label_Font;
     [shareBtn setImageEdgeInsets:UIEdgeInsetsMake(0, -5, 0, 0)];
     [shareBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, -5)];
+    
     
     [self.contentView addSubview:iconImageView];
     _iconImageView = iconImageView;
@@ -150,117 +135,99 @@
     [self.contentView addSubview:imageContainerView];
     _containerView = imageContainerView;
     
-
     [self.contentView addSubview:readLabel];
     _readLabel = readLabel;
     
-
     [self.contentView addSubview:starBtn];
     _starBtn = starBtn;
-    [HNEmitterHelper defaultHelper].addLongPressAnimationView = starBtn;
-    [starBtn addTarget:self action:@selector(starBtnBeginAnimation:) forControlEvents:UIControlEventTouchDown];
+    
     [self.contentView addSubview:commentBtn];
     _commentBtn = commentBtn;
     
     [self.contentView addSubview:shareBtn];
     _shareBtn = shareBtn;
     
-    [iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.height.mas_equalTo(40);
-        make.top.mas_equalTo(20);
-        make.left.mas_equalTo(10);
-    }];
+    //添加动画
+    [HNEmitterHelper defaultHelper].addLongPressAnimationView = starBtn;
+    [starBtn addTarget:self action:@selector(starBtnBeginAnimation:) forControlEvents:UIControlEventTouchDown];
     
-    [reasonBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(self.contentView.mas_right).offset(-10);
-        make.centerY.mas_equalTo(iconImageView);
-        make.width.mas_equalTo(26);
-        make.height.mas_equalTo(14);
-
-    }];
-    [followBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(reasonBtn.mas_left).offset(-10);
-        make.centerY.mas_equalTo(iconImageView);
-        make.width.mas_equalTo(40);
-        make.height.mas_equalTo(40);
-        
-    }];
-    [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(iconImageView.mas_right).offset(8);
-        make.height.mas_equalTo(25);
-        make.top.mas_equalTo(iconImageView.mas_top);
-        make.right.mas_equalTo(followBtn.mas_left).offset(-10);
-    }];
-    [subTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(iconImageView.mas_right).offset(8);
-        make.height.mas_equalTo(15);
-        make.top.mas_equalTo(nameLabel.mas_bottom);
-        make.right.mas_equalTo(followBtn.mas_left).offset(-10);
-    }];
-    [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(iconImageView.mas_bottom).offset(5);
-        make.left.mas_equalTo(self.contentView).offset(10);
-        make.right.mas_equalTo(self.contentView).offset(-10);
-        make.height.mas_lessThanOrEqualTo(lineHeight * titleLabel.numberOfLines);
-    }];
-    
-    [imageContainerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(titleLabel.mas_bottom).offset(5);
-        make.left.mas_equalTo(self.contentView).offset(10);
-        make.right.mas_equalTo(self.contentView).offset(-10);
-        make.height.mas_equalTo(10);
-    }];
-    
-    [readLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(imageContainerView.mas_bottom).offset(5);
-        make.left.mas_equalTo(self.contentView).offset(10);
-        make.right.mas_equalTo(self.contentView).offset(-10);
-        make.height.mas_equalTo(10);
-    }];
-    
-    [starBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(readLabel.mas_bottom).offset(15);
-        make.left.mas_equalTo(self.contentView);
-        make.width.mas_equalTo(self.contentView).multipliedBy(1 / 3.0);
-        make.height.mas_equalTo(40);
-    }];
-    [commentBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(readLabel.mas_bottom).offset(15);
-        make.left.mas_equalTo(starBtn.mas_right);
-        make.width.mas_equalTo(self.contentView).multipliedBy(1 / 3.0);
-        make.height.mas_equalTo(40);
-    }];
-    [shareBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(readLabel.mas_bottom).offset(15);
-        make.left.mas_equalTo(commentBtn.mas_right);
-        make.width.mas_equalTo(self.contentView).multipliedBy(1 / 3.0);
-        make.height.mas_equalTo(40);
-        make.bottom.mas_equalTo(self.contentView).offset(-10);
-    }];
+    [self addMoreButton];
 }
 
-- (void)setModel:(HNMicroHeadlineSummaryModel *)model {
-    _model = model;
-    @weakify(self);
-    [self.iconImageView sd_setImageWithURL:[NSURL URLWithString:model.detialModel.user.avatar_url] placeholderImage:nil completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
-        @strongify(self);
-        if (!image) {
-            return ;
-        }
-        self.iconImageView.image = [image hn_drawRectWithRoundedCorner:20 size:self.iconImageView.frame.size];
-    }];
-    self.nameLabel.text = model.detialModel.user.name;
-    self.subTitleLabel.text = model.detialModel.user.desc;
-    self.titleLabel.text = model.detialModel.content;
-    if (model.detialModel.read_count > 10000) {
-        self.readLabel.text = [NSString stringWithFormat:@"%.1f万人阅读",model.detialModel.read_count/10000.0];
-    }else {
-        self.readLabel.text = [NSString stringWithFormat:@"%d人阅读",model.detialModel.read_count];
-    }
-    [self.containerView showWithImageModes:model.detialModel.thumb_image_list];
-    [self.containerView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(self.containerView.imageViewContainerHeight);
-    }];
+- (void)addMoreButton {
+    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:@"...全文"];
+    YYTextHighlight *hi = [YYTextHighlight new];
+    [hi setColor:[UIColor colorWithRed:0.578 green:0.790 blue:1.000 alpha:1.000]];
+    hi.tapAction = ^(UIView *containerView, NSAttributedString *text, NSRange range, CGRect rect) {
+        NSLog(@"%@",self.layout.model.detialModel.content);
+    };
+    
+    [text yy_setColor:[UIColor colorWithRed:0.000 green:0.449 blue:1.000 alpha:1.000] range:[text.string rangeOfString:@"全文"]];
+    [text yy_setTextHighlight:hi range:[text.string rangeOfString:@"全文"]];
+    text.yy_font = [UIFont systemFontOfSize:14];
+    YYLabel *seeMore = [YYLabel new];
+    seeMore.attributedText = text;
+    [seeMore sizeToFit];
+    NSAttributedString *truncationToken = [NSAttributedString yy_attachmentStringWithContent:seeMore contentMode:UIViewContentModeCenter attachmentSize:seeMore.size alignToFont:text.yy_font alignment:YYTextVerticalAlignmentCenter];
+    self.titleLabel.truncationToken = truncationToken;
+}
+
+
+- (void)configFrame {
+    _iconImageView.frame = CGRectMake(10, 20, 40, 40);
+    
+    _reasonBtn.frame = CGRectMake(0, 0, 26, 14);
+    _reasonBtn.right = HN_SCREEN_WIDTH - 10;
+    _reasonBtn.centerY = _iconImageView.centerY;
+    
+    _followBtn.frame = CGRectMake(0, 0, 40, 40);
+    _followBtn.right = _reasonBtn.left - 10;
+    _followBtn.centerY = _iconImageView.centerY;
+    
+    _nameLabel.frame = CGRectMake(0, 0, 0, 25);
+    _nameLabel.left = _iconImageView.right + 8;
+    _nameLabel.width = 120;
+    _nameLabel.top = _iconImageView.top;
+    
+    _subTitleLabel.frame = CGRectMake(0, 0, 0, 15);
+    _subTitleLabel.top = _nameLabel.bottom;
+    _subTitleLabel.width = 120;
+    _subTitleLabel.left = _iconImageView.right + 8;
+    
+    _titleLabel.frame = CGRectMake(10, _iconImageView.bottom + 10, HN_SCREEN_WIDTH - 20, 200);
+    _containerView.frame = CGRectMake(10, _titleLabel.bottom + 5, HN_SCREEN_WIDTH - 20, 0);
+    _readLabel.frame = CGRectMake(10, _containerView.bottom + 5, HN_SCREEN_WIDTH - 20, 10);
+    
+    _starBtn.frame = CGRectMake(0, _readLabel.bottom + 15, HN_SCREEN_WIDTH / 3.0, 40);
+    _commentBtn.frame = CGRectMake(HN_SCREEN_WIDTH / 3.0, _readLabel.bottom + 15, HN_SCREEN_WIDTH / 3.0, 40);
+    _shareBtn.frame = CGRectMake(HN_SCREEN_WIDTH / 3.0 * 2, _readLabel.bottom + 15, HN_SCREEN_WIDTH / 3.0, 40);
+    
+    //imageView的圆角
+    CALayer *iconLayer = _iconImageView.layer;
+    iconLayer.cornerRadius = _iconImageView.height / 2;
+    iconLayer.shouldRasterize = YES;
+    iconLayer.rasterizationScale = [UIScreen mainScreen].scale;
+    iconLayer.masksToBounds = YES;
+}
+
+
+- (void)setLayout:(HNMicroLayout *)layout {
+    _layout = layout;
+    [self.iconImageView sd_setImageWithURL:[NSURL URLWithString:layout.model.detialModel.user.avatar_url]];
+    self.nameLabel.text = layout.model.detialModel.user.name;
+    self.subTitleLabel.text = layout.model.detialModel.user.desc;
+    self.titleLabel.attributedText = layout.content;
+    self.readLabel.text = layout.readCountStr;
+    [self.containerView showWithImageLayout:layout];
+    self.titleLabel.height = [layout contentHeight];
+    self.containerView.frame = CGRectMake(10, self.titleLabel.bottom + 5, SCREEN_WIDTH - 20, [self.containerView imageViewContainerHeight]);
+    [self hn_layout];
+}
+- (void)hn_layout {
+    self.readLabel.top = self.containerView.bottom + 5;
+    self.starBtn.top = self.readLabel.bottom + 15;
+    self.commentBtn.top = self.readLabel.bottom + 15;
+    self.shareBtn.top = self.readLabel.bottom + 15;
 }
 
 #pragma mark - btn的点击事件

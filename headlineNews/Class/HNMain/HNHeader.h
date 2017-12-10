@@ -29,5 +29,13 @@
 #define HN_IID @"17769976909"
 #define HN_DEVICE_ID @"41312231473"
 
+#define HN_ASYN_GET_MAIN(...)   dispatch_async(dispatch_get_main_queue(), ^{ \
+__VA_ARGS__;\
+});
+
+
+#define HNNotificationCenter [NSNotificationCenter defaultCenter]
+
 UIKIT_EXTERN NSString const *HN_BASE_URL;
 
+UIKIT_EXTERN NSString *KHomeStopRefreshNot;

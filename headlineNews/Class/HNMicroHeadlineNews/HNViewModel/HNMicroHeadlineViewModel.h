@@ -8,9 +8,10 @@
 
 #import "HNBaseViewModel.h"
 #import "HNMicroHeadlineModel.h"
+#import "HNDiskCacheHelper.h"
 @interface HNMicroHeadlineViewModel : HNBaseViewModel
 
 @property (nonatomic , strong)RACCommand *microHeadlineCommand;
 
-- (NSArray *)cacheModels;
+- (NSArray *)cacheLayouts;
 @end

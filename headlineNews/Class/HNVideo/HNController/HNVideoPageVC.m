@@ -82,7 +82,7 @@ static NSString *cellID = @"cellID";
             [self.tableView.mj_header endRefreshing];
         }];
     }];
-    // 这里每添加一次数据 -> insertObj
+    // 这里每添加一次数据 -> insertObj 这里不使用reloadData是因为 --> 会打断之前的播放
     self.tableView.mj_footer = [HNRefreshFooter footerWithRefreshingBlock:^{
         [[self.videoListViewModel.videoListCommand execute:self.category] subscribeNext:^(id  _Nullable x) {
             @strongify(self);
@@ -109,7 +109,7 @@ static NSString *cellID = @"cellID";
     [self.playerView resetPlayer];
 }
 
-- (void)refreshData {
+- (void)needRefreshTableViewData {
     [self.tableView.mj_header beginRefreshing];
 }
 
