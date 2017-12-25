@@ -13,6 +13,7 @@
 #import "HNHomeNewsCell.h"
 #import "HNHomeJokeCell.h"
 #import "HNHomeWebVC.h"
+#import "HNContentNewsCell.h"
 
 @interface HNDetailVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic , weak)UITableView *tableView;
@@ -51,6 +52,9 @@
         UINib *newsNib = [UINib nibWithNibName:NSStringFromClass([HNHomeNewsCell class]) bundle:nil];
         [tableView registerNib:newsNib forCellReuseIdentifier:NSStringFromClass([HNHomeNewsCell class])];
         
+        UINib *contentNib = [UINib nibWithNibName:NSStringFromClass([HNContentNewsCell class]) bundle:nil];
+        [tableView registerNib:contentNib forCellReuseIdentifier:NSStringFromClass([HNContentNewsCell class])];
+        
         UINib *jokeNib = [UINib nibWithNibName:NSStringFromClass([HNHomeJokeCell class]) bundle:nil];
         [tableView registerNib:jokeNib forCellReuseIdentifier:NSStringFromClass([HNHomeJokeCell class])];
         _tableView = tableView;
@@ -76,9 +80,13 @@
         @strongify(self);
         [[self.newsViewModel.newsCommand execute:self.model.category] subscribeNext:^(id  _Nullable x) {
             HNHomeNewsModel *model = (HNHomeNewsModel *)x;
-            [self.datas addObjectsFromArray:model.data];
+            if (model.data.count == 0 || !model.data) {
+                [self.tableView.mj_footer endRefreshingWithNoMoreData];
+            }else {
+                [self.datas addObjectsFromArray:model.data];
+                [self.tableView.mj_footer endRefreshing];
+            }
             [self.tableView reloadData];
-            [self.tableView.mj_footer endRefreshing];
         }];
     }];
     [self.tableView.mj_header beginRefreshing];
@@ -111,7 +119,7 @@
         resultCell = cell;
     }else {
         HNHomeNewsSummaryModel *model = self.datas[indexPath.row];
-        HNHomeNewsCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HNHomeNewsCell class])];
+        HNContentNewsCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HNContentNewsCell class])];
         cell.model = model;
         resultCell = cell;
     }

@@ -10,6 +10,7 @@
 #import "HNHeader.h"
 #import "HNNavigationBar.h"
 #import <YYCache/YYCache.h>
+#import "MBProgressHUD+Add.h"
 @protocol BaseViewControllerRefreshProtocol <NSObject>
 
 @optional
@@ -32,6 +33,7 @@
 - (void)leftItemAction;
 
 - (HNNavigationBar *)showCustomNavBar;
+
 @end
 
 

@@ -29,8 +29,7 @@
 #define hn_emoticon @"emoticon"
 #define hn_allArticle @"article"
 
-#define hn_cell_content_label_max_lines 2
-#define hn_cell_content_label_max_height (hn_cell_content_Label_Font.lineHeight * hn_cell_content_label_max_lines)
+#define hn_cell_content_label_max_lines 5
 
 @interface HNMicroLayout : NSObject <NSCoding>
 
@@ -42,7 +41,7 @@
 
 @property (nonatomic , strong)NSArray *picFrameArrays;
 
-@property (nonatomic , strong)NSMutableAttributedString *content;
+@property (nonatomic , copy)NSMutableAttributedString *hn_content;
 
 @property (nonatomic , assign)CGFloat contentHeight;
 

@@ -91,8 +91,11 @@
 		26922CED1FD0040A002AF655 /* LBZoomScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 26922CDE1FD0040A002AF655 /* LBZoomScrollView.m */; };
 		26922CEE1FD0040A002AF655 /* UIImage+LBDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 26922CE01FD0040A002AF655 /* UIImage+LBDecoder.m */; };
 		26922CEF1FD0040A002AF655 /* UIView+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 26922CE21FD0040A002AF655 /* UIView+Frame.m */; };
+		2697FB801FEA6E6500C4F63E /* HNContentNewsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2697FB7E1FEA6E6500C4F63E /* HNContentNewsCell.m */; };
+		2697FB811FEA6E6500C4F63E /* HNContentNewsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2697FB7F1FEA6E6500C4F63E /* HNContentNewsCell.xib */; };
 		26DF00881FDA5D07000150FA /* HNMicroLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 26DF00871FDA5D07000150FA /* HNMicroLayout.m */; };
 		26DF008E1FDCE527000150FA /* HNImageViewContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 26DF008D1FDCE527000150FA /* HNImageViewContainer.m */; };
+		26FE10F71FEA0A2F009DE78B /* HNOptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 26FE10F61FEA0A2F009DE78B /* HNOptionView.m */; };
 		B36B47A6A7E839157FB174E9 /* libPods-headlineNews.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 978C3F33549E969A471F0532 /* libPods-headlineNews.a */; };
 /* End PBXBuildFile section */
 
@@ -250,10 +253,15 @@
 		26922CE01FD0040A002AF655 /* UIImage+LBDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+LBDecoder.m"; sourceTree = "<group>"; };
 		26922CE11FD0040A002AF655 /* UIView+Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Frame.h"; sourceTree = "<group>"; };
 		26922CE21FD0040A002AF655 /* UIView+Frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Frame.m"; sourceTree = "<group>"; };
+		2697FB7D1FEA6E6500C4F63E /* HNContentNewsCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNContentNewsCell.h; sourceTree = "<group>"; };
+		2697FB7E1FEA6E6500C4F63E /* HNContentNewsCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNContentNewsCell.m; sourceTree = "<group>"; };
+		2697FB7F1FEA6E6500C4F63E /* HNContentNewsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HNContentNewsCell.xib; sourceTree = "<group>"; };
 		26DF00861FDA5D07000150FA /* HNMicroLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNMicroLayout.h; sourceTree = "<group>"; };
 		26DF00871FDA5D07000150FA /* HNMicroLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNMicroLayout.m; sourceTree = "<group>"; };
 		26DF008C1FDCE527000150FA /* HNImageViewContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HNImageViewContainer.h; sourceTree = "<group>"; };
 		26DF008D1FDCE527000150FA /* HNImageViewContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HNImageViewContainer.m; sourceTree = "<group>"; };
+		26FE10F51FEA0A2F009DE78B /* HNOptionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNOptionView.h; sourceTree = "<group>"; };
+		26FE10F61FEA0A2F009DE78B /* HNOptionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNOptionView.m; sourceTree = "<group>"; };
 		5540F9DE1170CC0E5C45249F /* Pods-headlineNews.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-headlineNews.debug.xcconfig"; path = "Pods/Target Support Files/Pods-headlineNews/Pods-headlineNews.debug.xcconfig"; sourceTree = "<group>"; };
 		5C56A316864F9359C35FD949 /* Pods-headlineNews.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-headlineNews.release.xcconfig"; path = "Pods/Target Support Files/Pods-headlineNews/Pods-headlineNews.release.xcconfig"; sourceTree = "<group>"; };
 		978C3F33549E969A471F0532 /* libPods-headlineNews.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-headlineNews.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -649,6 +657,9 @@
 				267F29791FD6A6B80059362A /* HNHomeJokeCell.h */,
 				267F297A1FD6A6B80059362A /* HNHomeJokeCell.m */,
 				267F297B1FD6A6B80059362A /* HNHomeJokeCell.xib */,
+				2697FB7D1FEA6E6500C4F63E /* HNContentNewsCell.h */,
+				2697FB7E1FEA6E6500C4F63E /* HNContentNewsCell.m */,
+				2697FB7F1FEA6E6500C4F63E /* HNContentNewsCell.xib */,
 			);
 			path = HNView;
 			sourceTree = "<group>";
@@ -658,6 +669,8 @@
 			children = (
 				26DF008C1FDCE527000150FA /* HNImageViewContainer.h */,
 				26DF008D1FDCE527000150FA /* HNImageViewContainer.m */,
+				26FE10F51FEA0A2F009DE78B /* HNOptionView.h */,
+				26FE10F61FEA0A2F009DE78B /* HNOptionView.m */,
 				26922CC01FCF9E07002AF655 /* HNMicroCell.h */,
 				26922CC11FCF9E07002AF655 /* HNMicroCell.m */,
 			);
@@ -838,6 +851,7 @@
 				2655F2391FC3C61B0027C6C4 /* wd_iconfont.ttf in Resources */,
 				26922CE41FD0040A002AF655 /* LBLoadError.jpg in Resources */,
 				2655F2351FC3C61B0027C6C4 /* 290-cai978.ttf in Resources */,
+				2697FB811FEA6E6500C4F63E /* HNContentNewsCell.xib in Resources */,
 				2655F2381FC3C61B0027C6C4 /* new_icon.ttf in Resources */,
 				2655F2371FC3C61B0027C6C4 /* iconfont.ttf in Resources */,
 				2607B5ED1FC7CC77000AF380 /* HNTitleView.xib in Resources */,
@@ -932,8 +946,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				267F29741FD3BFC50059362A /* HNEmitterHelper.m in Sources */,
+				2697FB801FEA6E6500C4F63E /* HNContentNewsCell.m in Sources */,
 				26922CB51FCEB163002AF655 /* HNMicroHeadlineRequest.m in Sources */,
 				26922CA51FCE5D91002AF655 /* UIImage+EX.m in Sources */,
+				26FE10F71FEA0A2F009DE78B /* HNOptionView.m in Sources */,
 				267F29781FD6A3BA0059362A /* HNHomeJokeModel.m in Sources */,
 				26922CEB1FD0040A002AF655 /* LBPhotoBrowserView.m in Sources */,
 				26922C751FCC1696002AF655 /* HNVideoTitleViewModel.m in Sources */,

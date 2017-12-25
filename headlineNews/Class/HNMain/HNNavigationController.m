@@ -9,6 +9,7 @@
 #import "HNNavigationController.h"
 #import "HNHeader.h"
 @interface HNNavigationController ()<UIGestureRecognizerDelegate>
+@property (nonatomic , strong)UIPanGestureRecognizer *pan;
 
 @end
 
@@ -34,13 +35,13 @@
 
 + (UIImage*)createImageWithColor:(UIColor*)color{
     
-    CGRect rect=CGRectMake(0.0f,0.0f,1.0f,1.0f);UIGraphicsBeginImageContext(rect.size);
+    CGRect rect = CGRectMake(0.0f,0.0f,1.0f,1.0f);UIGraphicsBeginImageContext(rect.size);
     
-    CGContextRef context=UIGraphicsGetCurrentContext();
+    CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetFillColorWithColor(context, [color CGColor]);
     
     CGContextFillRect(context, rect);
-    UIImage *theImage= UIGraphicsGetImageFromCurrentImageContext();
+    UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return theImage;
 }
@@ -53,6 +54,7 @@
 
 -(void)viewDidLoad {
     [super viewDidLoad];
+    _defaultImage = [self.class createImageWithColor:[UIColor colorWithRed:0.83 green:0.24 blue:0.24 alpha:1]];
     [self addCustomGesPop];
 }
 
@@ -61,12 +63,17 @@
     id target = self.interactivePopGestureRecognizer.delegate;
     
     UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:target action:@selector(handleNavigationTransition:)];
-
+    _pan = pan;
     pan.delegate = self;
     
     [self.view addGestureRecognizer:pan];
     
     self.interactivePopGestureRecognizer.enabled = NO;
 }
-
+- (void)startPopGestureRecognizer {
+    [self.view addGestureRecognizer:self.pan];
+}
+- (void)stopPopGestureRecognizer {
+    [self.view removeGestureRecognizer:self.pan];
+}
 @end

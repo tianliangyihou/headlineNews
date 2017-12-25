@@ -60,14 +60,11 @@
     UILabel *subTitleLabel = [[UILabel alloc]init];
     subTitleLabel.font = hn_cell_subTitle_Label_Font;
     subTitleLabel.textColor = [UIColor lightGrayColor];
-    
-    YYTextLinePositionSimpleModifier *modifier = [YYTextLinePositionSimpleModifier new];
-    modifier.fixedLineHeight = hn_cell_content_Label_Font.lineHeight;
-    
+
     YYLabel *titleLabel = [[YYLabel alloc]init];
     titleLabel.numberOfLines = hn_cell_content_label_max_lines;
-    titleLabel.linePositionModifier = modifier;
-
+    titleLabel.textVerticalAlignment = YYTextVerticalAlignmentTop;
+    
     @weakify(self);
     HNImageViewContainer *imageContainerView = [[HNImageViewContainer alloc]init];
     [imageContainerView setImageViewCallBack:^(int tag) {
@@ -216,10 +213,10 @@
     [self.iconImageView sd_setImageWithURL:[NSURL URLWithString:layout.model.detialModel.user.avatar_url]];
     self.nameLabel.text = layout.model.detialModel.user.name;
     self.subTitleLabel.text = layout.model.detialModel.user.desc;
-    self.titleLabel.attributedText = layout.content;
     self.readLabel.text = layout.readCountStr;
-    [self.containerView showWithImageLayout:layout];
     self.titleLabel.height = [layout contentHeight];
+    self.titleLabel.attributedText = layout.hn_content;
+    [self.containerView showWithImageLayout:layout];
     self.containerView.frame = CGRectMake(10, self.titleLabel.bottom + 5, SCREEN_WIDTH - 20, [self.containerView imageViewContainerHeight]);
     [self hn_layout];
 }

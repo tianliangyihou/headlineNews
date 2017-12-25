@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface HNNavigationController : UINavigationController
-
+@property (nonatomic , strong)UIImage *defaultImage;
+- (void)startPopGestureRecognizer;
+- (void)stopPopGestureRecognizer;
 @end

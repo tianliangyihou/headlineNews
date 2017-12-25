@@ -28,6 +28,7 @@
     self.videoPosterImageView.tag = 120;
     self.iconImageView.tag = 100;
     self.videoPosterImageView.userInteractionEnabled = YES;
+    self.videoPosterImageView.backgroundColor = [UIColor lightGrayColor];
     self.timeLabel.layer.cornerRadius = 9;
     self.timeLabel.layer.masksToBounds = YES;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(imageViewClick)];

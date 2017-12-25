@@ -56,7 +56,7 @@
 
 - (void)showWithImageLayout:(HNMicroLayout *)layout {
     _height = 0;
-    NSArray *models = layout.model.detialModel.large_image_list;
+    NSArray *models = layout.model.detialModel.thumb_image_list;
     if (models.count == 0 || !models) {
         [self.imageViews enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             UIImageView *imageView = ( UIImageView *)obj;

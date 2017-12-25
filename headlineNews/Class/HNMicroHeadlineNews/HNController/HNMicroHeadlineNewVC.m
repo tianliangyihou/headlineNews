@@ -10,6 +10,7 @@
 #import "HNMicroHeadlineViewModel.h"
 #import "HNMicroHeadlineModel.h"
 #import "HNMicroCell.h"
+#import "HNOptionView.h"
 
 static NSString *const cellID = @"llb.mircoCell";
 @interface HNMicroHeadlineNewVC ()<UITableViewDataSource,UITableViewDelegate>
@@ -59,11 +60,15 @@ static NSString *const cellID = @"llb.mircoCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.title = @"微头条";
     [self addRightItemWithImageName:@"follow_title_profile_night_18x18_"];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     [self.datas addObjectsFromArray:self.viewModel.cacheLayouts];
-    // 请求数据
+    [self configUI];
+}
+
+- (void)configUI {
     @weakify(self);
     self.tableView.mj_header = [HNRefreshGifHeader headerWithRefreshingBlock:^{
         [[self.viewModel.microHeadlineCommand execute:@(YES)] subscribeNext:^(id  _Nullable x) {
@@ -90,6 +95,40 @@ static NSString *const cellID = @"llb.mircoCell";
         }];
     }];
     [self.tableView.mj_header beginRefreshing];
+    NSMutableArray *items = @[].mutableCopy;
+    NSArray *titles = @[@"文字",@"图片",@"视频"];
+    NSArray *images = @[
+                        [UIImage imageNamed:@"toutiaoquan_release_text_24x24_"],
+                        [UIImage imageNamed:@"toutiaoquan_release_image_24x24_"],
+                        [UIImage imageNamed:@"toutiaoquan_release_video_24x24_"],
+                        ];
+    for (int i = 0; i < 3; i++) {
+        HNOptionItem *item = [[HNOptionItem alloc]init];
+        item.title = titles[i];
+        item.image = images[i];
+        [items addObject:item];
+    }
+    
+    HNOptionView *optionView = [[HNOptionView alloc]initWithItems:items];
+    optionView.frame = CGRectMake(0,0, HN_SCREEN_WIDTH, 40);
+    [optionView setOptionClickCallback:^(HNOptionView *optionView, NSInteger btnIndex, NSString *title) {
+        
+    }];
+    [self.view addSubview:optionView];
+    CGFloat tableViewHeight = HN_SCREEN_HEIGHT - HN_NAVIGATION_BAR_HEIGHT - HN_TABBER_BAR_HEIGHT - 40;
+    [RACObserve(self.tableView, contentOffset) subscribeNext:^(id x) {
+        @strongify(self);
+        CGPoint contentOffset = [x CGPointValue];
+        if (contentOffset.y > 0) {
+            optionView.top = contentOffset.y <= 40 ? -contentOffset.y : -40;
+            self.tableView.top = contentOffset.y <= 40 ? 40 - contentOffset.y : 0;
+            self.tableView.height = contentOffset.y <= 40 ? tableViewHeight + contentOffset.y : tableViewHeight + 40;
+        }else {
+            optionView.top = 0;
+            self.tableView.top = 40;
+            self.tableView.height = tableViewHeight;
+        }
+    }];
 }
 
 - (void)needRefreshTableViewData {

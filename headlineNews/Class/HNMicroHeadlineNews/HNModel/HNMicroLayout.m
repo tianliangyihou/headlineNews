@@ -66,42 +66,42 @@ static inline CGFloat containerWith(){
     if (_model.detialModel.user.desc.length == 0) {
         return;
     }
-    _content = [[NSMutableAttributedString alloc]initWithString:_model.detialModel.content];
+    _hn_content = [[NSMutableAttributedString alloc]initWithString:_model.detialModel.content];
     
     // 设置高亮的范围
     YYTextBorder *highlightBorder = [YYTextBorder new];
     highlightBorder.insets = UIEdgeInsetsMake(-2, 0, -2, 0);
     highlightBorder.cornerRadius = 3;
     highlightBorder.fillColor = [UIColor redColor];
-    _content.yy_font = hn_cell_content_Label_Font;
+    _hn_content.yy_font = hn_cell_content_Label_Font;
     
     // 处理@的情况
-    NSArray *atResults = [regexAt() matchesInString:_content.string options:kNilOptions range:_content.yy_rangeOfAll];
+    NSArray *atResults = [regexAt() matchesInString:_hn_content.string options:kNilOptions range:_hn_content.yy_rangeOfAll];
     for (NSTextCheckingResult *at in atResults) {
         if (at.range.location == NSNotFound ) continue;
-        [_content yy_setColor:hn_cell_link_nomalColor range:at.range];
+        [_hn_content yy_setColor:hn_cell_link_nomalColor range:at.range];
         // 高亮状态
         YYTextHighlight *highlight = [YYTextHighlight new];
         [highlight setBackgroundBorder:highlightBorder];
         [highlight setColor:hn_cell_link_hightlightColor];
         
         // 数据信息，用于稍后用户点击
-        highlight.userInfo = @{hn_AT : [_content.string substringWithRange:NSMakeRange(at.range.location + 1, at.range.length - 1)]};
-        [_content yy_setTextHighlight:highlight range:at.range];
+        highlight.userInfo = @{hn_AT : [_hn_content.string substringWithRange:NSMakeRange(at.range.location + 1, at.range.length - 1)]};
+        [_hn_content yy_setTextHighlight:highlight range:at.range];
     }
     
     // 处理表情
-    NSArray<NSTextCheckingResult *> *emoticonResults = [regexEmoticon() matchesInString:_content.string options:kNilOptions range:_content.yy_rangeOfAll];
+    NSArray<NSTextCheckingResult *> *emoticonResults = [regexEmoticon() matchesInString:_hn_content.string options:kNilOptions range:_hn_content.yy_rangeOfAll];
     NSUInteger emoClipLength = 0;
     for (NSTextCheckingResult *emo in emoticonResults) {
         if (emo.range.location == NSNotFound && emo.range.length <= 1) continue;
         NSRange range = emo.range;
         range.location -= emoClipLength;
-        NSString *emoString = [_content.string substringWithRange:range];
+        NSString *emoString = [_hn_content.string substringWithRange:range];
         UIImage *image = [HNEmoticonHelper emoticonMapper][emoString];
         if (!image) continue;
         NSAttributedString *emoText = [NSAttributedString yy_attachmentStringWithEmojiImage:image fontSize:14];
-        [_content replaceCharactersInRange:range withAttributedString:emoText];
+        [_hn_content replaceCharactersInRange:range withAttributedString:emoText];
         emoClipLength += range.length - 1;
     }
     
@@ -113,18 +113,27 @@ static inline CGFloat containerWith(){
 
     // 给过长的文字添加...全文
     YYTextLinePositionSimpleModifier *modifier  = [YYTextLinePositionSimpleModifier new];
-    modifier.fixedLineHeight = [UIFont systemFontOfSize:20].lineHeight;
+    modifier.fixedLineHeight = hn_cell_content_Label_Font.lineHeight;
     YYTextContainer *container = [YYTextContainer new];
-    container.size = CGSizeMake(containerWith(), 200);
+    container.size = CGSizeMake(containerWith(), 1000);
     container.linePositionModifier = modifier;
-    YYTextLayout *layout =  [YYTextLayout layoutWithContainer:container text:_content];
-    CGFloat textHeight = layout.rowCount * hn_cell_content_Label_Font.lineHeight;
-    if (textHeight > hn_cell_content_label_max_height) {
-        _height = _height + hn_cell_content_label_max_height;
-        _contentHeight = hn_cell_content_label_max_height;
+    
+    YYTextLayout *layout =  [YYTextLayout layoutWithContainer:container text:_hn_content];
+    __block CGFloat textHeight = 0;
+    __block CGFloat maxHeight = 0;
+    [layout.lines enumerateObjectsUsingBlock:^(YYTextLine * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (idx < hn_cell_content_label_max_lines) {
+            maxHeight += obj.height;
+        }
+        textHeight += obj.height;
+    }];
+    
+    if (textHeight > maxHeight) {
+        _height = _height + maxHeight;
+        _contentHeight = floor(maxHeight) + 1;
     }else {
         _height = _height + textHeight;
-        _contentHeight = textHeight;
+        _contentHeight = floor(textHeight) + 1;
     }
 }
 // 图片
