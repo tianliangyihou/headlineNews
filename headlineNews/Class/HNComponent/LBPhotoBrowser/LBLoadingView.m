@@ -69,7 +69,6 @@ static CGFloat lineWidth = 5;
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.userInteractionEnabled = NO;
         CGFloat rabius1 = frame.size.width/2;
         CGFloat starAgle1 = 0;
         CGFloat endAngle1 = 2 * M_PI;
@@ -106,11 +105,7 @@ static CGFloat lineWidth = 5;
 
 - (void)willMoveToSuperview:(UIView *)newSuperview {
     [super willMoveToSuperview:newSuperview];
-//    self.hidden = YES;
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        self.hidden = NO;
-        [self timer];
-//    });
+    [self timer];
 }
 
 - (void)timerView{

@@ -33,7 +33,7 @@
             UIImageView *imageView = [[UIImageView alloc]init];
             imageView.contentMode = UIViewContentModeScaleAspectFill;
             imageView.backgroundColor = [UIColor lightGrayColor];
-            imageView.layer.masksToBounds = YES;
+            imageView.clipsToBounds = YES;
             imageView.userInteractionEnabled = YES;
             UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(imageViewClick:)];
             [imageView addGestureRecognizer:tap];

@@ -69,27 +69,17 @@
     HNImageViewContainer *imageContainerView = [[HNImageViewContainer alloc]init];
     [imageContainerView setImageViewCallBack:^(int tag) {
         @strongify(self);
-        NSMutableArray *urls = [[NSMutableArray alloc]init];
-        for (HNMicroHeadlineImageModel *model in self.layout.model.detialModel.large_image_list) {
-            [urls addObject:model.url];
-        }
-        NSMutableArray *imageViews = [[NSMutableArray alloc]init];
-        for (UIImageView *imageView in self.containerView.imageViews) {
-            if (!imageView.hidden) {
-                [imageViews addObject:imageView];
-            }
+        NSMutableArray *items = [NSMutableArray array];
+        for (int i = 0 ; i < self.layout.model.detialModel.large_image_list.count; i++) {
+            HNMicroHeadlineImageModel *model = self.layout.model.detialModel.large_image_list[i];
+            UIImageView *imageView = self.containerView.imageViews[i];
+            LBPhotoWebItem *item = [[LBPhotoWebItem alloc]initWithURLString:model.url frame:imageView.frame placeholdImage:imageView.image placeholdSize:imageView.frame.size];
+            [items addObject:item];
         }
         //https://github.com/tianliangyihou/LBPhotoBrowser
-        [[LBPhotoBrowserManager defaultManager] showImageWithURLArray:urls fromImageViews:imageViews selectedIndex:tag imageViewSuperView:self.containerView];
+        [[LBPhotoBrowserManager defaultManager] showImageWithWebItems:items selectedIndex:tag fromImageViewSuperView:self.containerView].lowGifMemory = YES;
         [[[LBPhotoBrowserManager defaultManager] addLongPressShowTitles:@[@"保存",@"分享",@"取消"]] addTitleClickCallbackBlock:^(UIImage *image, NSIndexPath *indexPath, NSString *title) {
             NSLog(@"%@",title);
-        }].lowGifMemory = YES;
-        [[LBPhotoBrowserManager defaultManager] addPlaceHoldImageCallBackBlock:^UIImage *(NSIndexPath *indexPath) {
-            UIImageView *imageView = self.containerView.imageViews[indexPath.row];
-            if (imageView.image) {
-                return imageView.image;
-            }
-            return [UIImage imageNamed:@"LBLoading.png"];
         }];
     }];
     UILabel *readLabel = [[UILabel alloc]init];
