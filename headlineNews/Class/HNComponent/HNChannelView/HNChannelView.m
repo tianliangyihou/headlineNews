@@ -128,7 +128,7 @@ static CGFloat labelHeight = 40;
         HNChannelModel *model = wself.datas[i];
         model.tag = i;
         if (model.isMyChannel) {
-            model.frame = MYCHANNEL_FRAME(i);
+            model.frame = MYCHANNEL_FRAME(i); // [UIView frame] must be used from main thread only 这里是使用了view.frame导致的 后期会替换
             wself.divisionModel = model;
         }
     }

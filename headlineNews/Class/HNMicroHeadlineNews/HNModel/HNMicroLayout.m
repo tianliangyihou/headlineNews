@@ -7,7 +7,6 @@
 //
 
 #import "HNMicroLayout.h"
-#import "UIView+Frame.h"
 #import "HNEmoticonHelper.h"
 #import <MJExtension/MJExtension.h>
 #import <YYText/YYText.h>

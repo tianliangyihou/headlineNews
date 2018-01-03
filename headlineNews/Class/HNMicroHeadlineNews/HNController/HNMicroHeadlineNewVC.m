@@ -121,8 +121,8 @@ static NSString *const cellID = @"llb.mircoCell";
         CGPoint contentOffset = [x CGPointValue];
         if (contentOffset.y > 0) {
             optionView.top = contentOffset.y <= 40 ? -contentOffset.y : -40;
-            self.tableView.top = contentOffset.y <= 40 ? 40 - contentOffset.y : 0;
-            self.tableView.height = contentOffset.y <= 40 ? tableViewHeight + contentOffset.y : tableViewHeight + 40;
+            self.tableView.top = floorf(contentOffset.y <= 40 ? 40 - contentOffset.y : 0);
+            self.tableView.height =floorf(contentOffset.y <= 40 ? tableViewHeight + contentOffset.y : tableViewHeight + 40);
         }else {
             optionView.top = 0;
             self.tableView.top = 40;
