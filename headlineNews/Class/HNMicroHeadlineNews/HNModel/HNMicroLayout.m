@@ -9,8 +9,7 @@
 #import "HNMicroLayout.h"
 #import "HNEmoticonHelper.h"
 #import <MJExtension/MJExtension.h>
-#import <YYText/YYText.h>
-#import <YYText/NSAttributedString+YYText.h>
+
 static inline NSRegularExpression * regexAt() {
     static NSRegularExpression *regex;
     static dispatch_once_t onceToken;
@@ -43,6 +42,7 @@ static inline CGFloat containerWith(){
     if (self = [super init]) {
         _model = model;
         _height = 0;
+        _contentHeight = 0;
         [self hn_layout];
     }
     return self;
@@ -66,13 +66,13 @@ static inline CGFloat containerWith(){
         return;
     }
     _hn_content = [[NSMutableAttributedString alloc]initWithString:_model.detialModel.content];
-    
+    _hn_content.yy_font = hn_cell_content_Label_Font;
+
     // 设置高亮的范围
     YYTextBorder *highlightBorder = [YYTextBorder new];
     highlightBorder.insets = UIEdgeInsetsMake(-2, 0, -2, 0);
     highlightBorder.cornerRadius = 3;
     highlightBorder.fillColor = [UIColor redColor];
-    _hn_content.yy_font = hn_cell_content_Label_Font;
     
     // 处理@的情况
     NSArray *atResults = [regexAt() matchesInString:_hn_content.string options:kNilOptions range:_hn_content.yy_rangeOfAll];
@@ -111,29 +111,38 @@ static inline CGFloat containerWith(){
     
 
     // 给过长的文字添加...全文
-    YYTextLinePositionSimpleModifier *modifier  = [YYTextLinePositionSimpleModifier new];
-    modifier.fixedLineHeight = hn_cell_content_Label_Font.lineHeight;
+    _hn_content.yy_lineSpacing = 0;
+    YYTextLinePositionSimpleModifier *modifier = [YYTextLinePositionSimpleModifier new];
+    modifier.fixedLineHeight = 24;
     YYTextContainer *container = [YYTextContainer new];
     container.size = CGSizeMake(containerWith(), 1000);
     container.linePositionModifier = modifier;
-    
     YYTextLayout *layout =  [YYTextLayout layoutWithContainer:container text:_hn_content];
-    __block CGFloat textHeight = 0;
-    __block CGFloat maxHeight = 0;
-    [layout.lines enumerateObjectsUsingBlock:^(YYTextLine * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (idx < hn_cell_content_label_max_lines) {
-            maxHeight += obj.height;
-        }
-        textHeight += obj.height;
-    }];
-    
-    if (textHeight > maxHeight) {
-        _height = _height + maxHeight;
-        _contentHeight = floor(maxHeight) + 1;
+//    __block CGFloat textHeight = 0;
+//    __block CGFloat maxHeight = 0;
+    if (layout.lines.count > hn_cell_content_label_max_lines) {
+        _contentHeight += hn_cell_content_label_max_lines * 24;
     }else {
-        _height = _height + textHeight;
-        _contentHeight = floor(textHeight) + 1;
+        if (layout.lines && layout.lines.count > 0)
+            _contentHeight += layout.lines.count * 24;
     }
+//    [layout.lines enumerateObjectsUsingBlock:^(YYTextLine * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//        if (idx < hn_cell_content_label_max_lines) {
+//            maxHeight += floorf(obj.height) + 1;
+//        }
+//        textHeight += floorf(obj.height) + 1;
+//    }];
+//    if (textHeight > maxHeight) {
+//        _contentHeight = maxHeight;
+//        _contentHeight = _contentHeight + (hn_cell_content_label_max_lines - 1) * 10;
+//    }else {
+//        _contentHeight = textHeight;
+//        if (layout.lines && layout.lines.count > 0) {
+//            _contentHeight = _contentHeight + (layout.lines.count - 1) * 10;
+//        }
+//    }
+    _height = _height + _contentHeight;
+    _hn_content_data = _hn_content.yy_archiveToData;
 }
 // 图片
 - (void)hn_picsLayout {
@@ -178,6 +187,7 @@ static inline CGFloat containerWith(){
         }
         _picFrameArrays = frames;
     }
+    
 }
 // 阅读数
 - (void)hn_readMsgLayout {
@@ -193,4 +203,9 @@ static inline CGFloat containerWith(){
     _height = _height + 40 + hn_cell_bottom_margin + 15;
 }
 MJCodingImplementation
++ (NSArray *)mj_ignoredCodingPropertyNames {
+    return @[@"hn_content"];
+}
+
+
 @end

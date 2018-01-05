@@ -7,7 +7,7 @@
 //
 
 #import "HNDiskCacheHelper.h"
-
+#import "HNMicroLayout.h"
 static HNDiskCacheHelper *hepler = nil;
 @interface HNDiskCacheHelper ()
 
@@ -57,7 +57,10 @@ static HNDiskCacheHelper *hepler = nil;
     if (self.keyDic[key]) {
       object =  [self trimArray:(NSArray *)object toTargetCount:[self.keyDic[key] integerValue]];
     }
+
+    
     [self.diskCache setObject:object forKey:key withBlock:^{
+        NSLog(@"写入数据库 完成了");
         if (block) {
             block();
         }

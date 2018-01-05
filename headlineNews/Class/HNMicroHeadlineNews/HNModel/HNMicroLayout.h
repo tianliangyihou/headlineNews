@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "HNMicroHeadlineModel.h"
-
+#import <YYText/YYText.h>
+#import <YYText/NSAttributedString+YYText.h>
 #define hn_cell_Left_margin 10
 #define hn_cell_right_margin 10
 #define hn_cell_top_margin 20
@@ -18,7 +19,7 @@
 #define hn_cell_name_Label_Font [UIFont systemFontOfSize:14]
 #define hn_cell_follow_btn_Font [UIFont systemFontOfSize:14]
 #define hn_cell_subTitle_Label_Font [UIFont systemFontOfSize:12]
-#define hn_cell_content_Label_Font [UIFont systemFontOfSize:14]
+#define hn_cell_content_Label_Font [UIFont systemFontOfSize:15] // 字体调成20的问题
 #define hn_cell_read_Label_Font [UIFont systemFontOfSize:12]
 
 #define  hn_cell_link_nomalColor  [UIColor blueColor]
@@ -35,6 +36,8 @@
 
 @property (nonatomic , strong)HNMicroHeadlineSummaryModel *model;
 
+@property (nonatomic , strong)YYTextLayout *textLayout;
+
 @property (nonatomic , assign)CGFloat height;
 
 @property (nonatomic , copy)NSString *readCountStr;
@@ -42,6 +45,9 @@
 @property (nonatomic , strong)NSArray *picFrameArrays;
 
 @property (nonatomic , copy)NSMutableAttributedString *hn_content;
+
+@property (nonatomic , strong)NSData *hn_content_data;
+
 
 @property (nonatomic , assign)CGFloat contentHeight;
 

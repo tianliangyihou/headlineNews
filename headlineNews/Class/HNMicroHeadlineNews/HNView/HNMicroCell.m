@@ -61,10 +61,12 @@
     subTitleLabel.font = hn_cell_subTitle_Label_Font;
     subTitleLabel.textColor = [UIColor lightGrayColor];
 
+    YYTextLinePositionSimpleModifier *modifier = [YYTextLinePositionSimpleModifier new];
+    modifier.fixedLineHeight = 24;
     YYLabel *titleLabel = [[YYLabel alloc]init];
     titleLabel.numberOfLines = hn_cell_content_label_max_lines;
+    titleLabel.linePositionModifier = modifier;
     titleLabel.textVerticalAlignment = YYTextVerticalAlignmentTop;
-    
     @weakify(self);
     HNImageViewContainer *imageContainerView = [[HNImageViewContainer alloc]init];
     [imageContainerView setImageViewCallBack:^(int tag) {
@@ -136,7 +138,7 @@
     
     //添加动画
     [HNEmitterHelper defaultHelper].addLongPressAnimationView = starBtn;
-    [starBtn addTarget:self action:@selector(starBtnBeginAnimation:) forControlEvents:UIControlEventTouchDown];
+    [starBtn addTarget:self action:@selector(starBtnBeginAnimation:) forControlEvents:UIControlEventTouchUpInside];
     
     [self addMoreButton];
 }
@@ -151,7 +153,7 @@
     
     [text yy_setColor:[UIColor colorWithRed:0.000 green:0.449 blue:1.000 alpha:1.000] range:[text.string rangeOfString:@"全文"]];
     [text yy_setTextHighlight:hi range:[text.string rangeOfString:@"全文"]];
-    text.yy_font = [UIFont systemFontOfSize:14];
+    text.yy_font = hn_cell_content_Label_Font;
     YYLabel *seeMore = [YYLabel new];
     seeMore.attributedText = text;
     [seeMore sizeToFit];

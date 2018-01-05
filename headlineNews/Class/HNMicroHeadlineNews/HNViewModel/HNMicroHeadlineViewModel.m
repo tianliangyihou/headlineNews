@@ -10,6 +10,7 @@
 #import "HNMicroHeadlineViewModel.h"
 #import "HNMicroHeadlineRequest.h"
 #import "HNMicroLayout.h"
+#import <YYText/NSAttributedString+YYText.h>
 #define cacheKey [NSString stringWithFormat:@"microHeadline%@",HNURLManager.microHeadlineURLString]
 /**
  缓存策略:
@@ -35,6 +36,9 @@
 
 - (NSArray *)cacheLayouts {
     NSArray *layouts =  (NSArray *)[[HNDiskCacheHelper defaultHelper] objectForKey:cacheKey];
+    for (HNMicroLayout *layout in layouts) {
+        layout.hn_content = (NSMutableAttributedString *)[NSAttributedString yy_unarchiveFromData:layout.hn_content_data];
+    }
     return layouts;
 }
 
@@ -43,7 +47,7 @@
     self = [super init];
     if (self) {
         @weakify(self);
-        [[HNDiskCacheHelper defaultHelper] setMaxArrayCount:4 forKey:cacheKey];
+        [[HNDiskCacheHelper defaultHelper] setMaxArrayCount:9 forKey:cacheKey];
         _microHeadlineCommand = [[RACCommand alloc]initWithSignalBlock:^RACSignal * _Nonnull(id  _Nullable input) {
             return [RACSignal createSignal:^RACDisposable * _Nullable(id<RACSubscriber>  _Nonnull subscriber) {
                @strongify(self)
