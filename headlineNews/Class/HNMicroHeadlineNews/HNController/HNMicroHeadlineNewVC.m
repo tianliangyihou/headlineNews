@@ -45,7 +45,8 @@ static NSString *const cellID = @"llb.mircoCell";
         UITableView *tableView = [[UITableView alloc]init];
         tableView.delegate = self;
         tableView.dataSource = self;
-        // 数据复杂效率低 这里才去抛弃的做法
+        tableView.estimatedRowHeight = 0;// ios 7
+        // 数据复杂效率低 这里采取抛弃的做法
         //tableView.estimatedRowHeight = 400;
         //tableView.rowHeight = UITableViewAutomaticDimension;
         [self.view addSubview:tableView];
@@ -87,9 +88,9 @@ static NSString *const cellID = @"llb.mircoCell";
         [[self.viewModel.microHeadlineCommand execute:@(NO)] subscribeNext:^(id  _Nullable x) {
             @strongify(self);
             //self.dataModel = x;
+            [self.tableView.mj_footer endRefreshing];
             [self.datas addObjectsFromArray:x];
             [self.tableView reloadData];
-            [self.tableView.mj_footer endRefreshing];
         }error:^(NSError * _Nullable error) {
             [self.tableView.mj_footer endRefreshing];
         }];

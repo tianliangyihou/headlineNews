@@ -28,6 +28,7 @@
 #define hn_AT @"at"
 #define hn_link @"link"
 #define hn_emoticon @"emoticon"
+#define hn_topic @"topic"
 #define hn_allArticle @"article"
 
 #define hn_cell_content_label_max_lines 5
@@ -35,8 +36,6 @@
 @interface HNMicroLayout : NSObject <NSCoding>
 
 @property (nonatomic , strong)HNMicroHeadlineSummaryModel *model;
-
-@property (nonatomic , strong)YYTextLayout *textLayout;
 
 @property (nonatomic , assign)CGFloat height;
 

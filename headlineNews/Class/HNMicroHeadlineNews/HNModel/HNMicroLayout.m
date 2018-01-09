@@ -89,7 +89,7 @@ static inline CGFloat containerWith(){
         [_hn_content yy_setTextHighlight:highlight range:at.range];
     }
     
-    // 处理表情
+    // 处理表情 [大哭] [耶]
     NSArray<NSTextCheckingResult *> *emoticonResults = [regexEmoticon() matchesInString:_hn_content.string options:kNilOptions range:_hn_content.yy_rangeOfAll];
     NSUInteger emoClipLength = 0;
     for (NSTextCheckingResult *emo in emoticonResults) {
@@ -105,11 +105,48 @@ static inline CGFloat containerWith(){
     }
     
     // 处理链接
+    NSError *linkError;
+    NSString *linkRegulaStr = @"((http[s]{0,1}|ftp)://[a-zA-Z0-9\\.\\-]+\\.([a-zA-Z]{2,4})(:\\d+)?(/[a-zA-Z0-9\\.\\-~!@#$%^&*+?:_/=<>]*)?)|(www.[a-zA-Z0-9\\.\\-]+\\.([a-zA-Z]{2,4})(:\\d+)?(/[a-zA-Z0-9\\.\\-~!@#$%^&*+?:_/=<>]*)?)";
+    NSRegularExpression *linkRegex = [NSRegularExpression regularExpressionWithPattern:linkRegulaStr
+                                                                           options:NSRegularExpressionCaseInsensitive
+                                                                             error:&linkError];
+    NSArray *linkMatches = [linkRegex matchesInString:_hn_content.string options:0 range:NSMakeRange(0, [_hn_content.string length])];
     
+    for (NSTextCheckingResult *match in linkMatches)
+    {
+        if (match.range.location == NSNotFound ) continue;
+        [_hn_content yy_setColor:hn_cell_link_nomalColor range:match.range];
+        // 高亮状态
+        YYTextHighlight *highlight = [YYTextHighlight new];
+        [highlight setBackgroundBorder:highlightBorder];
+        [highlight setColor:hn_cell_link_hightlightColor];
+        // 数据信息，用于稍后用户点击
+        highlight.userInfo = @{hn_link : [_hn_content.string substringWithRange:match.range]};
+        [_hn_content yy_setTextHighlight:highlight range:match.range];
+    }
     
-    // 处理# #
-    
+    // #话题#的规则
+    NSError *topicError;
+    NSString *topicPattern = @"#[0-9a-zA-Z\\u4e00-\\u9fa5]+#";
+    NSRegularExpression *topicRegex = [NSRegularExpression regularExpressionWithPattern:topicPattern
+                                                                           options:NSRegularExpressionCaseInsensitive
+                                                                             error:&topicError];
+    NSArray *topicMatches = [topicRegex matchesInString:_hn_content.string options:0 range:NSMakeRange(0, [_hn_content.string length])];
 
+    for (NSTextCheckingResult *match in topicMatches)
+    {
+        if (match.range.location == NSNotFound ) continue;
+        [_hn_content yy_setColor:hn_cell_link_nomalColor range:match.range];
+        // 高亮状态
+        YYTextHighlight *highlight = [YYTextHighlight new];
+        [highlight setBackgroundBorder:highlightBorder];
+        [highlight setColor:hn_cell_link_hightlightColor];
+        // 数据信息，用于稍后用户点击
+        highlight.userInfo = @{hn_topic : [_hn_content.string substringWithRange:NSMakeRange(match.range.location + 1, match.range.length - 1)]};
+        [_hn_content yy_setTextHighlight:highlight range:match.range];
+
+    }
+    
     // 给过长的文字添加...全文
     _hn_content.yy_lineSpacing = 0;
     YYTextLinePositionSimpleModifier *modifier = [YYTextLinePositionSimpleModifier new];
@@ -118,29 +155,12 @@ static inline CGFloat containerWith(){
     container.size = CGSizeMake(containerWith(), 1000);
     container.linePositionModifier = modifier;
     YYTextLayout *layout =  [YYTextLayout layoutWithContainer:container text:_hn_content];
-//    __block CGFloat textHeight = 0;
-//    __block CGFloat maxHeight = 0;
     if (layout.lines.count > hn_cell_content_label_max_lines) {
         _contentHeight += hn_cell_content_label_max_lines * 24;
     }else {
         if (layout.lines && layout.lines.count > 0)
             _contentHeight += layout.lines.count * 24;
     }
-//    [layout.lines enumerateObjectsUsingBlock:^(YYTextLine * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//        if (idx < hn_cell_content_label_max_lines) {
-//            maxHeight += floorf(obj.height) + 1;
-//        }
-//        textHeight += floorf(obj.height) + 1;
-//    }];
-//    if (textHeight > maxHeight) {
-//        _contentHeight = maxHeight;
-//        _contentHeight = _contentHeight + (hn_cell_content_label_max_lines - 1) * 10;
-//    }else {
-//        _contentHeight = textHeight;
-//        if (layout.lines && layout.lines.count > 0) {
-//            _contentHeight = _contentHeight + (layout.lines.count - 1) * 10;
-//        }
-//    }
     _height = _height + _contentHeight;
     _hn_content_data = _hn_content.yy_archiveToData;
 }
