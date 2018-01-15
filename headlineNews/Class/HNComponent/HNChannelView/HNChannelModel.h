@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class HNButton;
 @interface HNChannelModel : NSObject
 @property (nonatomic , copy)NSString *name;
 @property (nonatomic , assign)BOOL isMyChannel;
 @property (nonatomic , assign)CGRect frame;
 @property (nonatomic , assign)int tag;
+@property (nonatomic , assign)BOOL hideDeleBtn;
+@property (nonatomic , weak)HNButton *btn;
 
 @end

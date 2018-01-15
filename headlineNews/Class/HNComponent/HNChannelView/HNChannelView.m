@@ -14,8 +14,8 @@
 #import "HNHeader.h"
 
 
-#define MYCHANNEL_FRAME(i) CGRectMake(itemSpace + (i % column)* (_labelWidth + itemSpace), CGRectGetMaxY(wself.header1.frame) + lineSpace + (i / column)*(labelHeight + lineSpace), _labelWidth, labelHeight)
-#define RECOMMEND_FRAME(i)  CGRectMake(itemSpace + ((i) % column)* (_labelWidth + itemSpace),CGRectGetMaxY(wself.divisionModel.frame) + wself.header1.frame.size.height + lineSpace + ((i) / column)*(labelHeight + lineSpace), _labelWidth, labelHeight)
+#define MYCHANNEL_FRAME(i) CGRectMake(itemSpace + (i % column)* (_labelWidth + itemSpace), CGRectGetMaxY(wself.header1_frame) + lineSpace + (i / column)*(labelHeight + lineSpace), _labelWidth, labelHeight)
+#define RECOMMEND_FRAME(i)  CGRectMake(itemSpace + ((i) % column)* (_labelWidth + itemSpace),CGRectGetMaxY(wself.divisionModel.frame) + wself.header1_frame.size.height + lineSpace + ((i) / column)*(labelHeight + lineSpace), _labelWidth, labelHeight)
 
 static CGFloat itemSpace = 10;
 static CGFloat lineSpace = 10;
@@ -34,6 +34,8 @@ static CGFloat labelHeight = 40;
 @property (nonatomic , weak)HNTitleView *header1;
 @property (nonatomic , weak)HNTitleView *header2;
 @property (nonatomic , weak)HNChannelModel *divisionModel;
+@property (nonatomic , assign)CGRect header1_frame;
+
 @end
 
 @interface HNHeaderView : UIView
@@ -42,7 +44,6 @@ static CGFloat labelHeight = 40;
 @end
 
 @implementation HNChannelView
-
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -99,6 +100,7 @@ static CGFloat labelHeight = 40;
     [self addSubview:_header1];
     [self addSubview:_header2];
     self.backgroundColor = [UIColor whiteColor];
+    _header1_frame = wself.header1.frame;
 }
 
 
@@ -125,10 +127,10 @@ static CGFloat labelHeight = 40;
     __weak typeof(self) wself = self;
 
     for (int i = 0 ; i < wself.datas.count; i++) {
-        HNChannelModel *model = wself.datas[i];
+        HNChannelModel *model = wself.datas[i]; // model.tag 等于btn的tag 且为该数组中元素的下标
         model.tag = i;
         if (model.isMyChannel) {
-            model.frame = MYCHANNEL_FRAME(i); // [UIView frame] must be used from main thread only 这里是使用了view.frame导致的 后期会替换
+            model.frame = MYCHANNEL_FRAME(i);
             wself.divisionModel = model;
         }
     }
@@ -141,7 +143,7 @@ static CGFloat labelHeight = 40;
     for (int i = 0 ; i < wself.datas.count; i++) {
         HNChannelModel *model = wself.datas[i];
         if (!model.isMyChannel) {
-            int index = i - wself.divisionModel.tag - 1;
+            int index = i - wself.divisionModel.tag - 1; // 从0开始tag
              model.frame = RECOMMEND_FRAME(index);
         }
     }
@@ -150,8 +152,6 @@ static CGFloat labelHeight = 40;
             HNButton *button = [[HNButton alloc]initWithMyChannelHandleBlock:^(HNButton *btn) {
                 if (!btn.deleImageView.hidden) {
                     [wself removeBtn:btn];
-                }else {
-                    // do something
                 }
             } recommondChannelHandleBlock:^(HNButton *btn) {
                 [wself addBtn:btn];
@@ -173,14 +173,6 @@ static CGFloat labelHeight = 40;
             }
             [wself addSubview:button];
         }
-        dispatch_async(_queue, ^{
-            for (UIView *view in wself.subviews) {
-                if ([view isKindOfClass:[HNButton class]]) {
-                    [wself.datas replaceObjectAtIndex:view.tag withObject:view];
-                }
-            }
-        });
-    
     });
 }
 
@@ -206,7 +198,8 @@ static CGFloat labelHeight = 40;
 - (void)refreshEidtBtnWithStatus:(BOOL)show {
     __weak typeof(self) wself = self;
     if (!show) {
-        for (HNButton *btn in wself.datas) {
+        for (HNButton *btn in wself.subviews) {
+            if (![btn isKindOfClass:[HNButton class]]) continue;
             if (btn.model.isMyChannel) {
                 btn.deleImageView.hidden = YES;
             }else {
@@ -214,7 +207,8 @@ static CGFloat labelHeight = 40;
             }
         }
     }else {
-        for (HNButton *btn in wself.datas) {
+        for (HNButton *btn in wself.subviews) {
+            if (![btn isKindOfClass:[HNButton class]]) continue;
             if (btn.model.isMyChannel) {
                 btn.deleImageView.hidden = NO;
             }else {
@@ -229,79 +223,88 @@ static CGFloat labelHeight = 40;
 
 - (void)addBtn:(HNButton *)addbtn {
     __weak typeof(self) wself = self;
-    [self.datas removeObject:addbtn];
-    [self.datas insertObject:addbtn atIndex:self.divisionModel.tag + 1];
+    [self.datas removeObject:addbtn.model];
+    [self.datas insertObject:addbtn.model atIndex:self.divisionModel.tag + 1];
     addbtn.model.isMyChannel = YES;
     int divisionIndex = self.divisionModel.tag + 1;
-    for (int i = 0 ; i < self.datas.count; i++) {
-        HNButton *btn = self.datas[i];
-        btn.tag = i;
-        btn.model.tag = i;
-        if (btn.model.isMyChannel) {
-            [UIView animateWithDuration:0.25 animations:^{
-                btn.frame = MYCHANNEL_FRAME(i);
-                btn.model.frame = btn.frame;
-                btn.deleImageView.hidden = wself.header1.editBtn.selected ? NO : YES;
-            }];
-        }else {
-            [UIView animateWithDuration:0.25 animations:^{
-                int index = i - self.divisionModel.tag - 1;
-                btn.frame = RECOMMEND_FRAME(index);
-                btn.model.frame = btn.frame;
-                btn.deleImageView.hidden = YES;
-            }];
-
+    BOOL editBtnSelected = wself.header1.editBtn.selected;
+    dispatch_async(_queue, ^{
+        for (int i = 0 ; i < self.datas.count; i++) {
+            HNChannelModel *channelModel = self.datas[i];
+            channelModel.tag = i;
+            if (channelModel.isMyChannel) {
+                channelModel.frame = MYCHANNEL_FRAME(i);
+               channelModel.hideDeleBtn = editBtnSelected ? NO : YES;
+            }else {
+                int index = i - wself.divisionModel.tag - 1;
+                channelModel.frame = RECOMMEND_FRAME(index);
+                channelModel.hideDeleBtn = YES;
+            }
+            if (i == divisionIndex) {
+                self.divisionModel = channelModel;
+            }
         }
-        if (i == divisionIndex) {
-            self.divisionModel = btn.model;
-        }
-        [btn reloadData];
+        [self refreshBtn];
 
-    }
+    });
+    
 }
 - (void)removeBtn:(HNButton *)removeBtn {
     __weak typeof(self) wself = self;
-    [self.datas removeObject:removeBtn];
-    [self.datas insertObject:removeBtn atIndex:self.divisionModel.tag];
+    [self.datas removeObject:removeBtn.model];
+    [self.datas insertObject:removeBtn.model atIndex:self.divisionModel.tag];
     removeBtn.model.isMyChannel = NO;
     int divisionIndex = self.divisionModel.tag - 1;
-    for (int i = 0 ; i < self.datas.count; i++) {
-        HNButton *btn = self.datas[i];
-        btn.tag = i;
-        btn.model.tag = i;
-        if (btn.model.isMyChannel) {
-            [UIView animateWithDuration:0.25 animations:^{
-                btn.frame = MYCHANNEL_FRAME(i);
-                btn.model.frame = btn.frame;
-                btn.deleImageView.hidden = NO;
-            }];
-        }else {
-            [UIView animateWithDuration:0.25 animations:^{
+    dispatch_async(_queue, ^{
+        for (int i = 0 ; i < self.datas.count; i++) {
+            HNChannelModel *channelModel = self.datas[i];
+            channelModel.tag = i;
+            if (channelModel.isMyChannel) {
+                channelModel.frame = MYCHANNEL_FRAME(i);
+                channelModel.hideDeleBtn = NO;
+            }else {
                 int index = i - self.divisionModel.tag - 1;
-                btn.frame = RECOMMEND_FRAME(index);
-                btn.model.frame = btn.frame;
-                btn.deleImageView.hidden = YES;
-            }];
-
+                channelModel.frame = RECOMMEND_FRAME(index);
+                channelModel.hideDeleBtn = YES;
+            }
+            if (i == divisionIndex) {
+                self.divisionModel = channelModel;
+            }
         }
-        if (i == divisionIndex) {
-            self.divisionModel = btn.model;
-        }
-        [btn reloadData];
-    }
-
+        [self refreshBtn];
+    });
 }
 
+- (void)refreshBtn {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        for (HNChannelModel *model in self.datas) {
+            [UIView animateWithDuration:0.25 animations:^{
+                model.btn.frame = model.frame;
+            }];
+            model.btn.deleImageView.hidden = model.hideDeleBtn;
+            [model.btn reloadData];
+        }
+    });
+}
 
 #pragma mark - 调整按钮的 header2 的尺寸
 - (void)setDivisionModel:(HNChannelModel *)divisionModel {
     _divisionModel = divisionModel;
-    __weak typeof(self) wself = self;
     if (![[NSThread currentThread] isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self refreshHeader2Frame];
+        });
+    }else {
+        [self refreshHeader2Frame];
+    }
+   
+}
+- (void)refreshHeader2Frame {
+    if (self.header2.hidden) {
         return;
     }
     [UIView animateWithDuration:0.25 animations:^{
-        wself.header2.frame = CGRectMake(0, CGRectGetMaxY(self.divisionModel.frame)+lineSpace, wself.frame.size.width, 54);
+        self.header2.frame = CGRectMake(0, CGRectGetMaxY(self.divisionModel.frame)+lineSpace, self.frame.size.width, 54);
     }];
 }
 
@@ -310,28 +313,29 @@ static CGFloat labelHeight = 40;
     CGPoint newPoint = [ges locationInView:self];
     btn.center = newPoint;
     __weak typeof(self) wself = self;
-    [self newLocationTagForBtn:btn locationBlock:^(HNButton *targetBtn) {
+    [self newLocationTagForBtn:btn locationBlock:^(HNChannelModel* targetModel) {
         if (wself.divisionModel == btn.model) {
-            HNButton *divisionBtn = self.datas[btn.tag - 1];
-            wself.divisionModel = divisionBtn.model;
+            HNChannelModel *divisionModel = self.datas[btn.model.tag - 1];
+            _divisionModel = divisionModel;
+        }else if (wself.divisionModel == targetModel){
+            _divisionModel = btn.model;
+            
         }
-        if (wself.divisionModel == targetBtn.model) {
-            wself.divisionModel = btn.model;
+        [wself.datas removeObject:btn.model];
+        [wself.datas insertObject:btn.model atIndex:targetModel.tag];
+        for (int i = 0 ; i < wself.datas.count; i++) {
+            HNChannelModel *model = wself.datas[i];
+            model.tag = i;
+            if (model.isMyChannel && model != btn.model) {
+                model.frame = MYCHANNEL_FRAME(i);
+            }
         }
-        
-        [wself.datas removeObject:btn];
-        [wself.datas insertObject:btn atIndex:targetBtn.tag];
-        btn.tag = targetBtn.tag;
-        btn.model.tag = btn.tag;
         dispatch_async(dispatch_get_main_queue(), ^{
             for (int i = 0 ; i < wself.datas.count; i++) {
-                HNButton *moveBtn = wself.datas[i];
-                if (moveBtn.model.isMyChannel && btn != moveBtn) {
+                HNChannelModel *model = wself.datas[i];
+                if (model.isMyChannel && model != btn.model) {
                     [UIView animateWithDuration:0.25 animations:^{
-                        moveBtn.frame = MYCHANNEL_FRAME(i);
-                        moveBtn.model.frame = moveBtn.frame;
-                        moveBtn.tag = i;
-                        moveBtn.model.tag = i;
+                        model.btn.frame = model.frame;
                     }];
                 }
             }
@@ -339,39 +343,42 @@ static CGFloat labelHeight = 40;
         });
     }];
 }
-- (void)newLocationTagForBtn:(HNButton *)moveBtn locationBlock:(void(^)(HNButton * targetBtn))locationBlock {
-    __weak typeof(self) wself = self;
+- (void)newLocationTagForBtn:(HNButton *)moveBtn locationBlock:(void(^)(HNChannelModel* targetModel))locationBlock {
+    HNChannelModel *moveBtnModel = moveBtn.model;
+    CGPoint moveBtnCenter = moveBtn.center;
     dispatch_async(_queue, ^{
-        for (UIView *view in wself.subviews) {
-            if (view == moveBtn) {
+        NSMutableArray *models = [[NSMutableArray alloc]initWithArray:self.datas];
+        for (HNChannelModel *model in models) {
+            if (model == moveBtnModel) {
                 continue;
             }
-            if (![view isKindOfClass:[HNButton class]]) {
+            if (!model.isMyChannel) {
                 continue;
             }
-            HNButton *btn = (HNButton *)view;
-            if (!btn.model.isMyChannel) {
-                continue;
-            }
-            if (CGRectContainsPoint(view.frame, moveBtn.center)) {
-                    locationBlock(btn);
+            if (CGRectContainsPoint(model.frame,moveBtnCenter)) {
+                locationBlock(model);
             }
         }
     });
 }
 - (void)resetBtnFrame:(HNButton *)btn {
     __weak typeof(self) wself = self;
-    [UIView animateWithDuration:0.25 animations:^{
-        btn.frame = MYCHANNEL_FRAME(btn.tag);
-        btn.model.frame = btn.frame;
-    }];
+    HNChannelModel *model = btn.model;
+    dispatch_async(_queue, ^{
+        model.frame = MYCHANNEL_FRAME(btn.model.tag);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [UIView animateWithDuration:0.25 animations:^{
+                btn.frame = model.frame;
+            }];
+        });
+    });
 }
 
 #pragma mark - scrollView的代理方法
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (scrollView.contentOffset.y < -50) {
-            [self hide];
+        [self hide];
     }
     
 }

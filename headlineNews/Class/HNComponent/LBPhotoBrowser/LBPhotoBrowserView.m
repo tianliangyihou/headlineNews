@@ -49,10 +49,12 @@ static CGFloat const itemSpace = 20.0;
 
 @property (nonatomic , assign)CGFloat zoomScale;
 
-@property (nonatomic , assign)BOOL stopPreloading;
-
 @property (nonatomic , assign)CGPoint startCenter;
 
+@property (nonatomic , strong)NSMutableDictionary *loadingImageModelDic;
+@property (nonatomic , strong)NSMutableDictionary *preloadingModelDic;
+//GCD中的对象在6.0之前是不参与ARC的，而6.0之后 在ARC下使用GCD也不用关心释放问题
+@property (strong, nonatomic) dispatch_queue_t preloadingQueue;
 
 @end
 
@@ -79,15 +81,16 @@ static CGFloat const itemSpace = 20.0;
     if (self.opreation) {
         return;
     }
+    //Code=-999 "已取消"
     self.opreation = [[SDWebImageManager sharedManager] loadImageWithURL:self.url options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
-    
-        //LBPhotoBrowserLog(@"LBScrollViewStatusModel:( %d ) line %d log: %d -- %d",self.index,__LINE__,(int)receivedSize ,(int)expectedSize);
+        
+//        LBPhotoBrowserLog(@"LBScrollViewStatusModel:( %d ) line %d log: %d -- %d",self.index,__LINE__,(int)receivedSize ,(int)expectedSize);
     } completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
        __block UIImage *downloadedImage = image;
         dispatch_async(dispatch_get_main_queue(), ^{
             wself.opreation = nil;
             if (wself.loadImageCompletedBlock) {
-                wself.loadImageCompletedBlock(self, downloadedImage, data, error, finished, imageURL);
+                wself.loadImageCompletedBlock(wself, downloadedImage, data, error, finished, imageURL);
             }else {
                 if (error) {
                     downloadedImage = [LBPhotoBrowserManager defaultManager].errorImage;
@@ -154,6 +157,7 @@ static CGFloat const itemSpace = 20.0;
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter]removeObserver:self];
+    SDDispatchQueueRelease(_preloadingQueue);
 }
 
 - (NSMutableArray *)models {
@@ -161,6 +165,19 @@ static CGFloat const itemSpace = 20.0;
         _models = [[NSMutableArray alloc]init];
     }
     return _models;
+}
+- (NSMutableDictionary *)preloadingModelDic {
+    if (!_preloadingModelDic) {
+        _preloadingModelDic = [[NSMutableDictionary alloc]init];
+    }
+    return _preloadingModelDic;
+}
+
+- (NSMutableDictionary *)loadingImageModelDic {
+    if (!_loadingImageModelDic) {
+        _loadingImageModelDic = [[NSMutableDictionary alloc]init];
+    }
+    return _loadingImageModelDic;
 }
 
 - (UIPageControl *)pageControl {
@@ -207,17 +224,16 @@ static CGFloat const itemSpace = 20.0;
 {
     self = [super initWithFrame:frame];
     if (self) {
-        
+        self.windowLevel = UIWindowLevelAlert;
+        self.hidden = NO;
         self.backgroundColor = [UIColor blackColor];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(remove) name:LBImageViewDidDismissNot object:nil];
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(scrollViewDidScroll:) name:LBGifImageDownloadFinishedNot object:nil];
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(removePageControl) name:LBImageViewWillDismissNot object:nil];
-
         UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didPan:)];
         [self addGestureRecognizer:pan];
         [LBPhotoBrowserManager defaultManager].currentCollectionView = self.collectionView;
+        _preloadingQueue = dispatch_queue_create("lb.photoBrowser", DISPATCH_QUEUE_SERIAL);
         _isShowing = NO;
-        _stopPreloading = NO;
     }
     return self;
 }
@@ -252,17 +268,6 @@ static CGFloat const itemSpace = 20.0;
             cell.zoomScrollView.imageView.transform = scale;
             cell.zoomScrollView.imageView.center = CGPointMake(self.startCenter.x + point.x, self.startCenter.y + point.y);
             self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:scalePercent / _zoomScale];
-            if ([LBPhotoBrowserManager defaultManager].moveBlock) {
-                [LBPhotoBrowserManager defaultManager].moveBlock(scalePercent / _zoomScale);
-            }else if ([LBPhotoBrowserManager defaultManager].configureStatusBarInfo) {
-                UIApplication *app = [UIApplication sharedApplication];
-                if (scalePercent / _zoomScale < 0.9 && app.statusBarHidden == YES) {
-                    app.statusBarHidden = NO;
-                }
-                if (scalePercent / _zoomScale > 0.9 && app.statusBarHidden == NO) {
-                    app.statusBarHidden = YES;
-                }
-            }
             self.tag = 1;
         }
             break;
@@ -293,11 +298,6 @@ static CGFloat const itemSpace = 20.0;
         wself.backgroundColor = [UIColor blackColor];
         cell.zoomScrollView.imageView.center = wself.startCenter;
     }completion:^(BOOL finished) {
-        if ([LBPhotoBrowserManager defaultManager].moveBlock) {
-            [LBPhotoBrowserManager defaultManager].moveBlock(1.0);
-        }else if ([LBPhotoBrowserManager defaultManager].configureStatusBarInfo) {
-            [UIApplication sharedApplication].statusBarHidden = YES;
-        }
         cell.zoomScrollView.imageViewIsMoving = NO;
         [cell.zoomScrollView layoutSubviews];
 
@@ -305,22 +305,17 @@ static CGFloat const itemSpace = 20.0;
 }
 
 #pragma mark - 监听通知
-- (void)remove{
-    [self removeFromSuperview];
-}
+
 - (void)removePageControl {
     [UIView animateWithDuration:0.25 animations:^{
         self.pageControl.alpha = 0;
     }completion:^(BOOL finished) {
         [self.pageControl removeFromSuperview];
     }];
-    if ([LBPhotoBrowserManager defaultManager].configureStatusBarInfo) {
-        [UIApplication sharedApplication].statusBarHidden = NO;
-    }
     if (![LBPhotoBrowserManager defaultManager].needPreloading) {
         return;
     }
-    [self.models enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [self.loadingImageModelDic.allValues enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         LBScrollViewStatusModel *model = (LBScrollViewStatusModel *)obj;
         if (model.opreation) {
             [model.opreation cancel];
@@ -389,7 +384,7 @@ static CGFloat const itemSpace = 20.0;
 }
 #pragma mark - 代理方法
 
-// 新版的SDWebImage不知支持Gif 故采用了老版Gif的方式 但是这样加载太多Gif内存容易升高 在收到内存警告的时候 可以通过这个来清理内存 [[SDImageCache sharedImageCache] setValue:nil forKey:@"memCache"]
+// 新版的SDWebImage不知支持Gif 故采用了老版Gif的方式 但是这样加载太多Gif内存容易升高 在收到内存警告的时候 可以通过这个来清理内存 [[SDImageCache sharedImageCache] clearMemory];
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     return CGSizeMake(SCREEN_WIDTH + itemSpace, SCREEN_HEIGHT);
@@ -418,43 +413,37 @@ static CGFloat const itemSpace = 20.0;
     
     if (![LBPhotoBrowserManager defaultManager].needPreloading) return;
     
-    if (self.stopPreloading) return;
-    
-    // 异步线程加载数据
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-
-        for (LBScrollViewStatusModel *obj in wself.models) {
-            obj.shouldCancel = YES;
-        }
-     
-        
+    dispatch_async(wself.preloadingQueue, ^{
         int leftCellIndex = model.index - 1 >= 0 ?model.index - 1:0;
         int rightCellIndex = model.index + 1 < wself.models.count? model.index + 1 : (int)wself.models.count -1;
-        
+        //wself.loadingImageModels 新计算出的需要加载的 -- > 如果个原来的没有重合的 --> 取消
+        [wself.preloadingModelDic removeAllObjects];
+        NSMutableDictionary *indexDic = wself.preloadingModelDic; // 采用全局的字典 减少快速切换时 重复创建消耗性能的问题
+        indexDic[[NSString stringWithFormat:@"%d",leftCellIndex]] = @1;
+        indexDic[[NSString stringWithFormat:@"%d",model.index]] = @1;
+        indexDic[[NSString stringWithFormat:@"%d",rightCellIndex]] = @1;
+
+        for (NSString *indexStr in wself.loadingImageModelDic.allKeys) {
+            if (indexDic[indexStr]) continue;
+            LBScrollViewStatusModel *loadingModel = wself.loadingImageModelDic[indexStr];
+            if (loadingModel.opreation) {
+                [loadingModel.opreation cancel];
+                loadingModel.opreation = nil;
+            }
+        }
+        [wself.loadingImageModelDic removeAllObjects];
         for (int i = leftCellIndex; i <= rightCellIndex; i++) {
-            model.shouldCancel = NO;
+            LBScrollViewStatusModel *loadingModel = wself.models[i];
+            NSString *indexStr = [NSString stringWithFormat:@"%d",i];
+            wself.loadingImageModelDic[indexStr] = loadingModel;
             if (model.index == i) continue;
             LBScrollViewStatusModel *preloadingModel = wself.models[i];
-            preloadingModel.shouldCancel = NO;
             preloadingModel.currentPageImage = preloadingModel.currentPageImage ?:[wself getCacheImageForModel:preloadingModel];
             if (preloadingModel.currentPageImage) continue;
             [preloadingModel loadImage];
         }
-        
-        int finish = 0;
-        for (LBScrollViewStatusModel *obj in wself.models) {
-            if (obj.shouldCancel && obj.opreation) {
-                [obj.opreation cancel];
-                obj.opreation = nil;
-            }
-            if (obj.currentPageImage) {
-                finish = finish + 1;
-            }
-        }
-        if (finish == wself.models.count) {
-            wself.stopPreloading = YES;
-        }
     });
+
 }
 
 

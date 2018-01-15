@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LBPhotoBrowserView : UIView
+@interface LBPhotoBrowserView : UIWindow
 
 @property (nonatomic , weak)UIPageControl *pageControl;
 
@@ -31,7 +31,6 @@
 
 @property (nonatomic , assign)BOOL isShowing;
 @property (nonatomic , assign)BOOL showPopAnimation;
-@property (nonatomic , assign)BOOL shouldCancel;
 @property (nonatomic , assign)int index;
 
 @property (nonatomic , copy)void (^loadImageCompletedBlock)(LBScrollViewStatusModel *loadModel,UIImage *image, NSData *data, NSError *  error, BOOL finished, NSURL *imageURL);

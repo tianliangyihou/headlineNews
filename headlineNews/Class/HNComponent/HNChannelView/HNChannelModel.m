@@ -10,4 +10,12 @@
 
 @implementation HNChannelModel
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _hideDeleBtn = YES;
+    }
+    return self;
+}
 @end

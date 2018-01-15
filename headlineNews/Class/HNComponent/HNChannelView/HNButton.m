@@ -14,23 +14,23 @@
 static UIBezierPath * pathForBtn(HNButton *btn) {
     //路径阴影
     UIBezierPath *path = [UIBezierPath bezierPath];
-    
+
     float width = btn.bounds.size.width;
     float height = btn.bounds.size.height;
     float x = btn.bounds.origin.x;
     float y = btn.bounds.origin.y;
     float addWH = 2;
-    
+
     CGPoint topLeft      = btn.bounds.origin;
     CGPoint topMiddle = CGPointMake(x+(width/2),y-addWH);
     CGPoint topRight     = CGPointMake(x+width,y);
-    
+
     CGPoint rightMiddle = CGPointMake(x+width+addWH,y+(height/2));
-    
+
     CGPoint bottomRight  = CGPointMake(x+width,y+height);
     CGPoint bottomMiddle = CGPointMake(x+(width/2),y+height+addWH);
     CGPoint bottomLeft   = CGPointMake(x,y+height);
-    
+
     CGPoint leftMiddle = CGPointMake(x-addWH,y+(height/2));
     [path moveToPoint:topLeft];
     [path addQuadCurveToPoint:topRight
@@ -91,8 +91,9 @@ static inline void configRecommondBg(HNButton *btn) {
         [self addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
         UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(btnLong:)];
         [self addGestureRecognizer:longPress];
-        //这样并不会导致离屏渲染
         self.layer.cornerRadius = 4;
+        self.layer.shouldRasterize = YES;
+        self.layer.rasterizationScale = [UIScreen mainScreen].scale;
     }
     return self;
 }
@@ -115,8 +116,8 @@ static inline void configRecommondBg(HNButton *btn) {
 
 - (void)setModel:(HNChannelModel *)model {
     _model = model;
-    self.tag = model.tag;
     self.frame = model.frame;
+    model.btn = self;
     if (model.isMyChannel) {
         [self setTitle:model.name forState:UIControlStateNormal];
         configMyChannelBg(self);
@@ -124,6 +125,7 @@ static inline void configRecommondBg(HNButton *btn) {
         [self setTitle:[NSString stringWithFormat:@"＋%@",model.name] forState:UIControlStateNormal];
         configRecommondBg(self);
     }
+    
 }
 
 - (void)reloadData {
