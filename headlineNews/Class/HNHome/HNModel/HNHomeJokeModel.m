@@ -10,6 +10,7 @@
 #import <MJExtension/MJExtension.h>
 @implementation HNHomeJokeInfoModel
 
+
 @end
 
 @implementation HNHomeJokeSummaryModel
@@ -24,6 +25,13 @@
     _infoModel = model;
     return model;
 }
+
++ (NSArray *)mj_ignoredPropertyNames {
+    return @[@"starBtnSelcetd",
+             @"hateBtnSelcetd",
+             @"collectionSelcetd"];
+}
+
 @end
 
 @implementation HNHomeJokeModel

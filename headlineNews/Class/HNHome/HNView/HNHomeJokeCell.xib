@@ -95,7 +95,7 @@
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KPj-Cw-wT1">
                         <rect key="frame" x="265" y="38" width="45" height="24"/>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="24" id="LjH-Nv-VHF"/>
                             <constraint firstAttribute="width" constant="45" id="MTD-QG-FKe"/>
@@ -104,7 +104,7 @@
                         <state key="normal" title="Button" image="icon_details_share_24x24_"/>
                     </button>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jzc-wP-r2a">
-                        <rect key="frame" x="0.0" y="68" width="320" height="11"/>
+                        <rect key="frame" x="0.0" y="69" width="320" height="10"/>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="10" id="Ff2-1w-IsW"/>
@@ -136,6 +136,7 @@
                 <outlet property="contentLabel" destination="hLI-i5-kQY" id="vxu-ak-ehP"/>
                 <outlet property="hateBtn" destination="Jmk-T1-LRU" id="Oic-ce-de7"/>
                 <outlet property="likeBtn" destination="ylg-eE-s3V" id="bsu-sw-gan"/>
+                <outlet property="lineView" destination="jzc-wP-r2a" id="7Ot-5b-mcp"/>
             </connections>
             <point key="canvasLocation" x="81" y="-434.5"/>
         </tableViewCell>

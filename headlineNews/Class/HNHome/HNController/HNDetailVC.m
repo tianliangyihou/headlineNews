@@ -45,6 +45,7 @@
         tableView.dataSource = self;
         tableView.estimatedRowHeight = 152;
         tableView.rowHeight = UITableViewAutomaticDimension;
+        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [self.view addSubview:tableView];
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.mas_equalTo(UIEdgeInsetsMake(0, 0, 0, 0));

@@ -7,40 +7,78 @@
 //
 
 #import "HNHomeJokeCell.h"
-
+#import "HNHeader.h"
 @interface HNHomeJokeCell ()
 @property (weak, nonatomic) IBOutlet UILabel *contentLabel;
 @property (weak, nonatomic) IBOutlet UIButton *likeBtn;
 @property (weak, nonatomic) IBOutlet UIButton *hateBtn;
 @property (weak, nonatomic) IBOutlet UIButton *collectionBtn;
+@property (weak, nonatomic) IBOutlet UIView *lineView;
+@property (nonatomic , weak)UILabel *plusLabel;
 
 @end
 @implementation HNHomeJokeCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
+    UILabel *label = [[UILabel alloc]init];
+    label.text = @"+1";
+    // 今日头条这里并没有采用系统的字体
+    label.textAlignment = NSTextAlignmentCenter;
+    label.font = [UIFont systemFontOfSize:18];
+    label.frame = CGRectMake(0, 0, 20,20);
+    label.textColor = HN_MIAN_STYLE_COLOR;
+    label.transform = CGAffineTransformMakeScale(0.4, 0.4);
+    label.hidden = YES;
+    [self.contentView addSubview:label];
+    _plusLabel = label;
+    _lineView.backgroundColor = [UIColor colorWithRed:0.96 green:0.96 blue:0.97 alpha:1];
 }
 - (void)setModel:(HNHomeJokeSummaryModel *)model {
     _model = model;
     _contentLabel.text = model.infoModel.content;
+    _likeBtn.selected = model.starBtnSelcetd;
+    _hateBtn.selected = model.hateBtnSelcetd;
+    _collectionBtn.selected = model.collectionSelcetd;
 }
 - (IBAction)likeBtnClick:(UIButton *)sender {
+    if ([self showLogMsg]) {
+        return;
+    }
     sender.selected = !sender.selected;
+    self.model.starBtnSelcetd = sender.selected;
     [self addAnimationForSender:sender];
 
 }
 - (IBAction)hateBtnClick:(UIButton *)sender {
+    if ([self showLogMsg]) {
+        return;
+    }
     sender.selected = !sender.selected;
+    self.model.hateBtnSelcetd = sender.selected;
     [self addAnimationForSender:sender];
 
 }
+
 - (IBAction)collectionBtnClick:(UIButton *)sender {
     sender.selected = !sender.selected;
+    self.model.collectionSelcetd = sender.selected;
     [self addAnimationForSender:sender];
+}
+- (BOOL)showLogMsg {
+    if (_hateBtn.selected) {
+        [MBProgressHUD showError:@"您已经踩过了" toView:nil];
+        return YES;
+    }
+    if (_likeBtn.selected) {
+        [MBProgressHUD showError:@"您已经赞过了" toView:nil];
+        return YES;
+    }
+    return NO;
 }
 
 - (void)addAnimationForSender:(UIButton *)sender {
+    
     if ([sender.layer animationForKey:@"show"]) {
         [sender.layer removeAnimationForKey:@"show"];
     }
@@ -48,7 +86,20 @@
     k.values =@[@(0.5),@(1.2),@(1)];
     k.keyTimes =@[@(0.0),@(0.5),@(0.8),@(1.0)];
     k.calculationMode =kCAAnimationLinear;
+    k.duration = 0.25;
     [sender.layer addAnimation:k forKey:@"show"];
+    if (sender != self.likeBtn && sender != self.hateBtn) {
+        return;
+    }
+    self.plusLabel.hidden = NO;
+    self.plusLabel.center = CGPointMake(sender.centerX - 10, sender.centerY - 15);
+    [UIView animateWithDuration:0.25 animations:^{
+        self.plusLabel.transform = CGAffineTransformMakeScale(0.8, 0.8);
+    }completion:^(BOOL finished) {
+        self.plusLabel.hidden = YES;
+        self.plusLabel.transform = CGAffineTransformMakeScale(0.5, 0.5);
+    }];
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated{return;}

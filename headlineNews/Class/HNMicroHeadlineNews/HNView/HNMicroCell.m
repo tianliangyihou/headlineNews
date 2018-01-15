@@ -67,6 +67,10 @@
     titleLabel.numberOfLines = hn_cell_content_label_max_lines;
     titleLabel.linePositionModifier = modifier;
     titleLabel.textVerticalAlignment = YYTextVerticalAlignmentTop;
+    [titleLabel setHighlightTapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
+        NSLog(@"%@",[text attributedSubstringFromRange:range].string);
+    }];
+
     @weakify(self);
     HNImageViewContainer *imageContainerView = [[HNImageViewContainer alloc]init];
     [imageContainerView setImageViewCallBack:^(int tag) {

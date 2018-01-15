@@ -21,6 +21,11 @@
 @property (nonatomic , assign)int code;
 @property (nonatomic , strong)HNHomeJokeInfoModel *infoModel;
 
+// 忽略的属性
+@property (nonatomic , assign)BOOL starBtnSelcetd;
+@property (nonatomic , assign)BOOL hateBtnSelcetd;
+@property (nonatomic , assign)BOOL collectionSelcetd;
+
 @end
 @interface HNHomeJokeModel : NSObject
 @property (nonatomic , strong)NSArray *data;
