@@ -8,7 +8,7 @@
 
 #import "HNContentNewsCell.h"
 #import "HNHeader.h"
-
+static CGFloat itemSpace = 5;
 @interface HNContentNewsCell()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *contentImageView;
@@ -22,19 +22,14 @@
 
 @implementation HNContentNewsCell
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
-}
-
 - (void)setModel:(HNHomeNewsSummaryModel *)model {
     _model = model;
     _titleLabel.text = model.infoModel.title;
-    if (model.infoModel.image_list.count == 1) {
+    if (model.infoModel.middle_image) {
+        CGFloat width = (HN_SCREEN_WIDTH - 20 - 2 * itemSpace) / 3.0;
         _contentImageView.hidden = NO;
-        HNHomeNewsImageModel *rightModel = (HNHomeNewsImageModel *)model.infoModel.image_list.firstObject;
-        [_contentImageView sd_setImageWithURL:[NSURL URLWithString:rightModel.url]];
-        _contentImageViewWidth.constant = 68.5;
+        [_contentImageView sd_setImageWithURL:[NSURL URLWithString:model.infoModel.middle_image.url]];
+        _contentImageViewWidth.constant = width;
         _titleLabelSpace.constant  = 5;
         _detialLabelSpace.constant = 5;
     }else {

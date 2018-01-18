@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *hateBtn;
 @property (weak, nonatomic) IBOutlet UIButton *collectionBtn;
 @property (weak, nonatomic) IBOutlet UIView *lineView;
+@property (weak, nonatomic) IBOutlet UIButton *commentBtn;
 @property (nonatomic , weak)UILabel *plusLabel;
 
 @end
@@ -32,7 +33,7 @@
     label.hidden = YES;
     [self.contentView addSubview:label];
     _plusLabel = label;
-    _lineView.backgroundColor = [UIColor colorWithRed:0.96 green:0.96 blue:0.97 alpha:1];
+    _lineView.backgroundColor = HN_MIAN_GRAY_Color;
 }
 - (void)setModel:(HNHomeJokeSummaryModel *)model {
     _model = model;
@@ -40,12 +41,16 @@
     _likeBtn.selected = model.starBtnSelcetd;
     _hateBtn.selected = model.hateBtnSelcetd;
     _collectionBtn.selected = model.collectionSelcetd;
+    [_likeBtn setTitle:[NSString stringWithFormat:@"%d",model.infoModel.star_count] forState:UIControlStateNormal];
+    [_hateBtn setTitle:[NSString stringWithFormat:@"%d",model.infoModel.hate_count] forState:UIControlStateNormal];
+    [_commentBtn setTitle:[NSString stringWithFormat:@"%d",model.infoModel.comment_count] forState:UIControlStateNormal];
 }
 - (IBAction)likeBtnClick:(UIButton *)sender {
     if ([self showLogMsg]) {
         return;
     }
     sender.selected = !sender.selected;
+    self.model.infoModel.star_count += 1;
     self.model.starBtnSelcetd = sender.selected;
     [self addAnimationForSender:sender];
 
@@ -54,6 +59,7 @@
     if ([self showLogMsg]) {
         return;
     }
+    self.model.infoModel.hate_count += 1;
     sender.selected = !sender.selected;
     self.model.hateBtnSelcetd = sender.selected;
     [self addAnimationForSender:sender];
@@ -91,6 +97,10 @@
     if (sender != self.likeBtn && sender != self.hateBtn) {
         return;
     }
+    
+    if (sender == _likeBtn) [_likeBtn setTitle:[NSString stringWithFormat:@"%d",self.model.infoModel.star_count] forState:UIControlStateNormal];
+
+    if (sender == _hateBtn) [_hateBtn setTitle:[NSString stringWithFormat:@"%d",self.model.infoModel.hate_count] forState:UIControlStateNormal];
     self.plusLabel.hidden = NO;
     self.plusLabel.center = CGPointMake(sender.centerX - 10, sender.centerY - 15);
     [UIView animateWithDuration:0.25 animations:^{

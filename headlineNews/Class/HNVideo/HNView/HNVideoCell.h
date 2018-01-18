@@ -13,5 +13,4 @@
 @property (nonatomic , copy)void(^imageViewCallBack)(void);
 
 - (void)refreshCellStatus;
-- (void)setPlayStatus;
 @end

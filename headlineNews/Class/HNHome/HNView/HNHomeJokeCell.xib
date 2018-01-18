@@ -15,7 +15,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="79"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="78.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="79"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hLI-i5-kQY">
@@ -36,7 +36,7 @@
                             <constraint firstAttribute="height" constant="24" id="Zq2-9o-qFf"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                        <state key="normal" title="120" image="details_like_icon_20x20_">
+                        <state key="normal" title="1" image="details_like_icon_20x20_">
                             <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                         <state key="selected" image="details_like_icon_press_20x20_">
@@ -57,7 +57,7 @@
                             <constraint firstAttribute="width" constant="52" id="zL3-vR-e22"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                        <state key="normal" title="36" image="digdown_video_20x20_">
+                        <state key="normal" title="2" image="digdown_video_20x20_">
                             <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                         <state key="selected" image="digdown_video_press_20x20_">
@@ -72,10 +72,10 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="24" id="8ve-pU-Olc"/>
-                            <constraint firstAttribute="width" constant="52" id="pKk-uf-aPY"/>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="52" id="pKk-uf-aPY"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                        <state key="normal" title="30" image="comment_video_20x20_">
+                        <state key="normal" title="3" image="comment_video_20x20_">
                             <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                     </button>
@@ -133,6 +133,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="collectionBtn" destination="DA7-RD-OrR" id="DgJ-mX-46E"/>
+                <outlet property="commentBtn" destination="4DU-4Q-MLx" id="aLu-ZQ-bvM"/>
                 <outlet property="contentLabel" destination="hLI-i5-kQY" id="vxu-ak-ehP"/>
                 <outlet property="hateBtn" destination="Jmk-T1-LRU" id="Oic-ce-de7"/>
                 <outlet property="likeBtn" destination="ylg-eE-s3V" id="bsu-sw-gan"/>

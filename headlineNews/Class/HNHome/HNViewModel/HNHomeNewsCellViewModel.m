@@ -13,6 +13,7 @@
 #import "HNHomeNewsRequest.h"
 #import "HNHomeNewsModel.h"
 #import "HNHomeJokeModel.h"
+#import "HNVideoListModel.h"
 @implementation HNHomeNewsCellViewModel
 - (instancetype)init
 {
@@ -33,6 +34,16 @@
                         [model mj_setKeyValues:responseDic];
                         [model.data makeObjectsPerformSelector:@selector(infoModel)];
                         [subscriber sendNext:model];
+                        [subscriber sendCompleted];
+                    }else if ([input isEqualToString:@"video"]) {
+                        NSArray *dataArr = responseDic[@"data"];
+                        NSMutableArray *models = [[NSMutableArray alloc]init];
+                        for (int i = 0 ; i < dataArr.count; i++) {
+                            HNVideoListModel *model = [[[HNVideoListModel alloc]init] mj_setKeyValues:dataArr[i]];
+                            [[model videoModel] videoInfoModel];
+                            [models addObject:model];
+                        }
+                        [subscriber sendNext:models];
                         [subscriber sendCompleted];
                     }else {
                         HNHomeNewsModel *model = [[HNHomeNewsModel alloc]init];

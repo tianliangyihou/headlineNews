@@ -37,7 +37,7 @@
     item.titlePositionAdjustment = UIOffsetMake(0, -5);
     NSMutableDictionary * normalAtts = [NSMutableDictionary dictionary];
     normalAtts[NSFontAttributeName] = [UIFont systemFontOfSize:10];
-    normalAtts[NSForegroundColorAttributeName] = HN_MIAN_GRAY_COLOR;
+    normalAtts[NSForegroundColorAttributeName] = HN_TABBERBAR_GRAY_COLOR;
     [item setTitleTextAttributes:normalAtts forState:UIControlStateNormal];
     
     // 选中状态

@@ -10,5 +10,5 @@
 #import "HNMicroLayout.h"
 @interface HNMicroCell : UITableViewCell
 @property (nonatomic , strong)HNMicroLayout *layout;
-
+@property (nonatomic , copy)void (^showDetailContentBlock)(HNMicroLayout *layout);
 @end

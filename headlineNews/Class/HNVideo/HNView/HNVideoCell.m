@@ -11,12 +11,13 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 @interface HNVideoCell ()
 
-@property (weak, nonatomic) IBOutlet UIImageView *videoPosterImageView;
+
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
 @property (weak, nonatomic) IBOutlet UILabel *authorLabel;
 @property (weak, nonatomic) IBOutlet UIButton *playBtn;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *videoPosterImageView;
 
 @end
 
@@ -24,15 +25,19 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    self.videoPosterImageView.contentMode = UIViewContentModeScaleToFill;
-    self.videoPosterImageView.tag = 120;
-    self.iconImageView.tag = 100;
+    self.videoPosterImageView.tag = 101;
+    self.videoPosterImageView.contentMode = UIViewContentModeScaleAspectFill;
+    self.videoPosterImageView.clipsToBounds = YES;
     self.videoPosterImageView.userInteractionEnabled = YES;
     self.videoPosterImageView.backgroundColor = [UIColor lightGrayColor];
     self.timeLabel.layer.cornerRadius = 9;
     self.timeLabel.layer.masksToBounds = YES;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(imageViewClick)];
     [self.videoPosterImageView addGestureRecognizer:tap];
+    [self.videoPosterImageView addSubview:self.playBtn];
+    [self.videoPosterImageView addSubview:self.timeLabel];
+    [self.videoPosterImageView addSubview:self.titleLabel];
+
 }
 - (void)setModel:(HNVideoListModel *)model {
     _model = model;
@@ -49,7 +54,7 @@
         }
     }];
     if (model.playing) {
-        [self setPlayStatus];
+        self.iconImageView.hidden = YES;
     }else {
         [self refreshCellStatus];
     }
@@ -58,20 +63,9 @@
     if (_imageViewCallBack) {
         _imageViewCallBack();
     }
-    [self setPlayStatus];
-}
-
-- (void)setPlayStatus {
-    self.playBtn.hidden = YES;
-    self.timeLabel.hidden = YES;
-    self.titleLabel.hidden = YES;
     self.iconImageView.hidden = YES;
 }
-
 - (void)refreshCellStatus {
-    self.playBtn.hidden = NO;
-    self.timeLabel.hidden = NO;
-    self.titleLabel.hidden = NO;
     self.iconImageView.hidden = NO;
 }
 @end

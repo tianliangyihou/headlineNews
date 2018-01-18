@@ -10,8 +10,8 @@
 @interface HNHomeJokeInfoModel : NSObject
 @property (nonatomic , copy)NSString *content;
 @property (nonatomic , assign)int comment_count;
-@property (nonatomic , assign)int digg_count;
-@property (nonatomic , assign)int repin_count;
+@property (nonatomic , assign)int star_count;
+@property (nonatomic , assign)int hate_count;
 
 @end
 

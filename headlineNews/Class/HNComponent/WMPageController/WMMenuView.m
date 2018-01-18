@@ -296,7 +296,7 @@ static NSInteger const WMBadgeViewTagOffset = 1212;
     [self addBadgeViews];
     // llb insert
     UIView *lineView = [[UIView alloc]initWithFrame:CGRectMake(0, 35,[UIScreen mainScreen].bounds.size.width, 1)];
-    lineView.backgroundColor = [UIColor lightGrayColor];
+    lineView.backgroundColor = [UIColor colorWithRed:0.85 green:0.85 blue:0.85 alpha:1];
     [self addSubview:lineView];
     self.backgroundColor = [UIColor whiteColor];
     
@@ -542,7 +542,13 @@ static NSInteger const WMBadgeViewTagOffset = 1212;
 
 #pragma mark - Menu item delegate
 - (void)didPressedMenuItem:(WMMenuItem *)menuItem {
-    if (self.selItem == menuItem) { return; }
+    if (self.selItem == menuItem) {
+//        llb_修改
+        if ([self.delegate respondsToSelector:@selector(menuView:didSelesctedIndex:currentIndex:)]) {
+            [self.delegate menuView:self didSelesctedIndex:-1 currentIndex:-1];
+        }
+        return;
+    }
     
     CGFloat progress = menuItem.tag - WMMenuItemTagOffset;
     [self.progressView moveToPostion:progress];

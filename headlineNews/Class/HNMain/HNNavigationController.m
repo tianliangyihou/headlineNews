@@ -17,7 +17,6 @@
 
 + (void)initialize {
     [[UINavigationBar appearance] setTranslucent:NO];
-
     NSMutableDictionary * color = [NSMutableDictionary dictionary];
     color[NSFontAttributeName] = [UIFont systemFontOfSize:16];
     color[NSForegroundColorAttributeName] = [UIColor blackColor];

@@ -7,6 +7,7 @@
 //
 
 #import "HNVideoListModel.h"
+#import <MJExtension/MJExtension.h>
 
 @implementation HNVideoUserInfoModel
 
@@ -36,6 +37,18 @@
 
 @implementation HNVideoDetialModel
 
+- (HNVideoPlayInfoModel *)videoInfoModel {
+    if (!_videoInfoModel) {
+        NSData *data = [self.video_play_info dataUsingEncoding:NSUTF8StringEncoding];
+        if (!data) {
+            return nil;
+        }else {
+            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            _videoInfoModel = [[[HNVideoPlayInfoModel alloc]init] mj_setKeyValues:dic];
+        }
+    }
+    return _videoInfoModel;
+}
 
 @end
 
@@ -49,7 +62,14 @@
     }
     return self;
 }
-
+- (HNVideoDetialModel *)videoModel {
+    if (!_videoModel) {
+        NSData *data = [self.content dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        _videoModel = [[[HNVideoDetialModel alloc]init] mj_setKeyValues:dic];
+    }
+    return _videoModel;
+}
 @end
 
 

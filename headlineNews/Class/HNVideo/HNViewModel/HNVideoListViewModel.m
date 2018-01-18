@@ -32,16 +32,7 @@
                     NSMutableArray *models = [[NSMutableArray alloc]init];
                     for (int i = 0 ; i < dataArr.count; i++) {
                         HNVideoListModel *model = [[[HNVideoListModel alloc]init] mj_setKeyValues:dataArr[i]];
-                        NSData *data1 = [model.content dataUsingEncoding:NSUTF8StringEncoding];
-                        NSDictionary *dic1 = [NSJSONSerialization JSONObjectWithData:data1 options:NSJSONReadingMutableContainers error:nil];
-                        model.videoModel = [[[HNVideoDetialModel alloc]init] mj_setKeyValues:dic1];
-                        NSData *data2 = [model.videoModel.video_play_info dataUsingEncoding:NSUTF8StringEncoding];
-                        if (data2 == nil) {
-                            [models addObject:model];
-                            continue;
-                        }
-                        NSDictionary *dic2 = [NSJSONSerialization JSONObjectWithData:data2 options:NSJSONReadingMutableContainers error:nil];
-                        model.videoModel.videoInfoModel = [[[HNVideoPlayInfoModel alloc]init] mj_setKeyValues:dic2];
+                        [[model videoModel] videoInfoModel];
                         [models addObject:model];
                     }
                     [subscriber sendNext:models];

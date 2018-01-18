@@ -10,6 +10,22 @@
 #import <MJExtension/MJExtension.h>
 @implementation HNHomeJokeInfoModel
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _comment_count = 30;
+        _star_count = 120;
+        _hate_count = 36;
+    }
+    return self;
+}
+
++ (NSArray *)mj_ignoredPropertyNames {
+    return @[@"comment_count",
+             @"star_count",
+             @"hate_count"];
+}
 
 @end
 

@@ -22,6 +22,7 @@ static CGFloat itemSpace = 5;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *heightConstraint1;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *widthConstraint2;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *heightConstraint2;
+@property (nonatomic , strong)NSArray *imageViews;
 
 @end
 
@@ -40,6 +41,8 @@ static CGFloat itemSpace = 5;
     _marginConstraint.constant = itemSpace;
     _titleLabel.numberOfLines = 2;
     _infoLabel.font = [UIFont systemFontOfSize:10];
+    _imageViews = @[_leftImageView,_middleImageView,_rightImageView];
+
 }
 - (void)setModel:(HNHomeNewsSummaryModel *)model {
     _model = model;
@@ -49,12 +52,11 @@ static CGFloat itemSpace = 5;
         _rightImageView.hidden = NO;
         _middleImageView.hidden = NO;
         NSArray *imageModels  = model.infoModel.image_list;
-        HNHomeNewsImageModel *leftModel = (HNHomeNewsImageModel *)imageModels.firstObject;
-        HNHomeNewsImageModel *rightModel = (HNHomeNewsImageModel *)imageModels.lastObject;
-        HNHomeNewsImageModel *middleModel = (HNHomeNewsImageModel *)imageModels[1];
-        [_leftImageView sd_setImageWithURL:[NSURL URLWithString:leftModel.url]];
-        [_rightImageView sd_setImageWithURL:[NSURL URLWithString:rightModel.url]];
-        [_middleImageView sd_setImageWithURL:[NSURL URLWithString:middleModel.url]];
+        [imageModels enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            HNHomeNewsImageModel *imageModel = (HNHomeNewsImageModel *)obj;
+            UIImageView *imageView = self.imageViews[idx];
+            [imageView sd_setImageWithURL:[NSURL URLWithString:imageModel.url]];
+        }];
     }else {
         _leftImageView.hidden = YES;
         _rightImageView.hidden = YES;

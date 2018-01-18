@@ -17,7 +17,7 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <YYText/YYText.h>
 
-@interface HNMicroCell()
+@interface HNMicroCell() <UIGestureRecognizerDelegate>
 @property (nonatomic , weak)UILabel *nameLabel;
 @property (nonatomic , weak)UILabel *subTitleLabel;
 @property (nonatomic , weak)YYLabel *titleLabel;
@@ -140,6 +140,11 @@
     [self.contentView addSubview:shareBtn];
     _shareBtn = shareBtn;
     
+    //添加手势
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(titleLabelClick:)];
+    tap.delegate = self;
+    [self.contentView addGestureRecognizer:tap];
+    
     //添加动画
     [HNEmitterHelper defaultHelper].addLongPressAnimationView = starBtn;
     [starBtn addTarget:self action:@selector(starBtnBeginAnimation:) forControlEvents:UIControlEventTouchUpInside];
@@ -151,8 +156,13 @@
     NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:@"...全文"];
     YYTextHighlight *hi = [YYTextHighlight new];
     [hi setColor:[UIColor colorWithRed:0.578 green:0.790 blue:1.000 alpha:1.000]];
+    @weakify(self);
     hi.tapAction = ^(UIView *containerView, NSAttributedString *text, NSRange range, CGRect rect) {
         NSLog(@"%@",self.layout.model.detialModel.content);
+        @strongify(self);
+        if (self.showDetailContentBlock) {
+            self.showDetailContentBlock(self.layout);
+        }
     };
     
     [text yy_setColor:[UIColor colorWithRed:0.000 green:0.449 blue:1.000 alpha:1.000] range:[text.string rangeOfString:@"全文"]];
@@ -165,6 +175,23 @@
     self.titleLabel.truncationToken = truncationToken;
 }
 
+#pragma mark - UIGestureRecognizerDelegate
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    if ([touch.view isKindOfClass:[YYLabel class]]) {
+        YYLabel *label = (YYLabel *)touch.view;
+        YYTextRange *textRange = [label.textLayout textRangeAtPoint:[touch locationInView:label]];
+        if (!textRange) return YES;
+        id obj = [label.attributedText yy_attribute:YYTextHighlightAttributeName atIndex:textRange.asRange.location];
+        return obj? NO :YES;
+    }
+    return YES;
+}
+
+- (void)titleLabelClick:(UITapGestureRecognizer *)tap {
+    if (self.showDetailContentBlock) {
+        self.showDetailContentBlock(self.layout);
+    }
+}
 
 - (void)configFrame {
     _iconImageView.frame = CGRectMake(10, 20, 40, 40);

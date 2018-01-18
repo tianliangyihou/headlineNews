@@ -68,14 +68,19 @@
     return model.name;
 }
 
-
 #pragma mark - 刷新数据
-
 - (void)needRefreshTableViewData {
     HNVideoPageVC *pageVC = (HNVideoPageVC *)self.currentViewController;
     [pageVC needRefreshTableViewData];
 }
 
-
+#pragma mark - WMMenuView 的代理方法
+- (void)menuView:(WMMenuView *)menu didSelesctedIndex:(NSInteger)index currentIndex:(NSInteger)currentIndex {
+    if (index == -1) {
+        [self needRefreshTableViewData];
+    }else {
+        [super menuView:menu didSelesctedIndex:index currentIndex:currentIndex];
+    }
+}
 
 @end

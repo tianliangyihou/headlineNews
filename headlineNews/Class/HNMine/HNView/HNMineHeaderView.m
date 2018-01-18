@@ -112,6 +112,7 @@
     // nickname
     UILabel *nameLabel = [[UILabel alloc]init];
     nameLabel.text = @"颤抖的老拖拉机";
+    nameLabel.textColor = [UIColor whiteColor];
     [self addSubview:nameLabel];
     
     // 今日阅读量

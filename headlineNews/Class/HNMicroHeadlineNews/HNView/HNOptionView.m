@@ -88,7 +88,7 @@
         }
     }];
     UIView *lineView = [[UIView alloc]init];
-    lineView.backgroundColor = [UIColor lightGrayColor];
+    lineView.backgroundColor = HN_MIAN_GRAY_Color;
     [self addSubview:lineView];
     [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.bottom.mas_equalTo(self);

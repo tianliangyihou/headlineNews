@@ -14,7 +14,24 @@
 #import "HNMicroHeadlineModel.h"
 #import "UIView+Frame.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+@interface HNImageView :UIImageView
 
+@end
+
+@implementation HNImageView
+// init 也会调用
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.contentMode = UIViewContentModeScaleAspectFill;
+        self.backgroundColor = [UIColor lightGrayColor];
+        self.clipsToBounds = YES;
+        self.userInteractionEnabled = YES;
+    }
+    return self;
+}
+@end
 
 @interface HNImageViewContainer ()
 @property (nonatomic , assign)CGFloat height;
@@ -30,11 +47,7 @@
     if (!_imageViews) {
         _imageViews = [[NSMutableArray alloc]init];
         for (int i = 0; i < 9; i++) {
-            UIImageView *imageView = [[UIImageView alloc]init];
-            imageView.contentMode = UIViewContentModeScaleAspectFill;
-            imageView.backgroundColor = [UIColor lightGrayColor];
-            imageView.clipsToBounds = YES;
-            imageView.userInteractionEnabled = YES;
+            HNImageView *imageView = [[HNImageView alloc]init];
             UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(imageViewClick:)];
             [imageView addGestureRecognizer:tap];
             imageView.tag = i;

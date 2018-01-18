@@ -61,6 +61,7 @@
 		267D2387200C485300A348DB /* UIImage+LBDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 267D237B200C485300A348DB /* UIImage+LBDecoder.m */; };
 		267D2388200C485300A348DB /* UIView+LBFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 267D237D200C485300A348DB /* UIView+LBFrame.m */; };
 		267D238B200C8A9100A348DB /* UIScrollView+EX.m in Sources */ = {isa = PBXBuildFile; fileRef = 267D238A200C8A9100A348DB /* UIScrollView+EX.m */; };
+		267D23C0200F5D1C00A348DB /* HNMicroContentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 267D23BF200F5D1C00A348DB /* HNMicroContentVC.m */; };
 		267F29741FD3BFC50059362A /* HNEmitterHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 267F29731FD3BFC50059362A /* HNEmitterHelper.m */; };
 		267F29781FD6A3BA0059362A /* HNHomeJokeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 267F29771FD6A3BA0059362A /* HNHomeJokeModel.m */; };
 		267F297C1FD6A6B80059362A /* HNHomeJokeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 267F297A1FD6A6B80059362A /* HNHomeJokeCell.m */; };
@@ -201,6 +202,8 @@
 		267D237D200C485300A348DB /* UIView+LBFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+LBFrame.m"; sourceTree = "<group>"; };
 		267D2389200C8A9100A348DB /* UIScrollView+EX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+EX.h"; sourceTree = "<group>"; };
 		267D238A200C8A9100A348DB /* UIScrollView+EX.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+EX.m"; sourceTree = "<group>"; };
+		267D23BE200F5D1C00A348DB /* HNMicroContentVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNMicroContentVC.h; sourceTree = "<group>"; };
+		267D23BF200F5D1C00A348DB /* HNMicroContentVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNMicroContentVC.m; sourceTree = "<group>"; };
 		267F29721FD3BFC50059362A /* HNEmitterHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNEmitterHelper.h; sourceTree = "<group>"; };
 		267F29731FD3BFC50059362A /* HNEmitterHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNEmitterHelper.m; sourceTree = "<group>"; };
 		267F29761FD6A3BA0059362A /* HNHomeJokeModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNHomeJokeModel.h; sourceTree = "<group>"; };
@@ -720,6 +723,8 @@
 			children = (
 				26922CAC1FCEAA03002AF655 /* HNMicroHeadlineNewVC.h */,
 				26922CAD1FCEAA03002AF655 /* HNMicroHeadlineNewVC.m */,
+				267D23BE200F5D1C00A348DB /* HNMicroContentVC.h */,
+				267D23BF200F5D1C00A348DB /* HNMicroContentVC.m */,
 			);
 			path = HNController;
 			sourceTree = "<group>";
@@ -1008,6 +1013,7 @@
 				262437F71FC2BB8A00BAA1B6 /* HNRefreshFooter.m in Sources */,
 				267D2385200C485300A348DB /* LBTapDetectingImageView.m in Sources */,
 				262437D81FBEDDBA00BAA1B6 /* UITabBar+HNTabber.m in Sources */,
+				267D23C0200F5D1C00A348DB /* HNMicroContentVC.m in Sources */,
 				2655F27C1FC55DFE0027C6C4 /* HNVideoTitleModel.m in Sources */,
 				2655F28B1FC5782C0027C6C4 /* HNVideoListModel.m in Sources */,
 				2607B5E91FC7C929000AF380 /* HNTitleView.m in Sources */,
@@ -1156,6 +1162,14 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/headlineNews/Class/HNComponent",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/headlineNews/Other/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1176,6 +1190,14 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/headlineNews/Class/HNComponent",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/headlineNews/Other/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

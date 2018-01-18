@@ -57,6 +57,7 @@ static NSString *cellID = @"cellID";
         UITableView *tableView = [[UITableView alloc]init];
         tableView.delegate = self;
         tableView.dataSource = self;
+        tableView.estimatedRowHeight = 0;
         [self.view addSubview:tableView];
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.mas_equalTo(UIEdgeInsetsMake(0, 0, 0, 0));
@@ -107,9 +108,17 @@ static NSString *cellID = @"cellID";
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self.playerView resetPlayer];
+    NSArray *cells = [self.tableView visibleCells];
+    for (HNVideoCell *cell in cells) {
+        if (cell.model.playing) {
+            [cell refreshCellStatus];
+            _playingModel = nil;
+        }
+    }
 }
 
 - (void)needRefreshTableViewData {
+    [self.tableView setContentOffset:CGPointZero];
     [self.tableView.mj_header beginRefreshing];
 }
 
@@ -144,7 +153,7 @@ static NSString *cellID = @"cellID";
         playerModel.scrollView       = tableView;
         playerModel.resolutionDic    = dic;
         playerModel.indexPath        = indexPath;
-        playerModel.fatherViewTag = 120;
+        playerModel.fatherViewTag = 101;
         [self.playerView playerControlView:nil playerModel:playerModel];
         [self.playerView autoPlayTheVideo];
     }];
@@ -167,9 +176,11 @@ static NSString *cellID = @"cellID";
     if (model.playing) {
         model.playing = NO;
         [(HNVideoCell *)cell refreshCellStatus];
+        _playingModel = nil;
     }
 }
 - (void)setPlayingModel:(HNVideoListModel *)playingModel {
+    // 播放下一个视频之前 重置上一个的播放状态
     if (_playingModel.playing) {
         _playingModel.playing = NO;
         NSInteger index = [self.videoModels indexOfObject:_playingModel];

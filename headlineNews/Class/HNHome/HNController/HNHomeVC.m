@@ -108,4 +108,13 @@
         return model.name;
     }
 }
+#pragma mark - WMMenuView 的代理方法
+- (void)menuView:(WMMenuView *)menu didSelesctedIndex:(NSInteger)index currentIndex:(NSInteger)currentIndex {
+    if (index == -1) {
+        [self needRefreshTableViewData];
+    }else {
+        [super menuView:menu didSelesctedIndex:index currentIndex:currentIndex];
+    }
+}
+
 @end

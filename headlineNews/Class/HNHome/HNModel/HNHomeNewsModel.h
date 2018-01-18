@@ -23,6 +23,7 @@
 @property (nonatomic , assign)int read_count;
 @property (nonatomic , strong)NSArray *image_list;
 @property (nonatomic , copy)NSString *display_url;
+@property (nonatomic , strong)HNHomeNewsImageModel *middle_image;
 //资深记者 娱评人
 @property (nonatomic , copy)NSString *verified_content;
 @property (nonatomic , copy)NSString *title;

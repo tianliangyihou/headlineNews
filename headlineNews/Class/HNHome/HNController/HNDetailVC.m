@@ -14,15 +14,30 @@
 #import "HNHomeJokeCell.h"
 #import "HNHomeWebVC.h"
 #import "HNContentNewsCell.h"
+#import "HNVideoCell.h"
+#import <ZFPlayer/ZFPlayer.h>
 
-@interface HNDetailVC ()<UITableViewDelegate,UITableViewDataSource>
+@interface HNDetailVC ()<UITableViewDelegate,UITableViewDataSource,ZFPlayerDelegate>
 @property (nonatomic , weak)UITableView *tableView;
 @property (nonatomic , strong)HNHomeNewsCellViewModel *newsViewModel;
 @property (nonatomic , strong)NSMutableArray *datas;
-
+@property (nonatomic , weak)HNVideoListModel *playingModel;
+@property (nonatomic , strong)ZFPlayerView *playerView;
 @end
 
 @implementation HNDetailVC
+
+- (ZFPlayerView *)playerView {
+    if (!_playerView) {
+        _playerView = [ZFPlayerView sharedPlayerView];
+        _playerView.delegate = self;
+        // 当cell播放视频由全屏变为小屏时候，不回到中间位置
+        _playerView.cellPlayerOnCenter = NO;
+        // 当cell划出屏幕的时候停止播放
+        _playerView.stopPlayWhileCellNotVisable = YES;
+    }
+    return _playerView;
+}
 
 - (NSMutableArray *)datas {
     if (!_datas) {
@@ -58,6 +73,9 @@
         
         UINib *jokeNib = [UINib nibWithNibName:NSStringFromClass([HNHomeJokeCell class]) bundle:nil];
         [tableView registerNib:jokeNib forCellReuseIdentifier:NSStringFromClass([HNHomeJokeCell class])];
+        
+        UINib *videoNib = [UINib nibWithNibName:NSStringFromClass([HNVideoCell class]) bundle:nil];
+        [tableView registerNib:videoNib forCellReuseIdentifier:NSStringFromClass([HNVideoCell class])];
         _tableView = tableView;
     }
     return _tableView;
@@ -70,8 +88,8 @@
         @strongify(self);
         [[self.newsViewModel.newsCommand execute:self.model.category] subscribeNext:^(id  _Nullable x) {
             [self.datas removeAllObjects];
-            HNHomeNewsModel *model = (HNHomeNewsModel *)x;
-            [self.datas addObjectsFromArray:model.data];
+            NSArray *datas = [self hn_modelArrayWithCategory:self.model.category fromModel:x];
+            [self.datas addObjectsFromArray:datas];
             [self.tableView reloadData];
             [self.tableView.mj_header endRefreshing];
             [HNNotificationCenter postNotificationName:KHomeStopRefreshNot object:nil];
@@ -80,22 +98,76 @@
     self.tableView.mj_footer = [HNRefreshFooter footerWithRefreshingBlock:^{
         @strongify(self);
         [[self.newsViewModel.newsCommand execute:self.model.category] subscribeNext:^(id  _Nullable x) {
-            HNHomeNewsModel *model = (HNHomeNewsModel *)x;
-            if (model.data.count == 0 || !model.data) {
+            NSArray *datas = [self hn_modelArrayWithCategory:self.model.category fromModel:x];
+            if (datas.count == 0 || !datas) {
                 [self.tableView.mj_footer endRefreshingWithNoMoreData];
             }else {
-                [self.datas addObjectsFromArray:model.data];
+                [self.datas addObjectsFromArray:datas];
                 [self.tableView.mj_footer endRefreshing];
             }
-            [self.tableView reloadData];
+            if (![self.model.category isEqualToString:@"video"]){
+                [self.tableView reloadData];
+            }else {// zfplay播放视频 直接reloadData 会终止上一个视频的播放
+                NSInteger baseCount = self.datas.count - [x count];
+                NSMutableArray *arr = [NSMutableArray array];
+                for (int i = 0; i < [(NSArray *)x count]; i++) {
+                    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:baseCount + i inSection:0];
+                    [arr addObject:indexPath];
+                }
+                [self.tableView beginUpdates];
+                [self.tableView insertRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationNone];
+                [self.tableView endUpdates];
+                [self.tableView.mj_footer endRefreshing];
+            }
         }];
     }];
     [self.tableView.mj_header beginRefreshing];
 
 }
 
+// 页面消失时候
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    if (![self.model.category isEqualToString:@"video"]) return;
+    [self.playerView resetPlayer];
+    NSArray *cells = [self.tableView visibleCells];
+    for (HNVideoCell *cell in cells) {
+        if (cell.model.playing) {
+            [cell refreshCellStatus];
+            _playingModel = nil;
+        }
+    }
+}
+
 - (void)needRefreshTableViewData {
+    [self.tableView setContentOffset:CGPointZero];
     [self.tableView.mj_header beginRefreshing];
+}
+
+- (NSArray *)hn_modelArrayWithCategory:(NSString *)category fromModel:(id)x{
+    if ([category isEqualToString:@"essay_joke"]) {
+        HNHomeJokeModel *model = (HNHomeJokeModel *)x;
+        return model.data;
+    }else if ([category isEqualToString:@"组图"]) {
+        HNHomeNewsModel *model = (HNHomeNewsModel *)x;
+        return model.data;
+    }else if ([category isEqualToString:@"video"]) {
+        return x;
+    }else {
+        HNHomeNewsModel *model = (HNHomeNewsModel *)x;
+        return model.data;
+    }
+}
+-(CGFloat)hn_estimatedRowHeight {
+    if ([self.model.category isEqualToString:@"essay_joke"]) {
+        return 79;
+    }else if ([self.model.category isEqualToString:@"组图"]) {
+        return 152;
+    }else if ([self.model.category isEqualToString:@"video"]) {
+        return 225;
+    }else {
+        return 79;
+    }
 }
 #pragma mark - delegate && DataSource
 
@@ -118,11 +190,44 @@
         HNHomeNewsCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HNHomeNewsCell class])];
         cell.model = model;
         resultCell = cell;
-    }else {
-        HNHomeNewsSummaryModel *model = self.datas[indexPath.row];
-        HNContentNewsCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HNContentNewsCell class])];
+    }else if ([self.model.category isEqualToString:@"video"]) {
+        HNVideoListModel *model = self.datas[indexPath.row];
+        HNVideoCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HNVideoCell class])];
         cell.model = model;
+        @weakify(self);
+        [cell setImageViewCallBack:^{
+            @strongify(self);
+            HNVideoListModel *model = self.datas[indexPath.row];
+            model.playing = YES;
+            self.playingModel = model;
+            NSMutableDictionary *dic = @{}.mutableCopy;
+            dic[@"320P"] = model.videoModel.videoInfoModel.video_list.video_1.main_url;
+            dic[@"480p"] = model.videoModel.videoInfoModel.video_list.video_2.main_url;
+            dic[@"720p"] = model.videoModel.videoInfoModel.video_list.video_3.main_url;
+            NSURL *videoURL = [NSURL URLWithString:dic[@"480p"]];
+            ZFPlayerModel *playerModel = [[ZFPlayerModel alloc] init];
+            playerModel.title            = model.videoModel.title;
+            playerModel.videoURL         = videoURL;
+            playerModel.placeholderImageURLString = model.videoModel.videoInfoModel.poster_url;
+            playerModel.scrollView       = tableView;
+            playerModel.resolutionDic    = dic;
+            playerModel.indexPath        = indexPath;
+            playerModel.fatherViewTag = 101;
+            [self.playerView playerControlView:nil playerModel:playerModel];
+            [self.playerView autoPlayTheVideo];
+        }];
         resultCell = cell;
+    }else{
+        HNHomeNewsSummaryModel *model = self.datas[indexPath.row];
+        if (model.infoModel.image_list) {
+            HNHomeNewsCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HNHomeNewsCell class])];
+            cell.model = model;
+            resultCell = cell;
+        }else {
+            HNContentNewsCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HNContentNewsCell class])];
+            cell.model = model;
+            resultCell = cell;
+        }
     }
     return resultCell;
     
@@ -136,5 +241,26 @@
     }
 }
 
-
+#pragma mark - set playingModel
+/**
+ 重置cell的状态
+ */
+- (void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
+    if (![self.model.category isEqualToString:@"video"]) return;
+    HNVideoListModel *model = self.datas[indexPath.row];
+    if (model.playing) {
+        model.playing = NO;
+        _playingModel = nil;
+        [(HNVideoCell *)cell refreshCellStatus];
+    }
+}
+- (void)setPlayingModel:(HNVideoListModel *)playingModel {
+    if (_playingModel.playing) {
+        _playingModel.playing = NO;
+        NSInteger index = [self.datas indexOfObject:_playingModel];
+        HNVideoCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+        [cell refreshCellStatus];
+    }
+    _playingModel = playingModel;
+}
 @end

@@ -7,9 +7,8 @@
 //
 
 #import "HNButton.h"
-#import "UIButton+EX.h"
-#import <Masonry/Masonry.h>
-#import "UIView+Frame.h"
+#import "HNHeader.h"
+
 // 设置按钮的阴影路径 --> 提高效率
 static UIBezierPath * pathForBtn(HNButton *btn) {
     //路径阴影
@@ -44,7 +43,7 @@ static UIBezierPath * pathForBtn(HNButton *btn) {
     return path;
 }
 static inline void configMyChannelBg(HNButton *btn) {
-    btn.backgroundColor = [UIColor colorWithRed:0.96 green:0.96 blue:0.97 alpha:1];
+    btn.backgroundColor = HN_MIAN_GRAY_Color;
     btn.layer.shadowOffset =  CGSizeMake(0, 0);
     btn.layer.shadowColor =  nil;
     btn.layer.shadowPath = nil;
