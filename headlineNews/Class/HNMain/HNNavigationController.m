@@ -27,7 +27,6 @@
     NSMutableDictionary * atts = [NSMutableDictionary dictionary];
     atts[NSFontAttributeName] = [UIFont systemFontOfSize:15.0f];
     [item setTitleTextAttributes:atts forState:UIControlStateNormal];
-    
     [[UINavigationBar appearance] setBackgroundImage:[self createImageWithColor:[UIColor colorWithRed:0.83 green:0.24 blue:0.24 alpha:1]] forBarMetrics:UIBarMetricsDefault];
 }
 
@@ -60,7 +59,6 @@
 - (void)addCustomGesPop {
     
     id target = self.interactivePopGestureRecognizer.delegate;
-    
     UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:target action:@selector(handleNavigationTransition:)];
     _pan = pan;
     pan.delegate = self;

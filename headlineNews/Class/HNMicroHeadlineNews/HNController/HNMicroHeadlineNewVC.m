@@ -31,12 +31,9 @@ static NSString *const cellID = @"llb.mircoCell";
 
 - (UIView *)bgView {
     if (!_bgView) {
-        UIView *view = [[UIView alloc]init];
+        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, HN_SCREEN_WIDTH, HN_SCREEN_HEIGHT)];
         [self.view addSubview:view];
         _bgView = view;
-        [view mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.bottom.top.mas_equalTo(self.view);
-        }];
     }
     return _bgView;
 }
@@ -56,7 +53,8 @@ static NSString *const cellID = @"llb.mircoCell";
 }
 - (UITableView *)tableView {
     if (!_tableView) {
-        UITableView *tableView = [[UITableView alloc]init];
+        //这里没有设置偏移64的原因 https://www.jianshu.com/p/b11769831fef
+        UITableView *tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 40, HN_SCREEN_WIDTH, HN_SCREEN_HEIGHT - 40 - HN_NAVIGATION_BAR_HEIGHT - HN_TABBER_BAR_HEIGHT)];
         tableView.delegate = self;
         tableView.dataSource = self;
         tableView.estimatedRowHeight = 0;// ios 7
@@ -65,11 +63,7 @@ static NSString *const cellID = @"llb.mircoCell";
         // 数据复杂效率低 这里采取抛弃的做法
         //tableView.estimatedRowHeight = 400;
         //tableView.rowHeight = UITableViewAutomaticDimension;
-        [self.bgView addSubview:tableView];
-         //这里没有设置偏移64的原因 https://www.jianshu.com/p/b11769831fef
-        [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.mas_equalTo(UIEdgeInsetsMake(40, 0, 0, 0));
-        }];
+        [self.view addSubview:tableView];
         [tableView registerClass:[HNMicroCell class] forCellReuseIdentifier:cellID];
         _tableView = tableView;
     }
@@ -78,7 +72,6 @@ static NSString *const cellID = @"llb.mircoCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.title = @"微头条";
     [self addRightItemWithImageName:@"follow_title_profile_night_18x18_"];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
@@ -136,16 +129,16 @@ static NSString *const cellID = @"llb.mircoCell";
     CGFloat tableViewHeight = HN_SCREEN_HEIGHT - HN_NAVIGATION_BAR_HEIGHT - HN_TABBER_BAR_HEIGHT - 40;
     [RACObserve(self.tableView, contentOffset) subscribeNext:^(id x) {
         @strongify(self);
-//        CGPoint contentOffset = [x CGPointValue];
-//        if (contentOffset.y > 0) {
-//            optionView.top = contentOffset.y <= 40 ? -contentOffset.y : -40;
-//            self.bgView.top = floorf(contentOffset.y <= 40 ? 40 - contentOffset.y : 0);
-//            self.bgView.height = floorf(contentOffset.y <= 40 ? tableViewHeight + contentOffset.y : tableViewHeight + 40);
-//        }else {
-//            optionView.top = 0;
-//            self.bgView.top = 40;
-//            self.bgView.height = tableViewHeight;
-//        }
+        CGPoint contentOffset = [x CGPointValue];
+        if (contentOffset.y > 0) {
+            optionView.top = contentOffset.y <= 40 ? -contentOffset.y : -40;
+            self.tableView.top = floorf(contentOffset.y <= 40 ? 40 - contentOffset.y : 0);
+            self.tableView.height = floorf(contentOffset.y <= 40 ? tableViewHeight + contentOffset.y : tableViewHeight + 40);
+        }else {
+            optionView.top = 0;
+            self.tableView.top = 40;
+            self.tableView.height = tableViewHeight;
+        }
     }];
 }
 
@@ -168,6 +161,7 @@ static NSString *const cellID = @"llb.mircoCell";
     [cell setShowDetailContentBlock:^(HNMicroLayout *layout) {
         @strongify(self);
         HNMicroContentVC *contentVC = [[HNMicroContentVC alloc]initWithLayout:layout];
+        contentVC.view.backgroundColor = [UIColor whiteColor];//
         [self.navigationController pushViewController:contentVC animated:YES];
     }];
     cell.layout = self.datas[indexPath.row];
