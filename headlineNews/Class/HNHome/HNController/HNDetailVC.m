@@ -195,7 +195,7 @@
         HNVideoCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([HNVideoCell class])];
         cell.model = model;
         @weakify(self);
-        [cell setImageViewCallBack:^{
+        [cell setImageViewCallBack:^(UIView *fatherView){
             @strongify(self);
             HNVideoListModel *model = self.datas[indexPath.row];
             model.playing = YES;
@@ -212,7 +212,7 @@
             playerModel.scrollView       = tableView;
             playerModel.resolutionDic    = dic;
             playerModel.indexPath        = indexPath;
-            playerModel.fatherViewTag = 101;
+            playerModel.fatherViewTag = fatherView.tag;
             [self.playerView playerControlView:nil playerModel:playerModel];
             [self.playerView autoPlayTheVideo];
         }];

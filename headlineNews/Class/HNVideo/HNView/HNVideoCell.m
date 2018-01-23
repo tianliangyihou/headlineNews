@@ -25,7 +25,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    self.videoPosterImageView.tag = 101;
+    self.videoPosterImageView.tag = 9999;
     self.videoPosterImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.videoPosterImageView.clipsToBounds = YES;
     self.videoPosterImageView.userInteractionEnabled = YES;
@@ -61,7 +61,7 @@
 }
 - (void)imageViewClick {
     if (_imageViewCallBack) {
-        _imageViewCallBack();
+        _imageViewCallBack(self.videoPosterImageView);
     }
     self.iconImageView.hidden = YES;
 }

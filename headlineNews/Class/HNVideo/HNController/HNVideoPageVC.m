@@ -136,7 +136,7 @@ static NSString *cellID = @"cellID";
     HNVideoCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     cell.model = model;
     @weakify(self);
-    [cell setImageViewCallBack:^{
+    [cell setImageViewCallBack:^(UIView *fatherView){
         @strongify(self);
         HNVideoListModel *model = self.videoModels[indexPath.row];
         model.playing = YES;
@@ -153,7 +153,7 @@ static NSString *cellID = @"cellID";
         playerModel.scrollView       = tableView;
         playerModel.resolutionDic    = dic;
         playerModel.indexPath        = indexPath;
-        playerModel.fatherViewTag = 101;
+        playerModel.fatherViewTag = fatherView.tag;
         [self.playerView playerControlView:nil playerModel:playerModel];
         [self.playerView autoPlayTheVideo];
     }];

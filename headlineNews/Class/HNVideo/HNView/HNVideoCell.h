@@ -10,7 +10,7 @@
 #import "HNVideoListModel.h"
 @interface HNVideoCell : UITableViewCell
 @property (nonatomic , strong)HNVideoListModel *model;
-@property (nonatomic , copy)void(^imageViewCallBack)(void);
+@property (nonatomic , copy)void(^imageViewCallBack)(UIView *fatherView);
 
 - (void)refreshCellStatus;
 @end

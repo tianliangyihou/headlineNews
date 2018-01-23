@@ -129,6 +129,7 @@ static inline void resetManagerData(LBPhotoBrowserView *photoBrowseView, LBUrlsM
 
 @synthesize images = _images;
 
+@synthesize linkageInfo = _linkageInfo;
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -153,6 +154,13 @@ static inline void resetManagerData(LBPhotoBrowserView *photoBrowseView, LBUrlsM
         _images = [[NSMutableArray alloc]init];
     }
     return _images;
+}
+
+- (NSMutableDictionary *)linkageInfo {
+    if (!_linkageInfo) {
+        _linkageInfo = [[NSMutableDictionary alloc]init];
+    }
+    return _linkageInfo;
 }
 
 + (instancetype)defaultManager {
@@ -214,7 +222,7 @@ static inline void resetManagerData(LBPhotoBrowserView *photoBrowseView, LBUrlsM
         if (!item.urlString || CGRectEqualToRect(item.frame, CGRectZero)) {
             return nil;
         }
-        [urls addObject:[NSURL URLWithString:item.urlString]];
+        [urls addObject:item.urlString];
         [frames addObject:[NSValue valueWithCGRect:item.frame]];
         NSString *index = [NSString stringWithFormat:@"%d",i];
         placeHoldImageDic[index] = item.placeholdImage;
@@ -310,6 +318,11 @@ static inline void resetManagerData(LBPhotoBrowserView *photoBrowseView, LBUrlsM
     return self;
 }
 
+- (instancetype)addCollectionViewLinkageStyle:(UICollectionViewScrollPosition)style cellReuseIdentifier:(NSString *)reuseIdentifier {
+    self.linkageInfo[LBLinkageInfoStyleKey] = @(style);
+    self.linkageInfo[LBLinkageInfoReuseIdentifierKey] = reuseIdentifier;
+    return self;
+}
 
 - (NSArray<NSString *> *)currentTitles {
     return _titles;
@@ -351,6 +364,7 @@ static inline void resetManagerData(LBPhotoBrowserView *photoBrowseView, LBUrlsM
     self.lowGifMemory = NO;
     _photoBrowserView.hidden = YES;
     _photoBrowserView = nil;
+    [self.linkageInfo removeAllObjects];
 }
 - (void)displayLinkInvalidate {
     
