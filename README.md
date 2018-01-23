@@ -82,7 +82,7 @@ SDWebImage 文档上关于如何加载webp格式图片的介绍很简单 :
 ```
 #### 编辑频道界面
 
-![effect2.gif](http://upload-images.jianshu.io/upload_images/2306467-807ef4acf2aef144.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![effect2.gif](https://upload-images.jianshu.io/upload_images/2306467-807ef4acf2aef144.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/339)
 
 编辑频道界面主要是frame的计算,这个是一个消耗cpu的行为,可以在异步线程完成
 故把消耗性能的frame计算等 都放在了后台线程,等后台线程计算完毕 在主线程更新UI
@@ -204,7 +204,7 @@ CGFloat tableViewHeight = HN_SCREEN_HEIGHT - HN_NAVIGATION_BAR_HEIGHT - HN_TABBE
 ```
 #### 微头条的图片浏览效果
 
-![effect7.gif](http://upload-images.jianshu.io/upload_images/2306467-d8e9c32b090bc6a1.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![effect7.gif](https://upload-images.jianshu.io/upload_images/2306467-d8e9c32b090bc6a1.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/338)
 
 ```objc
 这里采用了LBPhotoBrowser,这个是本人开发的一个图片浏览器.
