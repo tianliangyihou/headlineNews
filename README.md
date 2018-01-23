@@ -36,7 +36,9 @@
 }
 ```
 HNHomeTitleViewModel 中网络请求的处理 
+
 这里对网络请求的处理,相对于正常对AFNetWorking的封装,又进行了进一步的封装.
+
 可以参考链接 https://www.jianshu.com/p/1f5cd52981a1
  ```
  _titlesCommand = [[RACCommand alloc]initWithSignalBlock:^RACSignal * _Nonnull(id  _Nullable input) {
@@ -76,6 +78,7 @@ HNHomeTitleViewModel 中网络请求的处理
  这个界面上展示的图片都是webp格式的. SDWebImage需要下载一个依赖库才能支持
 SDWebImage 文档上关于如何加载webp格式图片的介绍很简单 : 
  pod 'SDWebImage/WebP'
+ 
 但是当你实际操作起来,这个东西是一直下载不下来的,即使你开了vpn
 你可以看下这个连接的内容: https://www.jianshu.com/p/4468f03cf606
 如果还是下载不下来,就还需要调整一些东西,可以在issue me
@@ -85,9 +88,13 @@ SDWebImage 文档上关于如何加载webp格式图片的介绍很简单 :
 ![effect2.gif](https://upload-images.jianshu.io/upload_images/2306467-807ef4acf2aef144.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/339)
 
 编辑频道界面主要是frame的计算,这个是一个消耗cpu的行为,可以在异步线程完成
+
 故把消耗性能的frame计算等 都放在了后台线程,等后台线程计算完毕 在主线程更新UI
+
 创建一个同步队列,用来专门处理frame相关的计算
+
  _queue = dispatch_queue_create("com.headlineNews.queue", DISPATCH_QUEUE_SERIAL);
+ 
 比如 长按后 交换两个按钮的位置
 ```objc
 #pragma mark - 交换两个按钮的位置
@@ -167,10 +174,12 @@ SDWebImage 文档上关于如何加载webp格式图片的介绍很简单 :
 
 ```objc
 这里采用了WMPageController,但是并不能完全满足需求,对其源码做了一些修改
+
 1 边角的+号按钮的半透明效果
+
 2  当某个菜单栏处于选中状态下,再次点击的刷新效果
 ```
-详情可参考项目: https://github.com/tianliangyihou/headlineNews
+详情可下载项目查看
 
 #### 视频的播放
 
@@ -180,6 +189,7 @@ SDWebImage 文档上关于如何加载webp格式图片的介绍很简单 :
 这里采用了ZFPlayer,github上一个有4000star的开源库
 ```
 ZFPlayer github地址 https://github.com/renzifeng/ZFPlayer
+
 #### 微头条的实现顶部的隐藏效果
 
 ![effect6.gif](http://upload-images.jianshu.io/upload_images/2306467-d29efa11e845006b.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
@@ -208,6 +218,7 @@ CGFloat tableViewHeight = HN_SCREEN_HEIGHT - HN_NAVIGATION_BAR_HEIGHT - HN_TABBE
 
 ```objc
 这里采用了LBPhotoBrowser,这个是本人开发的一个图片浏览器.
+
 1 支持gif图片播放(2种方式)
 2 对图片进行预加载
 ```
@@ -219,6 +230,7 @@ CGFloat tableViewHeight = HN_SCREEN_HEIGHT - HN_NAVIGATION_BAR_HEIGHT - HN_TABBE
 
 ```objc
   这里采用了正则匹配与YYText结合的方式,例如对于 #话题# 
+  
   // #话题#的规则
     NSError *topicError;
     NSString *topicPattern = @"#[0-9a-zA-Z\\u4e00-\\u9fa5]+#";
