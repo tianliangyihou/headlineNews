@@ -2,7 +2,8 @@
 
  如果您觉得不错，记得给一个star😜
  
- 采用了MVVM + RAC的方式,对微头条界面 使用YYCache 进行了本地缓存
+ 采用了MVVM + RAC的方式,对微头条界面 使用`YYCache` 进行了本地缓存
+ 
 效果跟目前最新的今日头条有些地方不一样,因为今日头条最近更新了新版本
 ```
   下面对项目中的一些效果和实现思路做下介绍
@@ -11,8 +12,11 @@
 ```
 #### 网络请求
 以首页的顶部的菜单栏为例
+
 ![WX20180123.png](http://upload-images.jianshu.io/upload_images/2306467-183b92337ab238ee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 开始网络请求
+
 ```
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -65,8 +69,8 @@ HNHomeTitleViewModel 中网络请求的处理
 ```
 
 #### 首页图片的展示
-![WX20180123.png](http://upload-images.jianshu.io/upload_images/2306467-ac2fb284ea537d07.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
+![WX20180123.png](http://upload-images.jianshu.io/upload_images/2306467-ac2fb284ea537d07.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ```objc
  这个界面上展示的图片都是webp格式的. SDWebImage需要下载一个依赖库才能支持
@@ -77,7 +81,9 @@ SDWebImage 文档上关于如何加载webp格式图片的介绍很简单 :
 如果还是下载不下来,就还需要调整一些东西,可以在简书下面给我留言.
 ```
 #### 编辑频道界面
+
 ![effect2.gif](http://upload-images.jianshu.io/upload_images/2306467-807ef4acf2aef144.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 编辑频道界面主要是frame的计算,这个是一个消耗cpu的行为,可以在异步线程完成
 故把消耗性能的frame计算等 都放在了后台线程,等后台线程计算完毕 在主线程更新UI
 创建一个同步队列,用来专门处理frame相关的计算
@@ -141,7 +147,9 @@ SDWebImage 文档上关于如何加载webp格式图片的介绍很简单 :
 ```
 
 #### 首页tabber图标的切换和动画效果
+
 ![effect3.gif](http://upload-images.jianshu.io/upload_images/2306467-175ad11813726ffe.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 ```objc
 - (void)addAnnimation {
     // 这里使用了 私有API 但是审核仍可以通过 有现成的案例
@@ -154,7 +162,9 @@ SDWebImage 文档上关于如何加载webp格式图片的介绍很简单 :
 ```
 
 #### 首页顶部菜单栏的效果
+
 ![effect4.gif](http://upload-images.jianshu.io/upload_images/2306467-4bdc9f71827778f6.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 ```objc
 这里采用了WMPageController,但是并不能完全满足需求,对其源码做了一些修改
 1 边角的+号按钮的半透明效果
@@ -163,13 +173,17 @@ SDWebImage 文档上关于如何加载webp格式图片的介绍很简单 :
 详情可参考项目: https://github.com/tianliangyihou/headlineNews
 
 #### 视频的播放
+
 ![effect5.gif](http://upload-images.jianshu.io/upload_images/2306467-8463eb3f5346fa0c.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 ```objc
 这里采用了ZFPlayer,github上一个有4000star的开源库
 ```
 ZFPlayer github地址 https://github.com/renzifeng/ZFPlayer
 #### 微头条的实现顶部的隐藏效果
+
 ![effect6.gif](http://upload-images.jianshu.io/upload_images/2306467-d29efa11e845006b.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 ```objc
  这里采用了rac 监控tableView的滑动
 CGFloat tableViewHeight = HN_SCREEN_HEIGHT - HN_NAVIGATION_BAR_HEIGHT - HN_TABBER_BAR_HEIGHT - 40;
@@ -189,15 +203,20 @@ CGFloat tableViewHeight = HN_SCREEN_HEIGHT - HN_NAVIGATION_BAR_HEIGHT - HN_TABBE
     }];
 ```
 #### 微头条的图片浏览效果
+
 ![effect7.gif](http://upload-images.jianshu.io/upload_images/2306467-d8e9c32b090bc6a1.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 ```objc
 这里采用了LBPhotoBrowser,这个是本人开发的一个图片浏览器.
 1 支持gif图片播放(2种方式)
 2 对图片进行预加载
 ```
 关于LBPhotoBrowser可查看: https://github.com/tianliangyihou/LBPhotoBrowser
+
 #### 微头条的文字的内容中  `@` `# ` `链接` 内容的识别, 以及文字过长添加`全文`按钮
+
 ![effect8.gif](http://upload-images.jianshu.io/upload_images/2306467-c79ea97ff466519b.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 ```objc
   这里采用了正则匹配与YYText结合的方式,例如对于 #话题# 
   // #话题#的规则
@@ -223,6 +242,7 @@ CGFloat tableViewHeight = HN_SCREEN_HEIGHT - HN_NAVIGATION_BAR_HEIGHT - HN_TABBE
     }
 ```
 #### 保证微头条界面流畅性
+
 ```objc
 当网络请求结束后,解析数据为多个model
 cell的上内容怎么显示,都应该是由model决定的,对应每个cell创建一个HNMicroLayout, 在后台线程中完成   #xxxx # @ 链接的匹配
@@ -285,7 +305,9 @@ YYKit 作者写的关于界面流畅性的技巧:
 https://blog.ibireme.com/2015/11/12/smooth_user_interfaces_for_ios/
 
 #### 微头条的点赞动画
+
 ![effect9.gif](http://upload-images.jianshu.io/upload_images/2306467-4d08f50b0eda82c9.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 ```objc
 采用了粒子动画
 
@@ -322,7 +344,9 @@ https://blog.ibireme.com/2015/11/12/smooth_user_interfaces_for_ios/
 ```
 
 #### 全屏pop 动画
+
 ![effect10.gif](http://upload-images.jianshu.io/upload_images/2306467-40e167e6019be940.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 ```objc
 - (void)addCustomGesPop {
     
@@ -349,6 +373,7 @@ https://blog.ibireme.com/2015/11/12/smooth_user_interfaces_for_ios/
 
 ```
 完整效果图
+
 ![effect_hn.gif](https://github.com/tianliangyihou/zhuxian/blob/master/effect_hn.gif?raw=true)
 
 
