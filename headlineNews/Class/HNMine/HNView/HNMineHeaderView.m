@@ -104,7 +104,7 @@
     
     // 头像
     UIImageView *avatarImageV = [[UIImageView alloc]init];
-    avatarImageV.layer.cornerRadius = 60 / 2.0;
+    avatarImageV.layer.cornerRadius = 50 / 2.0;
     avatarImageV.clipsToBounds = YES;
     avatarImageV.image = [UIImage imageNamed:@"weixin_sdk_login_40x40_"];
     [self addSubview:avatarImageV];
@@ -134,8 +134,8 @@
     
     [avatarImageV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(20);
-        make.width.height.mas_equalTo(60);
-        make.top.mas_equalTo(50);
+        make.width.height.mas_equalTo(50);
+        make.top.mas_equalTo(60);
     }];
     
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {

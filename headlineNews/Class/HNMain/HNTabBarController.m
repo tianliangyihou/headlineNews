@@ -12,7 +12,7 @@
 #import "HNHomeVC.h"
 #import "HNVideoVC.h"
 #import "HNMicroHeadlineNewVC.h"
-#import "HNMineVC.h"
+#import "HNMicroVideoVC.h"
 
 #import "HNHeader.h"
 #import "UIView+AnimationExtend.h"
@@ -49,11 +49,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     _homeNav = [self addChildViewControllerWithClass:[HNHomeVC class] imageName:@"home_tabbar_32x32_" selectedImageName:@"home_tabbar_press_32x32_" title:@"首页"];
     [self addChildViewControllerWithClass:[HNVideoVC class] imageName:@"video_tabbar_32x32_" selectedImageName:@"video_tabbar_press_32x32_" title:@"西瓜视频"];
     [self addChildViewControllerWithClass:[HNMicroHeadlineNewVC class] imageName:@"weitoutiao_tabbar_32x32_" selectedImageName:@"weitoutiao_tabbar_press_32x32_" title:@"微头条"];
-    [self addChildViewControllerWithClass:[HNMineVC class] imageName:@"mine_tabbar_32x32_" selectedImageName:@"mine_tabbar_press_32x32_" title:@"我的"];
+    [self addChildViewControllerWithClass:[HNMicroVideoVC class] imageName:@"huoshan_tabbar_32x32_" selectedImageName:@"huoshan_tabbar_press_32x32_" title:@"小视频"];
     self.delegate = self;
+    
     
     @weakify(self);
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{

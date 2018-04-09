@@ -12,6 +12,9 @@
 #import "HNChannelView.h"
 #import "HNHomeTitleViewModel.h"
 #import "HNHomeTitleModel.h"
+#import "HNMineVC.h"
+#import <KMCGeigerCounter/KMCGeigerCounter.h>
+
 @interface HNHomeVC ()<WMPageControllerDataSource,WMPageControllerDelegate>
 
 @property (nonatomic , strong)HNHomeTitleViewModel *titleViewModel;
@@ -31,10 +34,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //https://github.com/kconner/KMCGeigerCounter
+    [KMCGeigerCounter sharedGeigerCounter].enabled = YES;
+    
     HNNavigationBar *bar = [self showCustomNavBar];
     [bar.searchSubjuct subscribeNext:^(id  _Nullable x) {
         NSLog(@"%@",x);
     }];
+    
     [self configUI];
     @weakify(self)
     [[self.titleViewModel.titlesCommand execute:@13] subscribeNext:^(id  _Nullable x) {
@@ -42,6 +49,15 @@
         self.models = x;
         [self reloadData];
         [self configPageVC];
+    }];
+    [bar setNavigationBarCallBack:^(HNNavigationBarAction action) {
+        @strongify(self);
+        if (action != HNNavigationBarActionSend) {
+            HNMineVC *mvc = [[HNMineVC alloc]init];
+            [self.navigationController pushViewController:mvc animated:YES];
+        }else {
+            NSLog(@"send");
+        }
     }];
     
 }
@@ -52,6 +68,7 @@
     self.dataSource = self;
     self.automaticallyCalculatesItemWidths = YES;
     self.itemMargin = 10;
+    
 }
 
 - (void)configPageVC {
@@ -64,7 +81,6 @@
         [[UIApplication sharedApplication].keyWindow addSubview:view];
         [view show];
     }];
-    
     @weakify(self)
     [RACObserve(self.scrollView, contentOffset) subscribeNext:^(id x) {
         @strongify(self);
@@ -74,7 +90,6 @@
         }
     }];
 }
-
 
 #pragma mark - 需要刷新
 - (void)needRefreshTableViewData {

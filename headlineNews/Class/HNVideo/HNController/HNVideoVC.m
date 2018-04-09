@@ -10,6 +10,7 @@
 #import "HNVideoPageVC.h"
 #import "HNVideoTitleViewModel.h"
 #import "HNVideoTitleModel.h"
+#import "HNMineVC.h"
 @interface HNVideoVC ()<WMPageControllerDataSource,
                         WMPageControllerDelegate>
 @property (nonatomic , weak)UITableView *tableView;
@@ -47,6 +48,16 @@
         self.models = x;
         [self reloadData];
     }];
+    [bar setNavigationBarCallBack:^(HNNavigationBarAction action) {
+        @strongify(self);
+        if (action != HNNavigationBarActionSend) {
+            HNMineVC *mvc = [[HNMineVC alloc]init];
+            [self.navigationController pushViewController:mvc animated:YES];
+        }else {
+            NSLog(@"send");
+        }
+    }];
+    
     
 }
 

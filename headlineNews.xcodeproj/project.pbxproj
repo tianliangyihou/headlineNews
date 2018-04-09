@@ -49,6 +49,7 @@
 		2655F28B1FC5782C0027C6C4 /* HNVideoListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2655F28A1FC5782C0027C6C4 /* HNVideoListModel.m */; };
 		2655F2921FC69C010027C6C4 /* HNVideoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2655F2901FC69C010027C6C4 /* HNVideoCell.m */; };
 		2655F2931FC69C010027C6C4 /* HNVideoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2655F2911FC69C010027C6C4 /* HNVideoCell.xib */; };
+		2669FA64207A06040027504F /* HNMicroVideoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2669FA63207A06040027504F /* HNMicroVideoVC.m */; };
 		267D238B200C8A9100A348DB /* UIScrollView+EX.m in Sources */ = {isa = PBXBuildFile; fileRef = 267D238A200C8A9100A348DB /* UIScrollView+EX.m */; };
 		267D23C0200F5D1C00A348DB /* HNMicroContentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 267D23BF200F5D1C00A348DB /* HNMicroContentVC.m */; };
 		267F29741FD3BFC50059362A /* HNEmitterHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 267F29731FD3BFC50059362A /* HNEmitterHelper.m */; };
@@ -180,6 +181,8 @@
 		2655F2911FC69C010027C6C4 /* HNVideoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HNVideoCell.xib; sourceTree = "<group>"; };
 		2655F2951FC6A5A70027C6C4 /* HNBaseViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNBaseViewModel.h; sourceTree = "<group>"; };
 		2655F2961FC6A5A70027C6C4 /* HNBaseViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNBaseViewModel.m; sourceTree = "<group>"; };
+		2669FA62207A06040027504F /* HNMicroVideoVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNMicroVideoVC.h; sourceTree = "<group>"; };
+		2669FA63207A06040027504F /* HNMicroVideoVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNMicroVideoVC.m; sourceTree = "<group>"; };
 		267D2389200C8A9100A348DB /* UIScrollView+EX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+EX.h"; sourceTree = "<group>"; };
 		267D238A200C8A9100A348DB /* UIScrollView+EX.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+EX.m"; sourceTree = "<group>"; };
 		267D23BE200F5D1C00A348DB /* HNMicroContentVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNMicroContentVC.h; sourceTree = "<group>"; };
@@ -320,6 +323,7 @@
 				262437AD1FBE830A00BAA1B6 /* HNHome */,
 				262437AF1FBE830A00BAA1B6 /* HNVideo */,
 				262437AE1FBE830A00BAA1B6 /* HNMicroHeadlineNews */,
+				2669FA5D2079FD630027504F /* HNMicroVideo */,
 				262437AC1FBE830A00BAA1B6 /* HNMine */,
 				2655F23D1FC3FB800027C6C4 /* HNComponent */,
 			);
@@ -580,6 +584,47 @@
 				2655F2961FC6A5A70027C6C4 /* HNBaseViewModel.m */,
 			);
 			path = HNBaseViewModel;
+			sourceTree = "<group>";
+		};
+		2669FA5D2079FD630027504F /* HNMicroVideo */ = {
+			isa = PBXGroup;
+			children = (
+				2669FA5E2079FD630027504F /* HNController */,
+				2669FA5F2079FD630027504F /* HNModel */,
+				2669FA602079FD630027504F /* HNView */,
+				2669FA612079FD630027504F /* HNViewModel */,
+			);
+			path = HNMicroVideo;
+			sourceTree = "<group>";
+		};
+		2669FA5E2079FD630027504F /* HNController */ = {
+			isa = PBXGroup;
+			children = (
+				2669FA62207A06040027504F /* HNMicroVideoVC.h */,
+				2669FA63207A06040027504F /* HNMicroVideoVC.m */,
+			);
+			path = HNController;
+			sourceTree = "<group>";
+		};
+		2669FA5F2079FD630027504F /* HNModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = HNModel;
+			sourceTree = "<group>";
+		};
+		2669FA602079FD630027504F /* HNView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = HNView;
+			sourceTree = "<group>";
+		};
+		2669FA612079FD630027504F /* HNViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = HNViewModel;
 			sourceTree = "<group>";
 		};
 		267F29711FD3BFB60059362A /* HNHelper */ = {
@@ -881,6 +926,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-headlineNews/Pods-headlineNews-resources.sh",
+				"${PODS_ROOT}/KMCGeigerCounter/KMCGeigerCounter/KMCGeigerCounterTick.aiff",
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
 				"${PODS_ROOT}/ZFPlayer/ZFPlayer/ZFPlayer.bundle",
 			);
@@ -1018,6 +1064,7 @@
 				26886AA22016D25300ACD6F5 /* LBPhotoBrowserView.m in Sources */,
 				2607B5E91FC7C929000AF380 /* HNTitleView.m in Sources */,
 				2655F2851FC56CFF0027C6C4 /* HNVideoListRequst.m in Sources */,
+				2669FA64207A06040027504F /* HNMicroVideoVC.m in Sources */,
 				26886AA42016D25300ACD6F5 /* LBZoomScrollView.m in Sources */,
 				262437C81FBE910400BAA1B6 /* HNTabBarController.m in Sources */,
 				26922CBF1FCF9DD5002AF655 /* HNMineVC.m in Sources */,
@@ -1158,7 +1205,7 @@
 			baseConfigurationReference = 5540F9DE1170CC0E5C45249F /* Pods-headlineNews.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: cheng hui (7JCUSD7D5K)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
@@ -1186,7 +1233,7 @@
 			baseConfigurationReference = 5C56A316864F9359C35FD949 /* Pods-headlineNews.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";

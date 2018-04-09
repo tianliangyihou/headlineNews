@@ -8,6 +8,7 @@
 
 #import "HNMineVC.h"
 #import "HNMineHeaderView.h"
+#import "HNHeader.h"
 @interface HNMineVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic , weak)UITableView *tableView;
 @property (nonatomic , strong)NSArray <NSArray<NSString *> *> *titles;
@@ -50,9 +51,26 @@
                 @[@"头条商城",@"京东特供"],
                 @[@"用户反馈",@"系统设置"]
                  ];
-    self.navigationController.navigationBar.hidden = YES;
     [self tableView];
+    UIButton *backBtn = [[UIButton alloc]initWithFrame:CGRectMake(10, 30, 60, 30)];
+    [backBtn setImage:[UIImage imageNamed:@"leftbackicon_white_titlebar_24x24_"] forState:UIControlStateNormal];
+    @weakify(self);
+    [[backBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(__kindof UIControl * _Nullable x) {
+        @strongify(self);
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
+    [self.view addSubview:backBtn];
 }
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.hidden = YES;
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return self.titles.count;
 }

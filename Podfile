@@ -11,4 +11,5 @@ pod 'ZFPlayer'
 pod 'Masonry'
 pod 'YYText'
 pod 'SDWebImage/WebP'
+pod 'KMCGeigerCounter'
 end

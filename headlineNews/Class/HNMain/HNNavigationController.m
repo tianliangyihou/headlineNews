@@ -10,7 +10,6 @@
 #import "HNHeader.h"
 @interface HNNavigationController ()<UIGestureRecognizerDelegate>
 @property (nonatomic , strong)UIPanGestureRecognizer *pan;
-
 @end
 
 @implementation HNNavigationController
