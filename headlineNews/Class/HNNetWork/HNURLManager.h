@@ -14,4 +14,5 @@
 + (NSString *)videoTitlesURLString;
 + (NSString *)videoListURLString;
 + (NSString *)microHeadlineURLString;
++ (NSString *)microVideoURLString;
 @end

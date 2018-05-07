@@ -29,6 +29,10 @@
 		262438011FC2BBF100BAA1B6 /* HNURLManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 262438001FC2BBF100BAA1B6 /* HNURLManager.m */; };
 		26288DC71FD7EF61003A684F /* YNDiskCacheHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 26288DC61FD7EF61003A684F /* YNDiskCacheHelper.m */; };
 		26288DCA1FD8D812003A684F /* HNEmoticonHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 26288DC91FD8D812003A684F /* HNEmoticonHelper.m */; };
+		262F929B207B520A00DBD209 /* HNMicroVideoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 262F929A207B520A00DBD209 /* HNMicroVideoCollectionViewCell.m */; };
+		2631DB36207CC024004E08DE /* HNMicroVideoViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2631DB35207CC024004E08DE /* HNMicroVideoViewModel.m */; };
+		2631DB3C207CC0EF004E08DE /* HNMicoVideoRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2631DB3B207CC0EF004E08DE /* HNMicoVideoRequest.m */; };
+		2631DB3F207CC585004E08DE /* HNMicroVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2631DB3E207CC585004E08DE /* HNMicroVideoModel.m */; };
 		2636BDC720033AE4005A2BCF /* HNMineHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2636BDC620033AE4005A2BCF /* HNMineHeaderView.m */; };
 		2655F2351FC3C61B0027C6C4 /* 290-cai978.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2655F2301FC3C61B0027C6C4 /* 290-cai978.ttf */; };
 		2655F2361FC3C61B0027C6C4 /* ChatroomIconFont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2655F2311FC3C61B0027C6C4 /* ChatroomIconFont.ttf */; };
@@ -141,6 +145,14 @@
 		26288DC61FD7EF61003A684F /* YNDiskCacheHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YNDiskCacheHelper.m; sourceTree = "<group>"; };
 		26288DC81FD8D812003A684F /* HNEmoticonHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNEmoticonHelper.h; sourceTree = "<group>"; };
 		26288DC91FD8D812003A684F /* HNEmoticonHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNEmoticonHelper.m; sourceTree = "<group>"; };
+		262F9299207B520A00DBD209 /* HNMicroVideoCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNMicroVideoCollectionViewCell.h; sourceTree = "<group>"; };
+		262F929A207B520A00DBD209 /* HNMicroVideoCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNMicroVideoCollectionViewCell.m; sourceTree = "<group>"; };
+		2631DB34207CC024004E08DE /* HNMicroVideoViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNMicroVideoViewModel.h; sourceTree = "<group>"; };
+		2631DB35207CC024004E08DE /* HNMicroVideoViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNMicroVideoViewModel.m; sourceTree = "<group>"; };
+		2631DB3A207CC0EF004E08DE /* HNMicoVideoRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNMicoVideoRequest.h; sourceTree = "<group>"; };
+		2631DB3B207CC0EF004E08DE /* HNMicoVideoRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNMicoVideoRequest.m; sourceTree = "<group>"; };
+		2631DB3D207CC585004E08DE /* HNMicroVideoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNMicroVideoModel.h; sourceTree = "<group>"; };
+		2631DB3E207CC585004E08DE /* HNMicroVideoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNMicroVideoModel.m; sourceTree = "<group>"; };
 		2636BDC520033AE4005A2BCF /* HNMineHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNMineHeaderView.h; sourceTree = "<group>"; };
 		2636BDC620033AE4005A2BCF /* HNMineHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNMineHeaderView.m; sourceTree = "<group>"; };
 		2655F2301FC3C61B0027C6C4 /* 290-cai978.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "290-cai978.ttf"; sourceTree = "<group>"; };
@@ -609,6 +621,10 @@
 		2669FA5F2079FD630027504F /* HNModel */ = {
 			isa = PBXGroup;
 			children = (
+				2631DB3A207CC0EF004E08DE /* HNMicoVideoRequest.h */,
+				2631DB3B207CC0EF004E08DE /* HNMicoVideoRequest.m */,
+				2631DB3D207CC585004E08DE /* HNMicroVideoModel.h */,
+				2631DB3E207CC585004E08DE /* HNMicroVideoModel.m */,
 			);
 			path = HNModel;
 			sourceTree = "<group>";
@@ -616,6 +632,8 @@
 		2669FA602079FD630027504F /* HNView */ = {
 			isa = PBXGroup;
 			children = (
+				262F9299207B520A00DBD209 /* HNMicroVideoCollectionViewCell.h */,
+				262F929A207B520A00DBD209 /* HNMicroVideoCollectionViewCell.m */,
 			);
 			path = HNView;
 			sourceTree = "<group>";
@@ -623,6 +641,8 @@
 		2669FA612079FD630027504F /* HNViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				2631DB34207CC024004E08DE /* HNMicroVideoViewModel.h */,
+				2631DB35207CC024004E08DE /* HNMicroVideoViewModel.m */,
 			);
 			path = HNViewModel;
 			sourceTree = "<group>";
@@ -998,6 +1018,7 @@
 			files = (
 				267F29741FD3BFC50059362A /* HNEmitterHelper.m in Sources */,
 				2697FB801FEA6E6500C4F63E /* HNContentNewsCell.m in Sources */,
+				262F929B207B520A00DBD209 /* HNMicroVideoCollectionViewCell.m in Sources */,
 				26922CB51FCEB163002AF655 /* HNMicroHeadlineRequest.m in Sources */,
 				26922CA51FCE5D91002AF655 /* UIImage+EX.m in Sources */,
 				26FE10F71FEA0A2F009DE78B /* HNOptionView.m in Sources */,
@@ -1005,6 +1026,7 @@
 				2636BDC720033AE4005A2BCF /* HNMineHeaderView.m in Sources */,
 				26922C751FCC1696002AF655 /* HNVideoTitleViewModel.m in Sources */,
 				26922C741FCC1681002AF655 /* HNBaseViewModel.m in Sources */,
+				2631DB36207CC024004E08DE /* HNMicroVideoViewModel.m in Sources */,
 				26922C731FCC163E002AF655 /* HNVideoListViewModel.m in Sources */,
 				26922C6A1FCC1528002AF655 /* WMMenuItem.m in Sources */,
 				26922C6C1FCC1528002AF655 /* WMMenuView.m in Sources */,
@@ -1020,9 +1042,11 @@
 				2655F2761FC431E10027C6C4 /* HNVideoVC.m in Sources */,
 				26922CB81FCEB483002AF655 /* HNMicroHeadlineModel.m in Sources */,
 				26922C8B1FCD4606002AF655 /* HNHomeTitleModel.m in Sources */,
+				2631DB3F207CC585004E08DE /* HNMicroVideoModel.m in Sources */,
 				26288DCA1FD8D812003A684F /* HNEmoticonHelper.m in Sources */,
 				26DF00881FDA5D07000150FA /* HNMicroLayout.m in Sources */,
 				26886A9F2016D25300ACD6F5 /* LBOptionView.m in Sources */,
+				2631DB3C207CC0EF004E08DE /* HNMicoVideoRequest.m in Sources */,
 				262437CE1FBEB60500BAA1B6 /* HNHeader.m in Sources */,
 				262437F81FC2BB8A00BAA1B6 /* HNRefreshGifHeader.m in Sources */,
 				262437AA1FBE805800BAA1B6 /* main.m in Sources */,
@@ -1208,7 +1232,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = M974WD5VWM;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/headlineNews/Class/HNComponent",
@@ -1222,8 +1246,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.vcyber.headlineNews;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "44290f65-14f3-4c5a-bce8-f7896707fea4";
+				PROVISIONING_PROFILE_SPECIFIER = CYW_ALL_APP_Development;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;

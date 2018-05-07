@@ -30,4 +30,8 @@
 + (NSString *)microHeadlineURLString {
     return [NSString stringWithFormat:@"%@api/news/feed/v54/?",HN_BASE_URL];
 }
+
++ (NSString *)microVideoURLString {
+    return [NSString stringWithFormat:@"%@api/news/feed/v75/?",HN_BASE_URL];
+}
 @end

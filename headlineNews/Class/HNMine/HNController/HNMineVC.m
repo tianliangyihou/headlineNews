@@ -60,6 +60,7 @@
         [self.navigationController popViewControllerAnimated:YES];
     }];
     [self.view addSubview:backBtn];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {

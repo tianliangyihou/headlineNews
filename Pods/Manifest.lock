@@ -15,6 +15,9 @@ PODS:
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
   - DZNEmptyDataSet (1.8.1)
+  - FMDB (2.7.2):
+    - FMDB/standard (= 2.7.2)
+  - FMDB/standard (2.7.2)
   - KMCGeigerCounter (0.2.2)
   - libwebp (0.6.0):
     - libwebp/core (= 0.6.0)
@@ -59,6 +62,7 @@ PODS:
 DEPENDENCIES:
   - AFNetworking (~> 3.1.0)
   - DZNEmptyDataSet
+  - FMDB
   - KMCGeigerCounter
   - Masonry
   - MBProgressHUD
@@ -74,6 +78,7 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
+  FMDB: 6198a90e7b6900cfc046e6bc0ef6ebb7be9236aa
   KMCGeigerCounter: f8cc3c4aa19fc6f8cec168fb03b364b84c118a7a
   libwebp: 1d5a07c2eb97f9c31bd5f154bb82efc0ea67c6a2
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
@@ -86,6 +91,6 @@ SPEC CHECKSUMS:
   YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
   ZFPlayer: 8a80bf8eb4638b97fbceaefcd3ca9978e9f17c9d
 
-PODFILE CHECKSUM: f61e672cb38acb869fcd0a115ce48db870a36d11
+PODFILE CHECKSUM: 4c526609ff7f70ee1d9bb232ef8ce9b74dc8920e
 
 COCOAPODS: 1.3.1

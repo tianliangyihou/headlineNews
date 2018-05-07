@@ -12,4 +12,5 @@ pod 'Masonry'
 pod 'YYText'
 pod 'SDWebImage/WebP'
 pod 'KMCGeigerCounter'
+pod 'FMDB'
 end
